@@ -4,23 +4,40 @@ import SettingButton from '../../Assets/AMS-Modelling-Assets/UIENINButtonSetting
 import HeaderDate from './header-date';
 
 function checkUniqueState(state){
-    if(state == "ME STBD"){
-        return "MAIN ENGINE STARBOARD";
-    }else if(state == "ME PORT"){
-        return "MAIN ENGINE PORT";
+    if(state == "MAIN. ENG." || state == "AUX. ENG."){
+        return "STATUS";
     }else{
         return state;
     }
 }
 
-function Header({state}) {
+function checkSecondaryState(stateIndicator){
+    if(stateIndicator == 0){
+        return 'Main Engine - Starboard';
+    }else if(stateIndicator == 1){
+        return "Main Engine - Port";
+    }else if(stateIndicator == 2){
+        return "Main Engine - Overview";
+    }
+}
+
+function showSecondary(state){
+    if(state == "MAIN. ENG." || state == "AUX. ENG."){
+        return 'block';
+    }else{
+        return 'none';
+    }
+}
+
+function Header({state, stateIndicator}) {
 
     return (
         <div className='headerContainer-inner'>
             <img src={LogoAMSIcon} width={120} height={50} alt="Logo"></img>
             <div className='whiteBoxUnspecHeightWidth-circle'/>
             <div className='whiteBoxUnspecHeightWidth-leftText' height={50}>
-                <div className='tealText'>{checkUniqueState(state)}</div>
+                <div className='tealText' style={{display:'block'}}>{checkUniqueState(state)}</div>
+                <div className='tealText' style={{display:showSecondary(state)}}>{checkSecondaryState(stateIndicator)}</div>
             </div>
             <div className='whiteBoxUnspecHeightWidth' height={50}/>
             <HeaderDate />

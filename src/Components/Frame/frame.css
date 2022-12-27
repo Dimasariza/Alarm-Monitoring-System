@@ -435,7 +435,7 @@ body {
     align-items: center;
     position: absolute;
     top: 94%;
-    left: 91.4%;
+    left: 91%;
   }
 
   .StateChangeButton{
@@ -486,12 +486,10 @@ body {
   }
 
   .whiteBox-parameterSetting{
+    display: block;
     background-color: #000000;
     color: #FFFFFF;
-    border: 2px solid #9ea0a3;
     padding: 5px;
-    margin-top: 15px;
-    margin-top: 20px;
     border-radius: 5px;
   }
 
@@ -499,29 +497,38 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    align-content: center;
+    margin-bottom: 5px;
   }
 
   .whiteBox-parameterSetting-number{
     display: flex;
     background-color: #000000;
+    border: 2px solid #5abcca;
     color: #FFFFFF;
-    border: 2px solid #9ea0a3;
-    padding: 2px;
-    margin: 10px;
-    width: 100px;
+    width: 120px;
     height: 30px;
     justify-content: center;
     align-items: center;
   }
 
-  .whiteBox-parameterSetting-toogle{
+  .whiteBox-parameterSetting-toogle-active{
+    display: flex;
+    background-color: #1eb835;
+    border: 2px solid #1eb835;
+    color: #FFFFFF;
+    width: 120px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .whiteBox-parameterSetting-toogle-inactive{
     display: flex;
     background-color: #FF0000;
+    border: 2px solid #FF0000;
     color: #FFFFFF;
-    border: 2px solid #9ea0a3;
-    padding: 2px;
-    margin: 10px;
-    width: 100px;
+    width: 120px;
     height: 30px;
     justify-content: center;
     align-items: center;
@@ -684,8 +691,6 @@ body {
     display: block;
     background-color: #000000;
     color: #FFFFFF;
-    border: 2px solid #5abcca;
-    margin: 2px;
     padding: 5px;
   }
 
@@ -806,9 +811,9 @@ body {
   .displayContainer-shard{
     display: inline;
     background-color: #000000;
-    margin: 2px;
+    border: 2px solid #5abcca ;
     padding: 5px;
-    width: 485px;
+    width: 40%;
     height: 460px;
   }
 
@@ -817,8 +822,30 @@ body {
     background-color: #000000;
     color: #FFFFFF;
     align-items: stretch;
+    padding: 5px;
     height: 460px;
   }
+
+  .displayContainer-split-parameter-active{
+    display: flex;
+    background-color: #000000;
+    color: #FFFFFF;
+    align-items: stretch;
+    gap: 5px;
+    padding: 5px;
+    height: 460px;
+  }
+
+  .displayContainer-split-parameter-inactive{
+    display: none;
+    background-color: #000000;
+    color: #FFFFFF;
+    align-items: stretch;
+    gap: 5px;
+    padding: 5px;
+    height: 460px;
+  }
+
 
   .displayContainer-split-indicator-start{
     display: flex;
@@ -1048,8 +1075,19 @@ body {
     height: 90%;
   }
 
-  .whiteBox-RoundAlarm-On{
+  .whiteBox-RoundAlarm-On-Red{
     background-color: #FF0000;
+    color: #FFFFFF;
+    border: 1px solid #9ea0a3;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    height: 90%;
+  }
+
+  .whiteBox-RoundAlarm-On-Green{
+    background-color: #0AFF0A;
     color: #FFFFFF;
     border: 1px solid #9ea0a3;
     border-radius: 10px;

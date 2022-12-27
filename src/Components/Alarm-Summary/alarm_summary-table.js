@@ -41,7 +41,7 @@ function AlarmSummaryTable({alarmRecord}) {
                         {   
                             alarmRecord.map((value, key) =>{
                                 return(
-                                    <tr key={key}>
+                                    <tr style={{background: value.active? '#FF0000' : '#2C2C2C'}} key={key}>
                                         <td>{dateToStringFormat(value.activeTime)}</td>
                                         <td>{value.description}</td>
                                         <td>{value.category}</td>

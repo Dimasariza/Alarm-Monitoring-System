@@ -16,7 +16,7 @@ function getSizeMultiplier(fontSize, currentSize){
 }
 
 function IndicatorRevolutionEngine({rawValue, size}) {
-    const titleValue = "REVOLUTION (ENGINE)";
+    const titleValue = "ENGINE REVOLUTION";
     const unitValue = "RPM";
     const maxPercentageValue = 58.87;
     const maxValue = 3500;

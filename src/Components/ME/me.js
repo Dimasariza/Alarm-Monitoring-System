@@ -19,8 +19,8 @@ function ME({state, setState}) {
                 <Overview />
             </div>
             <div className='StateChangeButton-container'>
-                <MEStateButton icon={ArrowLefticonActive} state={state} setState={setState} stateValueChange={-1} />
-                <MEStateButton icon={ArrowRightIconActive} state={state} setState={setState} stateValueChange={1}/>
+                <MEStateButton icon={ArrowLefticonActive} state={state} setState={setState} stateValueChange={-1} max={2} min={0} />
+                <MEStateButton icon={ArrowRightIconActive} state={state} setState={setState} stateValueChange={1} max={2} min={0}/>
             </div>
         </div>
         

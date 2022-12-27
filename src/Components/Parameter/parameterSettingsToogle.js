@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-function ParameterSettingsToogle({name}) {
-    const [activation, setActivation] = new useState(true);
+function ParameterSettingsToogle({name, activation}) {
     return (
         <div className='whiteBox-parameterSetting-settingContainer'>
             {name}
-            <div className='whiteBox-parameterSetting-toogle'>
+            <div className={activation ? 'whiteBox-parameterSetting-toogle-active' : 'whiteBox-parameterSetting-toogle-inactive'}>
                 {activation ? "ACTIVE" : "DISABLED"}
             </div>
         </div>

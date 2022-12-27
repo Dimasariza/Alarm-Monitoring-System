@@ -5,15 +5,18 @@ import ParameterSettingsToogle from './parameterSettingsToogle';
 function ParameterSettings({side}) {
     return (
         <div className='displayContainer-shard'>
-            <div className='tealText'>AUX. BLOWER SETTINGS - {side}</div>
+            <div style={{'textAlign': 'center', 'fontWeight': 'bold', color: '#FFFFFF', marginBottom: 30 }}>{side}</div>
             <div className='whiteBox-parameterSetting'>
-                <ParameterSettingsToogle name={"AUX. BLOWER START COMMAND"}/>
-                <ParameterSettingsToogle name={"AUX. BLOWER VALVE OPEN COMMAND"}/>
-            </div>
-            <div className='whiteBox-parameterSetting'>
-                <ParameterSettingsNumber name={"AUX. BLOWER STOP RPM SET POINT"}    value={"+550.000"}/>
-                <ParameterSettingsNumber name={"AUX. BLOWER RESTART RPM SET POINT"} value={"+520.000"}/>
-                <ParameterSettingsNumber name={"AUX. BLOWER START STOP TIME DELAY"} value={"+5.000"}/>
+                <ParameterSettingsToogle name={"Start Command"} activation={true}/>
+                <ParameterSettingsToogle name={"Valve Open Command"} activation={true}/>
+                <ParameterSettingsNumber name={"Stop RPM Set Point"}    value={"1546"}/>
+                <ParameterSettingsNumber name={"Restart RPM Set Point"} value={"1406"}/>
+                <ParameterSettingsNumber name={"Start Stop Time Delay"} value={"15"}/>
+                <ParameterSettingsNumber name={"Low Pressure FO Set Point"} value={"0.38"}/>
+                <ParameterSettingsNumber name={"Low Pressure CW Set Point"} value={"0.28"}/>
+                <ParameterSettingsNumber name={"High Temp CW Set Point"} value={"48"}/>
+                <ParameterSettingsNumber name={"Low Press Exh Gas Set Point"} value={"0.38"}/>
+                <ParameterSettingsNumber name={"High Press Exh Gas Set Point"} value={"485"}/>
             </div>
         </div>
     );

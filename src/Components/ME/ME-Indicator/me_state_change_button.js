@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
-function getNewStateValue(current, change){
+function getNewStateValue(current, change, max, min){
     var newVal = current + change;
-    if(newVal > 2) return 0;
-    if(newVal < 0) return 2;
+    if(newVal > max) return min;
+    if(newVal < min) return max;
     return newVal;
 }
 
-function MEStateButton({icon, state, setState, stateValueChange}) {
+function MEStateButton({icon, state, setState, stateValueChange, max, min}) {
     return (
-        <button className='StateChangeButton' onClick={() => setState(getNewStateValue(state, stateValueChange))} value={"State change button"}>
+        <button className='StateChangeButton' onClick={() => setState(getNewStateValue(state, stateValueChange, max, min))} value={"State change button"}>
             <img src={icon} width={30} height={30} alt={"State change button"}></img>
         </button>
     );

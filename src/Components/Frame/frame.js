@@ -14,25 +14,27 @@ import Alarm from '../Alarm/alarm.js'
 import AlarmSummary from '../Alarm-Summary/alarm_summary.js'
 import Parameter from '../Parameter/parameter.js'
 import AuxEngine from '../AuxEngine/auxEngine';
+import DetailedOverview from '../Overview/detailedOverview';
 
 
 
 function Frame() {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
+    const[activeParameterView, setActiveParameterView] = useState(0);
 
   return (
     <div className='mainContainer'>
         <div className="headerContainer">
-            <Header state={currentState}/>
+            <Header state={currentState} stateIndicator={activeIndicatorView}/>
         </div>
         <div className="displayContainer">
           <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME state={activeIndicatorView} setState={setActiveIndicatorView} />} />
           <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine />} />
-          <DisplayContainer name="OVERVIEW" state={currentState} content={<Overview  />} />
+          <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview  />} />
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm  />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary  />} />
-          <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter  />} />
+          <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} />} />
         </div>
         <div className="mainButtonSelectionContainer">
                 <NavigatorButtons name="MAIN. ENG." onNameChange={setCurrentState} icon={EngineIcon} iconPadding={60} state={currentState}/>

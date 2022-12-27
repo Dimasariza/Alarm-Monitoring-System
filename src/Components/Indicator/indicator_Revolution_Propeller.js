@@ -16,7 +16,7 @@ function getSizeMultiplier(fontSize, currentSize){
 }
 
 function IndicatorRevolutionPropeller({rawValue, size}) {
-    const titleValue = "REVOLUTION (PROPELLER)";
+    const titleValue = "SHAFT REVOLUTION";
     const unitValue = "RPM";
     const maxPercentageValue = 58.87;
     const maxValue = 3500;
