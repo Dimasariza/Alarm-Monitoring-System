@@ -15,12 +15,16 @@ import VoltMeterIndicator from '../Overview/voltmeter';
 import PowerMeterIndicator from '../Overview/powerMeter';
 import Electricity from '../../Assets/PMSOL/Electricty.png';
 import IndicatorHalfCircle from '../Indicator/indicatorHalfCircle';
+import ArrowLefticonActive from '../../Assets/AMS-Modelling-Assets/ArrowLefticonActive.png'
+import ArrowRightIconActive from '../../Assets/AMS-Modelling-Assets/ArrowRightIconActive.png'
+import MEStateButton from '../ME/ME-Indicator/me_state_change_button';
 
 
-function AuxEngine({}) {
+function AuxEngine({auxEngineValue, state, setState}) {
     return (
         <div className='overviewContainer'>
             <div className='overviewContainer-aux'>
+            
                 <div className='whiteBox-overview-indicator' style={{'--whiteBoxHeight': 370}}>
                     <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 75, fontWeight: 'bold' }}> 
                         STBD ENGINE

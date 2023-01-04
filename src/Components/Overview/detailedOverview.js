@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect } from 'react'
 import IndicatorRevolutionEngine from '../Indicator/indicator_Revolution_Engine'
 import IndicatorRevolutionPropeller from '../Indicator/indicator_Revolution_Propeller';
-import OverviewButton from './overviewButton';
-import BattreyIndicator from './battreyIndicator';
-import RedOverviewButton from './redOverviewButton';
-import GreenOverviewButton from './greenOverviewButton';
 import HourIndicator from './hourIndicator';
 import COMPASS_BG from '../../Assets/PMSOL/COMPASS_BG.png'
 import CompassParemeter from './compassParameter';
 import doubleNeedle from '../../Assets/PMSOL/doubleNeedle.png'
 import AlarmOverview from './alarmOverview';
+import PFIndicator from './PF';
+import VoltMeterIndicator from './voltmeter';
+import PowerMeterIndicator from './powerMeter';
+import IndicatorHalfCircle from '../Indicator/indicatorHalfCircle';
+import Electricity from '../../Assets/PMSOL/Electricty.png';
 
 
-function DetailedOverview({}) {
+function DetailedOverview({mainEngineValue, auxEngineValue}) {
     return (
         <div style={{display: 'flex', width: '100%', height: '100%', gap: 10}}>
             <div style={{width: '70%', height: '100%'}}>
@@ -24,13 +25,13 @@ function DetailedOverview({}) {
                                     STBD ENGINE
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 25 }}>
-                                    <IndicatorRevolutionPropeller rawValue={2000} size={100}/>
+                                    <IndicatorRevolutionPropeller rawValue={mainEngineValue.stbd.shaftRev} size={100}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 200, '--leftPos' : 55 }}>
-                                    <IndicatorRevolutionEngine rawValue={2000} size={140} />
+                                    <IndicatorRevolutionEngine rawValue={mainEngineValue.stbd.engineRev} size={140} />
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 1050, '--leftPos' : 0 }}>
-                                    <HourIndicator lifeHour={80} />
+                                    <HourIndicator lifeHour={mainEngineValue.stbd.runningHour} />
                                 </div>
                             </div>
                         </div>
@@ -43,13 +44,13 @@ function DetailedOverview({}) {
                                     PORT ENGINE
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 45 }}>
-                                    <IndicatorRevolutionPropeller rawValue={2000} size={100}/>
+                                    <IndicatorRevolutionPropeller rawValue={mainEngineValue.port.shaftRev} size={100}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 200, '--leftPos' : 2 }}>
-                                    <IndicatorRevolutionEngine rawValue={2000} size={140} />
+                                    <IndicatorRevolutionEngine rawValue={mainEngineValue.port.engineRev} size={140} />
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 1050, '--leftPos' : 65 }}>
-                                    <HourIndicator lifeHour={80} />
+                                    <HourIndicator lifeHour={mainEngineValue.port.runningHour} />
                                 </div>
                             </div>
                         </div>
@@ -59,13 +60,51 @@ function DetailedOverview({}) {
                 <div style={{display: 'flex', width: '100%', height: '50%'}}>
                     <div style={{position: 'relative', width: '50%', height: '95%'}}>
                         <div className='whiteBox' style={{position: 'relative', width: '94%', height: '75%'}}>
-                            UWU
+                            <div className='overviewContainer-indicator-center'>
+                                <div className='indicator-customLoc' style={{'--topPos' : 0, '--leftPos' : 60, fontWeight: 'bold' }}> 
+                                    STBD ENGINE
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 1100, '--leftPos' : 80 }}>
+                                    <PFIndicator lifeHour={0.85} boxWidth={50} />
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 1100, '--leftPos' : 44 }}> 
+                                    <VoltMeterIndicator lifeHour={80} boxWidth={94} />
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 650, '--leftPos' : 0 }}> 
+                                    <PowerMeterIndicator lifeHour={80} boxWidth={125} boxHeight={60} />
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 2 }}> 
+                                    <img src={Electricity} style={{width: 50}}/>
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 190, '--leftPos' : 44 }}> 
+                                    <IndicatorHalfCircle rawValue={100} size={90}/>
+                                </div>
+                            </div>
                         </div>
                         <AlarmOverview firstAlarm={true} secondAlarm={true}/>
                     </div>
                     <div style={{position: 'relative', width: '50%', height: '95%'}}>
                         <div className='whiteBox' style={{position: 'relative', width: '94%', height: '75%'}}>
-                            UWU
+                            <div className='overviewContainer-indicator-center'>
+                                <div className='indicator-customLoc' style={{'--topPos' : 0, '--leftPos' : 6, fontWeight: 'bold' }}> 
+                                    PORT ENGINE
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 1100, '--leftPos' : 0 }}>
+                                    <PFIndicator lifeHour={0.85} boxWidth={50} />
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 1100, '--leftPos' : 22 }}> 
+                                    <VoltMeterIndicator lifeHour={80} boxWidth={94} />
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 650, '--leftPos' : 56 }}> 
+                                    <PowerMeterIndicator lifeHour={80} boxWidth={130} boxHeight={60} />
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 82 }}> 
+                                    <img src={Electricity} style={{width: 50}}/>
+                                </div>
+                                <div className='indicator-customLoc' style={{'--topPos' : 190, '--leftPos' : 0 }}> 
+                                    <IndicatorHalfCircle rawValue={100} size={90}/>
+                                </div>
+                            </div>
                         </div>
                         <AlarmOverview firstAlarm={true} secondAlarm={true}/>
                     </div>

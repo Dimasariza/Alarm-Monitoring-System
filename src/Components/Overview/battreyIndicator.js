@@ -10,14 +10,14 @@ function BattreyIndicator({voltage, battreyLife, boxWidth}) {
     return (
         <div className='battreyBG' style={{'--boxWidth': boxWidth}}>
             <div className='battreyText-title'> Battrey </div>
-            <div className='battreyText-value'> {voltage} </div>
+            <div className='battreyText-value'> {voltage.toFixed(1)} </div>
             <div className='battreyImage'> 
                 <div className='battreyText-title'>
                     Volts
                 </div> 
                 <div className='indicator-container' style={{width : 42, height : 18 }}>
                     <img className='indicator' src={UI_ENIN_Battrey_icon_Outer} />
-                    <div className='battreyLoadingBar' style={{width : getProgressWidth(battreyLife, 35)}}/>
+                    <div className='battreyLoadingBar' style={{width : getProgressWidth(battreyLife, 31)}}/>
                 </div>
             </div>
         </div>

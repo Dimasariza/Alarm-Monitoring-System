@@ -14,7 +14,7 @@ function NavigatorButtons({name, onNameChange, icon, iconPadding, state}) {
     return (
         <div>
             <button className={selected ? 'selectionButton-selected' : 'selectionButton-unselected'} onClick={() => onNameChange(name)} value={name}>
-                <div style={{ width: 200, 'font-size' : 18, fontWeight: 'bold'}}>{name}</div>
+                <div style={{ width: 200, fontSize : 18, fontWeight: 'bold'}}>{name}</div>
                 <div width={iconPadding}> </div>
                 <img src={icon} width={30} height={30} alt={name + " button"}></img>
             </button>

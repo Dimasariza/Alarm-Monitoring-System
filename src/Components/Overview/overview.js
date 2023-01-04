@@ -8,7 +8,7 @@ import GreenOverviewButton from './greenOverviewButton';
 import HourIndicator from './hourIndicator';
 
 
-function Overview({}) {
+function Overview({inputValue}) {
     return (
         <div className='overviewContainer'>
             <div className='overviewContainer-indicator'>
@@ -16,16 +16,16 @@ function Overview({}) {
                     <div className='text-block-right'> STBD ENGINE</div>
                     <div className='overviewContainer-indicator-center'>
                         <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 15 }}>
-                            <IndicatorRevolutionPropeller rawValue={2000} size={150}/>
+                            <IndicatorRevolutionPropeller rawValue={inputValue.stbd.shaftRev} size={150}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 2 }}>
-                            <BattreyIndicator voltage={13.5} battreyLife={80} boxWidth={77} />
+                            <BattreyIndicator voltage={inputValue.stbd.battreyVolt} battreyLife={inputValue.stbd.battreyLife} boxWidth={77} />
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 50, '--leftPos' : 49 }}>
-                            <IndicatorRevolutionEngine rawValue={2000} size={240} />
+                            <IndicatorRevolutionEngine rawValue={inputValue.stbd.engineRev} size={240} />
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 25 }}>
-                            <HourIndicator lifeHour={80} />
+                            <HourIndicator lifeHour={inputValue.stbd.runningHour} />
                         </div>
                     </div>
                 </div>
@@ -33,16 +33,16 @@ function Overview({}) {
                     <div className='text-block-left'> PORT ENGINE</div>
                     <div className='overviewContainer-indicator-center'>
                         <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 55 }}>
-                            <IndicatorRevolutionPropeller rawValue={2000} size={150}/>
+                            <IndicatorRevolutionPropeller rawValue={inputValue.port.shaftRev} size={150}/>
                         </div>
-                        <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 81 }}>
-                            <BattreyIndicator voltage={13.5} battreyLife={80} boxWidth={77}/>
+                        <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 78 }}>
+                            <BattreyIndicator voltage={inputValue.port.battreyVolt} battreyLife={inputValue.stbd.battreyLife} boxWidth={77}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 50, '--leftPos' : 1 }}>
-                            <IndicatorRevolutionEngine rawValue={2000} size={240} />
+                            <IndicatorRevolutionEngine rawValue={inputValue.port.engineRev} size={240} />
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 52 }}>
-                            <HourIndicator lifeHour={80} />
+                            <HourIndicator lifeHour={inputValue.port.runningHour} />
                         </div>
                     </div>
                 </div>

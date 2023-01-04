@@ -6,17 +6,17 @@ import ArrowLefticonActive from '../../Assets/AMS-Modelling-Assets/ArrowLefticon
 import ArrowRightIconActive from '../../Assets/AMS-Modelling-Assets/ArrowRightIconActive.png'
 import Overview from '../Overview/overview';
 
-function ME({state, setState}) {
+function ME({mainEngineValue, state, setState}) {
     return (
         <div className='meContainer'>
             <div className={state==0 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
-                <ME_Indicator stateName={'STBD ENGINE'}/>
+                <ME_Indicator stateName={'STBD ENGINE'} inputValue={mainEngineValue.stbd}/>
             </div>
             <div className={state==1 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
-                <ME_Indicator stateName={'PORT ENGINE'}/>
+                <ME_Indicator stateName={'PORT ENGINE'} inputValue={mainEngineValue.port}/>
             </div>
             <div className={state==2 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
-                <Overview />
+                <Overview inputValue={mainEngineValue}/>
             </div>
             <div className='StateChangeButton-container'>
                 <MEStateButton icon={ArrowLefticonActive} state={state} setState={setState} stateValueChange={-1} max={2} min={0} />

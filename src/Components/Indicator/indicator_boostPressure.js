@@ -32,7 +32,7 @@ function IndicatorBoostPressure({rawValue, size}) {
             tittleStyle={tittleStyle}
             valueStyle={valueStyle}
             unitStyle={unitStyle}
-            rawValue={rawValue}
+            rawValue={rawValue.toFixed(2)}
             activeAlarm={false}
             constantData={constantData}
             />

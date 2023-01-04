@@ -2,12 +2,11 @@ import React, { useCallback, useState } from 'react'
 import METempGraph from './me_temp_graph.js';
 import MEIndicatorGroup from './me_indicators_group.js'
 
-function ME_Indicator({state, setState, stateName}) {
-    const [temperatureArray, setTEMP] = useState([100, 100, 200, 300, 400, 500, 600, 100]);
+function ME_Indicator({inputValue, setState, stateName}) {
     return (
         <div className='displayContainer-split'style={{height : 455}}>
-            <METempGraph temperatureArray={temperatureArray} />
-            <MEIndicatorGroup setState={setState} stateName={stateName}/>
+            <METempGraph temperatureArray={inputValue.engineTemperature} />
+            <MEIndicatorGroup inputValue={inputValue} setState={setState} stateName={stateName}/>
         </div>
     );
 }

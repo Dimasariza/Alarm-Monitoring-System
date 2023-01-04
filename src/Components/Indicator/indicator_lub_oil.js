@@ -32,7 +32,7 @@ function IndicatorLubOil({rawValue, size}) {
             tittleStyle={tittleStyle}
             valueStyle={valueStyle}
             unitStyle={unitStyle}
-            rawValue={rawValue}
+            rawValue={rawValue.toFixed(1)}
             activeAlarm={false}
             constantData={constantData}
             />

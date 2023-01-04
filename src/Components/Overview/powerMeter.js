@@ -5,10 +5,15 @@ function getBoxWidth(boxWidth){
     return boxWidth
 }
 
-function PowerMeterIndicator({lifeHour, boxWidth}) {
+function getBoxHeight(boxHeight){
+    if(boxHeight == null) return 40
+    return boxHeight
+}
+
+function PowerMeterIndicator({lifeHour, boxWidth, boxHeight}) {
     return (
-        <div style={{width: getBoxWidth(boxWidth)}} className='tealBox'>
-            <div style={{'display': 'flex', 'font-weight': 'bold', 'align-items': 'center', 'justify-content': 'center'}}> POWER </div>
+        <div style={{width: getBoxWidth(boxWidth), height: getBoxHeight(boxHeight), paddingTop: getBoxHeight(boxHeight)/2}} className='tealBox'>
+            <div style={{'display': 'flex', fontWeight: 'bold', alignItems: 'center', justifyContent: 'center'}}> POWER </div>
             <div className='battreyText-value'> {lifeHour + ' kW'} </div>
         </div>
     );

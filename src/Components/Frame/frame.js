@@ -16,12 +16,80 @@ import Parameter from '../Parameter/parameter.js'
 import AuxEngine from '../AuxEngine/auxEngine';
 import DetailedOverview from '../Overview/detailedOverview';
 
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 
+function randomFloatFromInterval(min, max) { // min and max included 
+  return Math.random() * (max - min + 1) + min
+}
 
 function Frame() {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
+    const[mainEngine, setMainEngine] = useState({stbd: {
+      engineTemperature: [
+        randomIntFromInterval(0, 600),
+        randomIntFromInterval(0, 600),
+        randomIntFromInterval(0, 600),
+        randomIntFromInterval(0, 600),
+        randomIntFromInterval(0, 600),
+        randomIntFromInterval(0, 600),
+        randomIntFromInterval(0, 600),
+        randomIntFromInterval(0, 600)],
+      engineRev: randomIntFromInterval(0, 2000),
+      shaftRev: randomIntFromInterval(0, 2000),
+      lubOilPressure: Math.random(),
+      boostPressure: Math.random() * 0.3,
+      coolingWaterTemp: randomIntFromInterval(0, 120),
+      exhaustTemp: randomIntFromInterval(0, 700),
+      runningHour: randomIntFromInterval(0, 10000),
+      battreyVolt: randomFloatFromInterval(0, 30),
+      battreyLife: randomIntFromInterval(0, 100),
+    }, port:
+    {engineTemperature: [
+      100,
+      200,
+      100,
+      100,
+      100,
+      100,
+      100,
+      100],
+      engineRev: 1500,
+      shaftRev: 1000,
+      lubOilPressure: 0.6,
+      boostPressure: 0.15,
+      coolingWaterTemp: 60,
+      exhaustTemp: 700,
+      runningHour: 1000,
+      battreyVolt: 13.5,
+      battreyLife: 30,
+    }}
+    );
+    const[auxEngine, setAuxEngine] = useState({stbd: {
+      engineRev: 1000,
+      shaftRev: 1000,
+      lubOilPressure: 0.6,
+      boostPressure: 0.15,
+      coolingWaterTemp: 60,
+      exhaustTemp: 700,
+      runningHour: 1000,
+      battreyVolt: 13.5,
+      battreyLife: 50,
+    }, port:
+    { engineRev: 2000,
+      shaftRev: 2000,
+      lubOilPressure: 0.6,
+      boostPressure: 0.15,
+      coolingWaterTemp: 60,
+      exhaustTemp: 700,
+      runningHour: 1000,
+      battreyVolt: 13.5,
+      battreyLife: 50,
+    }}
+    );
 
   return (
     <div className='mainContainer'>
@@ -29,9 +97,9 @@ function Frame() {
             <Header state={currentState} stateIndicator={activeIndicatorView}/>
         </div>
         <div className="displayContainer">
-          <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME state={activeIndicatorView} setState={setActiveIndicatorView} />} />
-          <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine />} />
-          <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview  />} />
+          <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
+          <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView}  />} />
+          <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} />} />
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm  />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary  />} />
           <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} />} />

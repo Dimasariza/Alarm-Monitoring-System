@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 function getNumber(overrideWidth){
     if(overrideWidth == null){
@@ -8,9 +8,16 @@ function getNumber(overrideWidth){
     }
 }
 
+
+
 function GreenOverviewButton({name, active, overrideWidth}) {
+    const[currentState, setCurrentState] = useState(true);
+
     return (
-        <button style={{'--boxWidth': getNumber(overrideWidth)}} className={active ? 'whiteBox-OverviewButton-Green' : 'whiteBox-OverviewButton-Off'}>
+        // <button style={{'--boxWidth': getNumber(overrideWidth)}} onClick={() => setCurrentState(prev => !prev)} className={currentState ? 'whiteBox-OverviewButton-Green' : 'whiteBox-OverviewButton-Off'}>
+        //     {name}
+        // </button>
+        <button style={{'--boxWidth': getNumber(overrideWidth)}} onClick={() => setCurrentState(prev => !prev)} className={active ? 'whiteBox-OverviewButton-Green' : 'whiteBox-OverviewButton-Off'}>
             {name}
         </button>
     );

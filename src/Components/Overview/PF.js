@@ -8,7 +8,7 @@ function getBoxWidth(boxWidth){
 function PFIndicator({lifeHour, boxWidth}) {
     return (
         <div style={{width: getBoxWidth(boxWidth)}} className='tealBox'>
-            <div style={{'display': 'flex', 'font-weight': 'bold', 'align-items': 'center', 'justify-content': 'center'}}> PF </div>
+            <div style={{'display': 'flex', fontWeight: 'bold', alignItems: 'center', justifyContent: 'center'}}> PF </div>
             <div className='battreyText-value'> {lifeHour} </div>
         </div>
     );
