@@ -10,7 +10,7 @@ function getNumber(overrideWidth){
 
 
 
-function GreenOverviewButton({name, active, overrideWidth}) {
+function GreenOverviewLight({name, active, overrideWidth}) {
     const[currentState, setCurrentState] = useState(true);
 
     return (
@@ -23,4 +23,4 @@ function GreenOverviewButton({name, active, overrideWidth}) {
     );
 }
 
-export default GreenOverviewButton;
+export default GreenOverviewLight;

@@ -2,8 +2,8 @@ import React, { useCallback, useEffect } from 'react'
 import IndicatorRevolutionEngine from '../Indicator/indicator_Revolution_Engine'
 import IndicatorRevolutionPropeller from '../Indicator/indicator_Revolution_Propeller';
 import BattreyIndicator from '../Overview/battreyIndicator';
-import RedOverviewButton from '../Overview/redOverviewButton';
-import GreenOverviewButton from '../Overview/greenOverviewButton';
+import RedOverviewLight from '../Overview/redOverviewButton';
+import GreenOverviewLight from '../Overview/greenOverviewButton';
 import IndicatorCoolingWaterTemperature from '../Indicator/indicator_coolingWaterTemp';
 import IndicatorCoolingWaterPressure from '../Indicator/indicatior_coolingWatePressure';
 import IndicatorLubOil from '../Indicator/indicator_lub_oil';
@@ -112,18 +112,18 @@ function AuxEngine({auxEngineValue, state, setState}) {
                 <div className='overviewContainer-indicator'>
                     <div className='whiteBox-overview-indicator-noBorder'>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <RedOverviewButton overrideWidth={120} name={"EMERGENCY STOP"} active={true}/>
-                            <GreenOverviewButton overrideWidth={120} name={"READY TO START"} active={true}/>
-                            <GreenOverviewButton overrideWidth={120} name={"ENGINE RUNNING"} active={false}/>
-                            <GreenOverviewButton overrideWidth={120} name={"BUZZER"} active={false}/>
+                            <RedOverviewLight overrideWidth={120} name={"EMERGENCY STOP"} active={true}/>
+                            <GreenOverviewLight overrideWidth={120} name={"READY TO START"} active={true}/>
+                            <GreenOverviewLight overrideWidth={120} name={"ENGINE RUNNING"} active={false}/>
+                            <GreenOverviewLight overrideWidth={120} name={"BUZZER"} active={false}/>
                         </div>
                     </div>
                     <div className='whiteBox-overview-indicator-noBorder'>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <GreenOverviewButton overrideWidth={120} name={"EMERGENCY STOP"} active={false}/>
-                            <GreenOverviewButton overrideWidth={120} name={"READY TO START"} active={false}/>
-                            <GreenOverviewButton overrideWidth={120} name={"ENGINE RUNNING"} active={false}/>
-                            <GreenOverviewButton overrideWidth={120} name={"BUZZER"} active={false}/>
+                            <GreenOverviewLight overrideWidth={120} name={"EMERGENCY STOP"} active={false}/>
+                            <GreenOverviewLight overrideWidth={120} name={"READY TO START"} active={false}/>
+                            <GreenOverviewLight overrideWidth={120} name={"ENGINE RUNNING"} active={false}/>
+                            <GreenOverviewLight overrideWidth={120} name={"BUZZER"} active={false}/>
                         </div>
                     </div>
                 </div>

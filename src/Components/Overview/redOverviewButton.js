@@ -8,7 +8,7 @@ function getNumber(overrideWidth){
     }
 }
 
-function RedOverviewButton({name, active, overrideWidth}) {
+function RedOverviewLight({name, active, overrideWidth}) {
     return (
         <button style={{'--boxWidth': getNumber(overrideWidth)}} className={active ? 'whiteBox-OverviewButton-Red' : 'whiteBox-OverviewButton-Off'}>
             {name}
@@ -16,4 +16,4 @@ function RedOverviewButton({name, active, overrideWidth}) {
     );
 }
 
-export default RedOverviewButton;
+export default RedOverviewLight;

@@ -3,9 +3,10 @@ import IndicatorRevolutionEngine from '../Indicator/indicator_Revolution_Engine'
 import IndicatorRevolutionPropeller from '../Indicator/indicator_Revolution_Propeller';
 import OverviewButton from './overviewButton';
 import BattreyIndicator from './battreyIndicator';
-import RedOverviewButton from './redOverviewButton';
-import GreenOverviewButton from './greenOverviewButton';
+import RedOverviewLight from './redOverviewButton';
+import GreenOverviewLight from './greenOverviewButton';
 import HourIndicator from './hourIndicator';
+import { EngineControlStatus, EngineDirection } from '../DataComponents/EngineControls/EngineData';
 
 
 function Overview({inputValue}) {
@@ -36,7 +37,7 @@ function Overview({inputValue}) {
                             <IndicatorRevolutionPropeller rawValue={inputValue.port.shaftRev} size={150}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 78 }}>
-                            <BattreyIndicator voltage={inputValue.port.battreyVolt} battreyLife={inputValue.stbd.battreyLife} boxWidth={77}/>
+                            <BattreyIndicator voltage={inputValue.port.battreyVolt} battreyLife={inputValue.port.battreyLife} boxWidth={77}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 50, '--leftPos' : 1 }}>
                             <IndicatorRevolutionEngine rawValue={inputValue.port.engineRev} size={240} />
@@ -51,37 +52,36 @@ function Overview({inputValue}) {
                 <div className='overviewContainer-indicator'>
                     <div className='whiteBox-overview-indicator-noBorder'>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <GreenOverviewButton name={"AHEAD"} active={false}/>
-                            <GreenOverviewButton name={"NEUTRAL"} active={true}/>
-                            <GreenOverviewButton name={"ASTERN"} active={false}/>
-                            <GreenOverviewButton name={"REMOTE CONTROL"} active={false}/>
-                            <GreenOverviewButton name={"LOCAL CONTROL"} active={true}/>
+                            <GreenOverviewLight name={"AHEAD"} active={inputValue.stbd.engineDirection == EngineDirection.Ahead}/>
+                            <GreenOverviewLight name={"NEUTRAL"} active={inputValue.stbd.engineDirection == EngineDirection.Neutral}/>
+                            <GreenOverviewLight name={"ASTERN"} active={inputValue.stbd.engineDirection == EngineDirection.Astern}/>
+                            <GreenOverviewLight name={"REMOTE CONTROL"} active={inputValue.stbd.engineControlStatus == EngineControlStatus.Remote}/>
+                            <GreenOverviewLight name={"LOCAL CONTROL"} active={inputValue.stbd.engineControlStatus == EngineControlStatus.Local}/>
                         </div>
                         <div style={{height : 5}}></div>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <RedOverviewButton name={"EMG STOP"} active={true}/>
-                            <RedOverviewButton name={"READY TO START"} active={false}/>
-                            <RedOverviewButton name={"AUX. BLOWER FAILURE"} active={false}/>
-                            <RedOverviewButton name={"ENGINE RUNNING"} active={false}/>
+                            <RedOverviewLight name={"EMG STOP"} active={inputValue.stbd.emergencyStop}/>
+                            <GreenOverviewLight name={"READY TO START"} active={inputValue.stbd.readyToStart}/>
+                            <RedOverviewLight name={"AUX. BLOWER FAILURE"} active={inputValue.stbd.auxBlowerFailure}/>
+                            <GreenOverviewLight name={"ENGINE RUNNING"} active={inputValue.stbd.engineRunning}/>
                         </div>
                         
                     </div>
                     <div className='whiteBox-overview-indicator-noBorder'>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <GreenOverviewButton name={"AHEAD"} active={false}/>
-                            <GreenOverviewButton name={"NEUTRAL"} active={false}/>
-                            <GreenOverviewButton name={"ASTERN"} active={false}/>
-                            <GreenOverviewButton name={"REMOTE CONTROL"} active={false}/>
-                            <GreenOverviewButton name={"LOCAL CONTROL"} active={false}/>
+                            <GreenOverviewLight name={"AHEAD"} active={inputValue.port.engineDirection == EngineDirection.Ahead}/>
+                            <GreenOverviewLight name={"NEUTRAL"} active={inputValue.port.engineDirection == EngineDirection.Neutral}/>
+                            <GreenOverviewLight name={"ASTERN"} active={inputValue.port.engineDirection == EngineDirection.Astern}/>
+                            <GreenOverviewLight name={"REMOTE CONTROL"} active={inputValue.port.engineControlStatus == EngineControlStatus.Remote}/>
+                            <GreenOverviewLight name={"LOCAL CONTROL"} active={inputValue.port.engineControlStatus == EngineControlStatus.Local}/>
                         </div>
                         <div style={{height : 5}}></div>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <RedOverviewButton name={"EMG STOP"} active={true}/>
-                            <RedOverviewButton name={"READY TO START"} active={false}/>
-                            <RedOverviewButton name={"AUX. BLOWER FAILURE"} active={false}/>
-                            <RedOverviewButton name={"ENGINE RUNNING"} active={false}/>
+                            <RedOverviewLight name={"EMG STOP"} active={inputValue.port.emergencyStop}/>
+                            <GreenOverviewLight name={"READY TO START"} active={inputValue.port.readyToStart}/>
+                            <RedOverviewLight name={"AUX. BLOWER FAILURE"} active={inputValue.port.auxBlowerFailure}/>
+                            <GreenOverviewLight name={"ENGINE RUNNING"} active={inputValue.port.engineRunning}/>
                         </div>
-                        
                     </div>
                 </div>
             </div>

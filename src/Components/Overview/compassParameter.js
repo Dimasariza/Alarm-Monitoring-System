@@ -3,8 +3,8 @@ import IndicatorRevolutionEngine from '../Indicator/indicator_Revolution_Engine'
 import IndicatorRevolutionPropeller from '../Indicator/indicator_Revolution_Propeller';
 import OverviewButton from './overviewButton';
 import BattreyIndicator from './battreyIndicator';
-import RedOverviewButton from './redOverviewButton';
-import GreenOverviewButton from './greenOverviewButton';
+import RedOverviewLight from './redOverviewButton';
+import GreenOverviewLight from './greenOverviewButton';
 import HourIndicator from './hourIndicator';
 import COMPASS_BG from '../../Assets/PMSOL/COMPASS_BG.png'
 

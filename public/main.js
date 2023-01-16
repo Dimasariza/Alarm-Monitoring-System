@@ -8,7 +8,7 @@ function createWindow(){
     const win = new BrowserWindow({
         width: 1034,
         height: 610,
-        fullscreen: true,
+        fullscreen: false,
         autoHideMenuBar: true,
         frame:false,
         webPrefrences: {

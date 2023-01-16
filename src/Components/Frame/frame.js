@@ -1,6 +1,6 @@
 import NavigatorButtons from './navigator-buttons';
 import NavigatorButtonsNoIcon from './navigator-buttons-no-icon';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './frame.css'
 import AlarmIcon from '../../Assets/AMS-Modelling-Assets/AlarmIcon.png'
 import AlarmSummaryIcon from '../../Assets/AMS-Modelling-Assets/AlarmSummaryIcon.png'
@@ -15,81 +15,25 @@ import AlarmSummary from '../Alarm-Summary/alarm_summary.js'
 import Parameter from '../Parameter/parameter.js'
 import AuxEngine from '../AuxEngine/auxEngine';
 import DetailedOverview from '../Overview/detailedOverview';
+import io from 'socket.io-client';
 
-function randomIntFromInterval(min, max) { // min and max included 
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function randomFloatFromInterval(min, max) { // min and max included 
-  return Math.random() * (max - min + 1) + min
-}
-
-function Frame() {
+function Frame({mainEngine, auxEngine}) {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
-    const[mainEngine, setMainEngine] = useState({stbd: {
-      engineTemperature: [
-        randomIntFromInterval(0, 600),
-        randomIntFromInterval(0, 600),
-        randomIntFromInterval(0, 600),
-        randomIntFromInterval(0, 600),
-        randomIntFromInterval(0, 600),
-        randomIntFromInterval(0, 600),
-        randomIntFromInterval(0, 600),
-        randomIntFromInterval(0, 600)],
-      engineRev: randomIntFromInterval(0, 2000),
-      shaftRev: randomIntFromInterval(0, 2000),
-      lubOilPressure: Math.random(),
-      boostPressure: Math.random() * 0.3,
-      coolingWaterTemp: randomIntFromInterval(0, 120),
-      exhaustTemp: randomIntFromInterval(0, 700),
-      runningHour: randomIntFromInterval(0, 10000),
-      battreyVolt: randomFloatFromInterval(0, 30),
-      battreyLife: randomIntFromInterval(0, 100),
-    }, port:
-    {engineTemperature: [
-      100,
-      200,
-      100,
-      100,
-      100,
-      100,
-      100,
-      100],
-      engineRev: 1500,
-      shaftRev: 1000,
-      lubOilPressure: 0.6,
-      boostPressure: 0.15,
-      coolingWaterTemp: 60,
-      exhaustTemp: 700,
-      runningHour: 1000,
-      battreyVolt: 13.5,
-      battreyLife: 30,
-    }}
-    );
-    const[auxEngine, setAuxEngine] = useState({stbd: {
-      engineRev: 1000,
-      shaftRev: 1000,
-      lubOilPressure: 0.6,
-      boostPressure: 0.15,
-      coolingWaterTemp: 60,
-      exhaustTemp: 700,
-      runningHour: 1000,
-      battreyVolt: 13.5,
-      battreyLife: 50,
-    }, port:
-    { engineRev: 2000,
-      shaftRev: 2000,
-      lubOilPressure: 0.6,
-      boostPressure: 0.15,
-      coolingWaterTemp: 60,
-      exhaustTemp: 700,
-      runningHour: 1000,
-      battreyVolt: 13.5,
-      battreyLife: 50,
-    }}
-    );
+  
+  useEffect(() => {
+    const socket = io('http://localhost:3000');
+
+    socket.on('arduino-data', data => {
+      console.log(`Received data: ${data}`);
+      // Process the data here, such as updating the state or sending it to a server
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div className='mainContainer'>
