@@ -13,7 +13,7 @@ import IndicatorHalfCircle from '../Indicator/indicatorHalfCircle';
 import Electricity from '../../Assets/PMSOL/Electricty.png';
 
 
-function DetailedOverview({mainEngineValue, auxEngineValue}) {
+function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
     return (
         <div style={{display: 'flex', width: '100%', height: '100%', gap: 10}}>
             <div style={{width: '70%', height: '100%'}}>
@@ -35,7 +35,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue}) {
                                 </div>
                             </div>
                         </div>
-                        <AlarmOverview firstAlarm={true} secondAlarm={true}/>
+                        <AlarmOverview firstAlarm={mainEngineValue.stbd.startingFailure} secondAlarm={mainEngineValue.stbd.battreyCharging}/>
                     </div>
                     <div  style={{position: 'relative', width: '50%', height: '95%'}}>
                         <div className='whiteBox' style={{position: 'relative', width: '94%', height: '75%'}}>
@@ -54,7 +54,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue}) {
                                 </div>
                             </div>
                         </div>
-                        <AlarmOverview firstAlarm={true} secondAlarm={true}/>
+                        <AlarmOverview firstAlarm={mainEngineValue.port.startingFailure} secondAlarm={mainEngineValue.port.battreyCharging}/>
                     </div>
                 </div>
                 <div style={{display: 'flex', width: '100%', height: '50%'}}>
@@ -81,7 +81,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue}) {
                                 </div>
                             </div>
                         </div>
-                        <AlarmOverview firstAlarm={true} secondAlarm={true}/>
+                        <AlarmOverview firstAlarm={auxEngineValue.stbd.startingFailure} secondAlarm={auxEngineValue.stbd.battreyCharging}/>
                     </div>
                     <div style={{position: 'relative', width: '50%', height: '95%'}}>
                         <div className='whiteBox' style={{position: 'relative', width: '94%', height: '75%'}}>
@@ -106,7 +106,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue}) {
                                 </div>
                             </div>
                         </div>
-                        <AlarmOverview firstAlarm={true} secondAlarm={true}/>
+                        <AlarmOverview firstAlarm={auxEngineValue.port.startingFailure} secondAlarm={auxEngineValue.port.battreyCharging}/>
                     </div>
                 </div>
             </div>
@@ -117,9 +117,9 @@ function DetailedOverview({mainEngineValue, auxEngineValue}) {
                         <img src={doubleNeedle} width={15} />
                     </div>
                 </div>
-                <CompassParemeter parameter={'GPS Speed'} value={'4.00'} unit={'knots'}/>
-                <CompassParemeter parameter={'GPS Heading (COG)'} value={'017'} unit={'°M'}/>
-                <CompassParemeter parameter={'Depth'} value={'19.9'} unit={'Meters'}/>
+                <CompassParemeter parameter={'GPS Speed'} value={GPSData.speed.toFixed(2)} unit={'knots'}/>
+                <CompassParemeter parameter={'GPS Heading (COG)'} value={GPSData.getHeading()} unit={'°M'}/>
+                <CompassParemeter parameter={'Depth'} value={GPSData.depth.toFixed(1)} unit={'Meters'}/>
                 <div>GPS Position</div>
                 <CompassParemeter parameter={'LONG'} value={'N DDD° MM\' SS.S\'\''} unit={''}/>
                 <CompassParemeter parameter={'LAT'} value={'S DDD° MM\' SS.S\'\''} unit={''}/>

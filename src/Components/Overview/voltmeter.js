@@ -9,7 +9,7 @@ function VoltMeterIndicator({lifeHour, boxWidth}) {
     return (
         <div style={{width: getBoxWidth(boxWidth)}} className='tealBox'>
             <div style={{'display': 'flex', fontWeight: 'bold', alignItems: 'center', justifyContent: 'center'}}> VOLTMETER </div>
-            <div className='battreyText-value'> {lifeHour + ' V'} </div>
+            <div className='battreyText-value'> {lifeHour.toFixed(1) + ' V'} </div>
         </div>
     );
 }

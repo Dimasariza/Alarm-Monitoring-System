@@ -30,7 +30,6 @@ export default class RandomEngineData extends EngineData{
         this.runningHour = randomIntFromInterval(0, 10000);
         this.battreyVolt = randomFloatFromInterval(0, 30);
         this.battreyLife = randomIntFromInterval(0, 100);
-        console.log("Random engine called")
     }
 
     

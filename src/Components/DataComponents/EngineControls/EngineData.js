@@ -29,6 +29,7 @@ export default class EngineData extends EventEmitter{
         this.lubOilPressure = 0.5;
         this.boostPressure = 0.3;
         this.coolingWaterTemp = 120;
+        this.coolingWaterPressure = 0.5;
         this.exhaustTemp = 700;
         this.runningHour = 10000;
         this.battreyVolt = 30;
@@ -39,6 +40,13 @@ export default class EngineData extends EventEmitter{
         this.readyToStart = true;
         this.auxBlowerFailure = false;
         this.engineRunning = true;
+        this.startingFailure = false;
+        this.battreyCharging = false;
+        this.buzzer = true;
+        this.amp = 80;
+        this.pf = 0.85;
+        this.power = 80;
+        this.halfCircle = 100;
     }
 
     getEngineTemperature(){

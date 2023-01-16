@@ -17,7 +17,7 @@ import AuxEngine from '../AuxEngine/auxEngine';
 import DetailedOverview from '../Overview/detailedOverview';
 import io from 'socket.io-client';
 
-function Frame({mainEngine, auxEngine}) {
+function Frame({mainEngine, auxEngine, GPSData}) {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
@@ -43,8 +43,8 @@ function Frame({mainEngine, auxEngine}) {
         <div className="displayContainer">
           <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
           <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView}  />} />
-          <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} />} />
-          <DisplayContainer name="ALARM" state={currentState}  content={<Alarm  />} />
+          <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} />
+          <DisplayContainer name="ALARM" state={currentState}  content={<Alarm />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary  />} />
           <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} />} />
         </div>
