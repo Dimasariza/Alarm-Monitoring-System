@@ -227,8 +227,26 @@ body {
     border-radius: 5px;
     width: 1024px;
     height: 600px;
-    background-color: #000000;
     grid-template-rows: 55px 490px 55px;
+  }
+
+  .mainContainer-login{
+    display: flex;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #FFFFFF;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #5abcca;
+    padding: 5px;
+    border-radius: 5px;
+    width: 1024px;
+    height: 600px;
+    z-index: 3;
+  }
+
+  .mainContainer-login-off{
+    display: none;
   }
 
   .mainButtonSelectionContainer{

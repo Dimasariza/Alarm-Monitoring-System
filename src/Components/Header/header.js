@@ -29,7 +29,7 @@ function showSecondary(state){
     }
 }
 
-function Header({state, stateIndicator}) {
+function Header({state, stateIndicator, loginManager}) {
 
     return (
         <div className='headerContainer-inner'>
@@ -41,7 +41,7 @@ function Header({state, stateIndicator}) {
             </div>
             <div className='whiteBoxUnspecHeightWidth' height={50}/>
             <HeaderDate />
-            <button className='whiteBoxUnspecHeightWidth-circle' height={50}>
+            <button className='whiteBoxUnspecHeightWidth-circle' height={50} onClick={() => loginManager.showHideDisplay()}>
                 <img src={SettingButton} width={50} height={50} alt="Settings"></img>
             </button>
         </div>

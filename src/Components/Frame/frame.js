@@ -17,7 +17,7 @@ import AuxEngine from '../AuxEngine/auxEngine';
 import DetailedOverview from '../Overview/detailedOverview';
 import io from 'socket.io-client';
 
-function Frame({mainEngine, auxEngine, GPSData}) {
+function Frame({mainEngine, auxEngine, GPSData, loginManager}) {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
@@ -38,7 +38,7 @@ function Frame({mainEngine, auxEngine, GPSData}) {
   return (
     <div className='mainContainer'>
         <div className="headerContainer">
-            <Header state={currentState} stateIndicator={activeIndicatorView}/>
+            <Header state={currentState} stateIndicator={activeIndicatorView} loginManager={loginManager}/>
         </div>
         <div className="displayContainer">
           <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
