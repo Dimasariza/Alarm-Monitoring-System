@@ -15,25 +15,25 @@ import AlarmSummary from '../Alarm-Summary/alarm_summary.js'
 import Parameter from '../Parameter/parameter.js'
 import AuxEngine from '../AuxEngine/auxEngine';
 import DetailedOverview from '../Overview/detailedOverview';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 
 function Frame({mainEngine, auxEngine, GPSData, loginManager}) {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
   
-  useEffect(() => {
-    const socket = io('http://localhost:3000');
+  // useEffect(() => {
+  //   const socket = io('http://localhost:3000');
 
-    socket.on('arduino-data', data => {
-      console.log(`Received data: ${data}`);
-      // Process the data here, such as updating the state or sending it to a server
-    });
+  //   socket.on('arduino-data', data => {
+  //     console.log(`Received data: ${data}`);
+  //     // Process the data here, such as updating the state or sending it to a server
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   return (
     <div className='mainContainer'>
