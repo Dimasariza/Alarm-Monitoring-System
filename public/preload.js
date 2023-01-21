@@ -10,12 +10,12 @@
 // })
 // global.arduinoData = null;
 // global.globalVariable = null;
-const { contextBridge, ipcRenderer } = require('electron')
+// const { contextBridge, ipcRenderer } = require('electron')
 
-let indexBridge = {
-    onUpdateCounter: (callback) => ipcRenderer.on('somethingHappened', callback)
-}
-contextBridge.exposeInMainWorld('indexBridge', indexBridge)
+// let indexBridge = {
+//     onUpdateCounter: (callback) => ipcRenderer.on('somethingHappened', callback)
+// }
+// contextBridge.exposeInMainWorld('indexBridge', indexBridge)
 
 // const { ipcMain } = require('electron');
 // ipcMain.on('get-arduino-data', (event) => {

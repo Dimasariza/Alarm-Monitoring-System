@@ -6,7 +6,7 @@ import FrameLogin from './Components/Frame/frameLogin';
 import LoginManager from './Components/DataComponents/LoginControls/LoginManager';
 import AlarmManager from './Components/DataComponents/AlarmControls/AlarmManager';
 import React, { useEffect, useState } from 'react';
-// import {uwuTest} from './renderer'
+import io from 'socket.io-client';
 
 function App() {
   const mainEngine = new EngineDataManager();
@@ -16,24 +16,23 @@ function App() {
   const loginManager = new LoginManager(alarmManager);
   
   const [globalVariable, setArduinoData] = useState("UWU MATEY");
-  const myValue = global.myVariable;
-  // const WebSocket = require('ws');
-  // const socket = new WebSocket('ws://localhost:8080');
+  const socket = io('http://localhost:3000');
   
   useEffect(() =>{
-    console.log(myValue);
-    // socket.onmessage = (event) => {
-    //   setGlobalVariable(event.data);
-    //   console.log(event.data);
-    // }
+    socket.on('arduino-data', (data) => {
+      setArduinoData(data);
+    });
+    return () => {
+        socket.off('arduino-data');
+    }
   }, []);
   
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     // console.log(globalThis.wuwu);
-  //   }, 1000);
-  //   return () => clearInterval(globalThis.wuwu);
-  // }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(globalVariable);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   // useEffect(() => {
   //   setArduinoData(global.arduinoData);
@@ -45,7 +44,7 @@ function App() {
     <div style={{position: 'absolute'}}>
       <FrameLogin loginManager={loginManager} showLogin={loginManager.showDisplay}/>
       <Frame mainEngine={mainEngine} auxEngine={auxEngine} GPSData={GPSData} loginManager={loginManager}/>
-      <div id='UWU' style={{background: '#000000', color: '#FFFFFF'}}>{myValue}</div>
+      <div id='UWU' style={{background: '#000000', color: '#FFFFFF'}}>{globalVariable}</div>
       {/* <script src='./renderer.js'></script> */}
       
     </div>

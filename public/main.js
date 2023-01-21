@@ -1,53 +1,18 @@
 const { app, BrowserWindow, ipcMain, Menu } = require('electron')
 require('@electron/remote/main').initialize()
-const { SerialPort } = require('serialport')
-const { ReadlineParser } = require('@serialport/parser-readline')
-
 
 const path = require('path')
 const isDev = require('electron-is-dev')
+  
 let win
-
-const { remote } = require('electron');
-
-// const port = new SerialPort({path: 'COM5', 
-//     baudRate: 9600
-// });
-
-// const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
-// globalThis.myVariable = "1111"
-
-// ipcMain.handle('some-name', async (event, someArgument) => {
-//     const result = await doSomeWork(someArgument)
-//     return result
-// })
-
-// const { ipcMain } = require('electron');
-// ipcMain.on('arduino-data', (event, arg) => {
-//   event.sender.send('arduino-data', arg);
-// });
-
-
-// function determineCommand(){
-//     ipcMain.on('global-variable-update', (event, newValue) => {
-//         globalVariable = newValue;
-//         event.sender.send('global-variable-update', newValue);
-//     });
-// }
-
-ipcMain.on('data-request', (event, args) => {
-    event.reply('data-response', {data: 'example data'});
-});
-
-let icount = 0
 
 function createWindow(){
     win = new BrowserWindow({
-        width: 1034,
-        height: 650,
+        width: 1044,
+        height: 640,
         fullscreen: false,
-        autoHideMenuBar: false,
-        frame:true,
+        autoHideMenuBar: true,
+        frame:false,
         webPrefrences: {
             enableRemoteModule: true,
             nodeIntegration: true,
@@ -56,48 +21,14 @@ function createWindow(){
         }
     })
 
-    setTimeout(() => {
-        icount++
-        win.webContents.send('somethingHappened', icount);
-    })
-
-    parser.on('data', (data) =>{
-        // win.webContents.send('update-counter', data)
-        // global.arduinoData = data;
-        console.log(data);
-    });
-
-    // const menu = Menu.buildFromTemplate([
-    //     {
-    //       label: app.name,
-    //       submenu: [
-    //       {
-    //         click: () => win.webContents.send('update-counter', 1),
-    //         label: 'Increment',
-    //       },
-    //       {
-    //         click: () => win.webContents.send('update-counter', -1),
-    //         label: 'Decrement',
-    //       }
-    //       ]
-    //     }
-    
-    //   ])
-    
-    //   Menu.setApplicationMenu(menu)
-    win.webContents.openDevTools();
-    // win.webContents.send('asynchronous-message', {'SAVED': 'File Saved'});
+   
+    // win.webContents.openDevTools();
 
     // win.loadURL(
     //     isDev
     //     ? 'http://localhost:3000'
     //     : `file://${path.join(__dirname, '../build/index.html')}`
     // )
-
-    // parser.on('data', (data) => {
-    //     // Send the data to the renderer process
-    //     mainWindow.webContents.send('arduino-data', data);
-    // });
 
     win.loadURL(
         `file://${path.join(__dirname, '../build/index.html')}`
@@ -116,9 +47,9 @@ function createWindow(){
 // app.whenReady().then(createWindow)
 
 app.on('ready', function(){
-    ipcMain.on('counter-value', (_event, value) => {
-        console.log(value) // will print value to Node console
-    })
+    // ipcMain.on('counter-value', (_event, value) => {
+    //     console.log(value) // will print value to Node console
+    // })
     createWindow();
 });
 

@@ -1,23 +1,34 @@
-// const express = require('express');
-// const app = express();
-// const server = require('http').Server(app);
-// const io = require('socket.io')(server);
-// const SerialPort = require('serialport');
+const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+const { SerialPort } = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline');
 
-// const port = new SerialPort('COM3', { baudRate: 9600 });
+const port = new SerialPort({
+    path:'COM5',
+    baudRate: 9600,
+});
 
-// io.on('connection', socket => {
-//   console.log('A client connected');
+const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
-//   port.on('data', data => {
-//     socket.emit('arduino-data', data);
-//   });
+io.on('connection', socket => {
+    console.log('A client connected');
 
-//   socket.on('disconnect', () => {
-//     console.log('A client disconnected');
-//   });
-// });
+    // port.on('data', data => {
+    //     console.log(data);
+    //     socket.emit('arduino-data', data);
+    // });
 
-// server.listen(3000, () => {
-//   console.log('Server listening on port 3000');
-// });
+    parser.on('data', (data) =>{
+        socket.emit('arduino-data', data);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('A client disconnected');
+    });
+});
+
+server.listen(3000, () => {
+    console.log('Server listening on port 3000');
+});
