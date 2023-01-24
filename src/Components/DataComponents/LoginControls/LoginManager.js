@@ -2,7 +2,7 @@ import {EventEmitter} from 'events'
 
 export default class LoginManager extends EventEmitter{
 
-    constructor(AlarmManager) {
+    constructor() {
         super()
         this.username = "batera";
         this.password = "123";
@@ -25,7 +25,6 @@ export default class LoginManager extends EventEmitter{
         this.loggedIn = false;
         this.showDisplay = false;
         this.emit('LogoutSuccess');
-        console.log(this.loggedIn);
     }
 
     showHideDisplay(){
@@ -36,6 +35,5 @@ export default class LoginManager extends EventEmitter{
             this.emit('show');
             this.showDisplay = true;
         }
-        console.log(this.showDisplay);
     }
 }

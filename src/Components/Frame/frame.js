@@ -17,7 +17,7 @@ import AuxEngine from '../AuxEngine/auxEngine';
 import DetailedOverview from '../Overview/detailedOverview';
 // import io from 'socket.io-client';
 
-function Frame({mainEngine, auxEngine, GPSData, loginManager}) {
+function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardManager}) {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);

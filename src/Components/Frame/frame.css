@@ -245,6 +245,24 @@ body {
     z-index: 3;
   }
 
+  .mainContainer-Keyboard{
+    display: flex;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #000000;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #5abcca;
+    padding: 5px;
+    border-radius: 5px;
+    width: 1024px;
+    height: 600px;
+    z-index: 4;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+
   .mainContainer-login-off{
     display: none;
   }

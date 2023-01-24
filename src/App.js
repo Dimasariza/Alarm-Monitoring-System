@@ -7,46 +7,45 @@ import LoginManager from './Components/DataComponents/LoginControls/LoginManager
 import AlarmManager from './Components/DataComponents/AlarmControls/AlarmManager';
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import KeyboardComponent from './Components/Frame/keyboardComponent';
+import VirtualKeyboardManager from './Components/DataComponents/VirtualKeyboardControls/VirtualKeyboardManager';
 
 function App() {
   const mainEngine = new EngineDataManager();
   const auxEngine = new EngineDataManager();
   const GPSData = new GPSDataControl();
   const alarmManager = new AlarmManager();
-  const loginManager = new LoginManager(alarmManager);
+  const loginManager = new LoginManager();
+  const vkbm = new VirtualKeyboardManager();
   
   const [globalVariable, setArduinoData] = useState("UWU MATEY");
   const socket = io('http://localhost:3000');
   
   useEffect(() =>{
     socket.on('arduino-data', (data) => {
-      setArduinoData(data);
+      var splitArray = data.split(',');
+      switch(splitArray[0]){
+        case "alarm":
+          alarmManager.updateAlarmCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
+          break;
+        case "ananlog":
+          mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+          break;
+        case "safety":
+          // mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+          break;
+      }
     });
     return () => {
         socket.off('arduino-data');
     }
   }, []);
   
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log(globalVariable);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // useEffect(() => {
-  //   setArduinoData(global.arduinoData);
-  //   console.log(global.arduinoData);
-  // }, [global.arduinoData]);
-
-  
   return (
     <div style={{position: 'absolute'}}>
-      <FrameLogin loginManager={loginManager} showLogin={loginManager.showDisplay}/>
-      <Frame mainEngine={mainEngine} auxEngine={auxEngine} GPSData={GPSData} loginManager={loginManager}/>
-      <div id='UWU' style={{background: '#000000', color: '#FFFFFF'}}>{globalVariable}</div>
-      {/* <script src='./renderer.js'></script> */}
-      
+      <KeyboardComponent virtualKeyboardManager={vkbm} keyboardDisplayState={vkbm.keyboardStatus}/>
+      <FrameLogin loginManager={loginManager} showLogin={loginManager.showDisplay} virtualKeyboardManager={vkbm}/>
+      <Frame mainEngine={mainEngine} auxEngine={auxEngine} GPSData={GPSData} loginManager={loginManager} virtualKeyboardManager={vkbm}/>
     </div>
   );
 }

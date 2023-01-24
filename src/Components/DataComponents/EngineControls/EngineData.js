@@ -92,4 +92,11 @@ export default class EngineData extends EventEmitter{
     getBattreyLife(){
         return this.battreyLife;
     }
+
+    updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){
+        this.engineRev = engineRPM / 1023 * this.maxEngineRev;
+        this.coolingWaterTemp = coolantTemp / 1023 * this.maxCoolingWaterTemp;
+        this.lubOilPressure = OilPressure / 1023 * this.maxLubOilPressure;
+        this.boostPressure = HydraulicPressure / 1023 * this.maxBoostPressure;
+    }
 }
