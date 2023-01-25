@@ -12,7 +12,7 @@ export const EngineControlStatus = {
 };
 
 export default class EngineData extends EventEmitter{
-
+    
     constructor() {
         super()
         this.engineTemperature = [
@@ -34,6 +34,7 @@ export default class EngineData extends EventEmitter{
         this.runningHour = 10000;
         this.battreyVolt = 30;
         this.battreyLife = 100;
+
         this.engineDirection = EngineDirection.Neutral;
         this.engineControlStatus = EngineControlStatus.Remote;
         this.emergencyStop = false;
@@ -47,6 +48,17 @@ export default class EngineData extends EventEmitter{
         this.pf = 0.85;
         this.power = 80;
         this.halfCircle = 100;
+
+        this.startCommandActive = false;
+        this.valveOpenActive = false;
+        this.stopRPM = 1546;
+        this.restartRPM = 1406;
+        this.startStopTimeDelay = 15;
+        this.lowPressureFO = 0.38;
+        this.lowPressureCW = 0.28;
+        this.highTempCW = 48;
+        this.lowPressExhGas = 0.38;
+        this.highPressExhGas = 485;
     }
 
     getEngineTemperature(){
@@ -93,6 +105,39 @@ export default class EngineData extends EventEmitter{
         return this.battreyLife;
     }
 
+    setStopRPM(value){
+        this.stopRPM = value;
+        console.log(this.stopRPM);
+    }
+
+    setRestartRPM(value){
+        this.restartRPM = value;
+    }
+
+    setStartStopTimeDelay(value){
+        this.startStopTimeDelay = value;
+    }
+
+    setLowPressureFO(value){
+        this.lowPressureFO = value;
+    }
+
+    setLowPressureCW(value){
+        this.lowPressureCW = value;
+    }
+    
+    setHighTempCW(value){
+        this.highTempCW = value;
+    }
+
+    setLowPressExhGas(value){
+        this.lowPressExhGas = value;
+    }
+        
+    setHighPressExhGas(value){
+        this.highPressExhGas = value;
+    }
+        
     updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){
         this.engineRev = engineRPM / 1023 * this.maxEngineRev;
         this.coolingWaterTemp = coolantTemp / 1023 * this.maxCoolingWaterTemp;

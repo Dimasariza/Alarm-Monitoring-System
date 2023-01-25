@@ -46,7 +46,7 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
           <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} />
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary  />} />
-          <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} />} />
+          <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} mainEngineValue={mainEngine} auxEngineValue={auxEngine} loginManager={loginManager} virtualKeyboardManager={virtualKeyboardManager} />} />
         </div>
         <div className="mainButtonSelectionContainer">
                 <NavigatorButtons name="MAIN. ENG." onNameChange={setCurrentState} icon={EngineIcon} iconPadding={60} state={currentState}/>

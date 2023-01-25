@@ -41,7 +41,7 @@ function KeyboardComponent({virtualKeyboardManager, keyboardDisplayState}) {
     
      function onKeyPress(button){
         if (button === "{shift}" || button === "{lock}") handleShift();
-        if (button == '{bksp}' && inputKeyboard.length > 0) inputKeyboardSet(prev => prev.substring(0, prev.length - 1))
+        if (button == '{bksp}' && inputKeyboard.length > 0 && inputKeyboard != "___________") inputKeyboardSet(prev => prev.substring(0, prev.length - 1))
         if (button == '{enter}') handleSubmit()
       };
 

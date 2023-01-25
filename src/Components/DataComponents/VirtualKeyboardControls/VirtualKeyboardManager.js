@@ -7,9 +7,11 @@ export default class VirtualKeyboardManager extends EventEmitter{
         this.keyboardStatus = false;
         this.currentFunction = '';
         this.inputPrompt= '';
+        this.targetIsString = false
     }
 
-    showKeyboard(newFunction, inp){
+    showKeyboard(newFunction, inp, targetIsString){
+        this.targetIsString = targetIsString;
         this.keyboardStatus = true;
         this.currentFunction = newFunction;
         this.inputPrompt = inp;
@@ -17,7 +19,11 @@ export default class VirtualKeyboardManager extends EventEmitter{
     }
 
     hideKeyboard(finalValue){
-        this.currentFunction(finalValue)
+        if(this.targetIsString){
+            this.currentFunction(finalValue)
+        }else{
+            this.currentFunction(Number(finalValue))
+        }
         this.keyboardStatus = false;
         this.emit('hide');
     }

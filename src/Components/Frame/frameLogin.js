@@ -37,9 +37,9 @@ function FrameLogin({loginManager, showLogin, virtualKeyboardManager}) {
                 </div>
                 <div className='whiteBox' style={{width: 300, height: 300, display: getErrorTextDisplay(!loginStatus), justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: 5}}>
                     Name
-                    <input type="text" value={inputUsername} onChange={event => setInputUsername(event.target.value)}  onClick={() => virtualKeyboardManager.showKeyboard(setInputUsername, "Input Username:")}/>
+                    <input type="text" value={inputUsername} onChange={event => setInputUsername(event.target.value)}  onClick={() => virtualKeyboardManager.showKeyboard(setInputUsername, "Input Username:", true)}/>
                     Password
-                    <input type="password" value={inputPassword} onChange={event => setInputPassword(event.target.value)} onClick={() => virtualKeyboardManager.showKeyboard(setInputPassword, "Input Password:")}/>
+                    <input type="password" value={inputPassword} onChange={event => setInputPassword(event.target.value)} onClick={() => virtualKeyboardManager.showKeyboard(setInputPassword, "Input Password:", true)}/>
                     <div  style={{display:getErrorTextDisplay(showError), color: '#FF0000', overflowWrap: 'break-word', width: 180}}>
                         {"Username or password is incorrect"}
                     </div>

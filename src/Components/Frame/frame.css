@@ -750,6 +750,18 @@ body {
     height: 100%;
   }
 
+  .meContainer-warning-login{
+    position: absolute;
+    display: flex;
+    background-color: #000000;
+    color: #FFFFFF;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    width: 95%;
+    height: 74%;
+  }
+
   .whiteBox-overview-indicator{
     position: relative;
     background-color: #000000;

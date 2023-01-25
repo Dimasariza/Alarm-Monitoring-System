@@ -29,11 +29,11 @@ export default class LoginManager extends EventEmitter{
 
     showHideDisplay(){
         if(this.showDisplay){
-            this.emit('hide');
             this.showDisplay = false;
+            this.emit('hide');
         }else{
-            this.emit('show');
             this.showDisplay = true;
+            this.emit('show');
         }
     }
 }

@@ -20,8 +20,14 @@ function App() {
   
   const [globalVariable, setArduinoData] = useState("UWU MATEY");
   const socket = io('http://localhost:3000');
+  const [refresh, setRefresh] = useState(false);
   
   useEffect(() =>{
+    vkbm.on('hide', () => {
+        setRefresh(prev => !prev)
+        console.log('refresh go! ', mainEngine)
+    })
+
     socket.on('arduino-data', (data) => {
       var splitArray = data.split(',');
       switch(splitArray[0]){
@@ -39,6 +45,7 @@ function App() {
     return () => {
         socket.off('arduino-data');
     }
+    
   }, []);
   
   return (
