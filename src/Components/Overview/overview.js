@@ -23,7 +23,7 @@ function Overview({inputValue}) {
                             <BattreyIndicator voltage={inputValue.stbd.battreyVolt} battreyLife={inputValue.stbd.battreyLife} boxWidth={77} />
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 50, '--leftPos' : 49 }}>
-                            <IndicatorRevolutionEngine rawValue={inputValue.stbd.engineRev} size={240} />
+                            <IndicatorRevolutionEngine engine={inputValue.stbd} size={240} />
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 25 }}>
                             <HourIndicator lifeHour={inputValue.stbd.runningHour} />
@@ -40,7 +40,7 @@ function Overview({inputValue}) {
                             <BattreyIndicator voltage={inputValue.port.battreyVolt} battreyLife={inputValue.port.battreyLife} boxWidth={77}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 50, '--leftPos' : 1 }}>
-                            <IndicatorRevolutionEngine rawValue={inputValue.port.engineRev} size={240} />
+                            <IndicatorRevolutionEngine engine={inputValue.port} size={240} />
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 52 }}>
                             <HourIndicator lifeHour={inputValue.port.runningHour} />
@@ -52,11 +52,11 @@ function Overview({inputValue}) {
                 <div className='overviewContainer-indicator'>
                     <div className='whiteBox-overview-indicator-noBorder'>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <GreenOverviewLight name={"AHEAD"} active={inputValue.stbd.engineDirection == EngineDirection.Ahead}/>
-                            <GreenOverviewLight name={"NEUTRAL"} active={inputValue.stbd.engineDirection == EngineDirection.Neutral}/>
-                            <GreenOverviewLight name={"ASTERN"} active={inputValue.stbd.engineDirection == EngineDirection.Astern}/>
-                            <GreenOverviewLight name={"REMOTE CONTROL"} active={inputValue.stbd.engineControlStatus == EngineControlStatus.Remote}/>
-                            <GreenOverviewLight name={"LOCAL CONTROL"} active={inputValue.stbd.engineControlStatus == EngineControlStatus.Local}/>
+                            <GreenOverviewLight name={"AHEAD"} active={inputValue.stbd.engineDirection === EngineDirection.Ahead}/>
+                            <GreenOverviewLight name={"NEUTRAL"} active={inputValue.stbd.engineDirection === EngineDirection.Neutral}/>
+                            <GreenOverviewLight name={"ASTERN"} active={inputValue.stbd.engineDirection === EngineDirection.Astern}/>
+                            <GreenOverviewLight name={"REMOTE CONTROL"} active={inputValue.stbd.engineControlStatus === EngineControlStatus.Remote}/>
+                            <GreenOverviewLight name={"LOCAL CONTROL"} active={inputValue.stbd.engineControlStatus === EngineControlStatus.Local}/>
                         </div>
                         <div style={{height : 5}}></div>
                         <div className='overviewContainer-indicator-center-maxWidth'>
@@ -69,11 +69,11 @@ function Overview({inputValue}) {
                     </div>
                     <div className='whiteBox-overview-indicator-noBorder'>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <GreenOverviewLight name={"AHEAD"} active={inputValue.port.engineDirection == EngineDirection.Ahead}/>
-                            <GreenOverviewLight name={"NEUTRAL"} active={inputValue.port.engineDirection == EngineDirection.Neutral}/>
-                            <GreenOverviewLight name={"ASTERN"} active={inputValue.port.engineDirection == EngineDirection.Astern}/>
-                            <GreenOverviewLight name={"REMOTE CONTROL"} active={inputValue.port.engineControlStatus == EngineControlStatus.Remote}/>
-                            <GreenOverviewLight name={"LOCAL CONTROL"} active={inputValue.port.engineControlStatus == EngineControlStatus.Local}/>
+                            <GreenOverviewLight name={"AHEAD"} active={inputValue.port.engineDirection === EngineDirection.Ahead}/>
+                            <GreenOverviewLight name={"NEUTRAL"} active={inputValue.port.engineDirection === EngineDirection.Neutral}/>
+                            <GreenOverviewLight name={"ASTERN"} active={inputValue.port.engineDirection === EngineDirection.Astern}/>
+                            <GreenOverviewLight name={"REMOTE CONTROL"} active={inputValue.port.engineControlStatus === EngineControlStatus.Remote}/>
+                            <GreenOverviewLight name={"LOCAL CONTROL"} active={inputValue.port.engineControlStatus === EngineControlStatus.Local}/>
                         </div>
                         <div style={{height : 5}}></div>
                         <div className='overviewContainer-indicator-center-maxWidth'>

@@ -6,8 +6,8 @@ export default class EngineDataManager extends EventEmitter {
 
     constructor() {
         super()
-        this.stbd = new RandomEngineData();
-        this.port = new RandomEngineData();
+        this.stbd = new EngineData();
+        this.port = new EngineData();
     }
 
     updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){

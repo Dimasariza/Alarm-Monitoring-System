@@ -28,7 +28,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                     <IndicatorRevolutionPropeller rawValue={mainEngineValue.stbd.shaftRev} size={100}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 200, '--leftPos' : 55 }}>
-                                    <IndicatorRevolutionEngine rawValue={mainEngineValue.stbd.engineRev} size={140} />
+                                    <IndicatorRevolutionEngine engine={mainEngineValue.stbd} size={140} />
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 1050, '--leftPos' : 0 }}>
                                     <HourIndicator lifeHour={mainEngineValue.stbd.runningHour} />
@@ -47,7 +47,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                     <IndicatorRevolutionPropeller rawValue={mainEngineValue.port.shaftRev} size={100}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 200, '--leftPos' : 2 }}>
-                                    <IndicatorRevolutionEngine rawValue={mainEngineValue.port.engineRev} size={140} />
+                                    <IndicatorRevolutionEngine engine={mainEngineValue.port} size={140} />
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 1050, '--leftPos' : 65 }}>
                                     <HourIndicator lifeHour={mainEngineValue.port.runningHour} />

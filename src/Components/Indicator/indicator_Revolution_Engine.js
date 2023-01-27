@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import UI_ENIN_Rev_RPM_BG from "../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/Revolution/UI_ENIN_Rev_RPM_BG.png"
@@ -15,7 +15,7 @@ function getSizeMultiplier(fontSize, currentSize){
     return fontSize * (currentSize/baseSize)
 }
 
-function IndicatorRevolutionEngine({rawValue, size}) {
+function IndicatorRevolutionEngine({engine, size}) {
     const titleValue = "ENGINE REVOLUTION";
     const unitValue = "RPM";
     const maxPercentageValue = 58.87;
@@ -26,13 +26,21 @@ function IndicatorRevolutionEngine({rawValue, size}) {
     const tittleStyle = {fontSize: getSizeMultiplier(15, size)}
     const constantData = [UI_ENIN_Rev_RPM_BG, UI_ENIN_Rev_RPM_Front, UI_ENIN_Boost_MPa_OuterRing, size, fillRotation, titleValue, unitValue];
 
+    const[rawValue, setRawValue] = useState(engine.engineRev);
+
+    useEffect(() => {
+        engine.on('Engine Rev', (value) => {
+            setRawValue(value);
+        });
+    }, []);
+
     return (
         <Indicator 
             percentage={rawValueToPercentage(maxValue, rawValue, maxPercentageValue)}
             tittleStyle={tittleStyle}
             valueStyle={valueStyle}
             unitStyle={unitStyle}
-            rawValue={rawValue}
+            rawValue={rawValue.toFixed(0)}
             activeAlarm={false}
             constantData={constantData}
             />
