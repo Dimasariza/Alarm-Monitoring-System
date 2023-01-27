@@ -31,6 +31,16 @@ export default class AlarmManager extends EventEmitter{
         this.battreyFault = AlarmStatus.Inactive; 
     }
 
+    updateAlarmCommand(activeHighTempLubOil, activeLowTempLubOil, activeLowPressureBoost, activeHighTempWC, activeLowTempWC, activeFullLeakageInspPipe, activeBattreyFault ){
+        this.activeHighTempLubOil = activeHighTempLubOil;
+        this.activeLowTempLubOil = activeLowTempLubOil;
+        this.activeLowPressureBoost = activeLowPressureBoost;
+        this.activeHighTempWC = activeHighTempWC;
+        this.activeLowTempWC = activeLowTempWC;
+        this.activeFullLeakageInspPipe = activeFullLeakageInspPipe;
+        this.activeBattreyFault = activeBattreyFault; 
+    }
+
     acknowledgeAlarm(command, source) {
         var targets = this.redAlarm.filter(alarm => (alarm.command == command && alarm.source == source));
         if(targets == 0) return;
