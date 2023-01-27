@@ -30,13 +30,13 @@ function AuxEngine({auxEngineValue, state, setState}) {
                         STBD ENGINE
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 2 }}> 
-                        <IndicatorCoolingWaterTemperature rawValue={auxEngineValue.stbd.coolingWaterTemp} size={120}/>
+                        <IndicatorCoolingWaterTemperature engine={auxEngineValue.stbd} size={120}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 33, '--leftPos' : 12 }}> 
                         <IndicatorCoolingWaterPressure rawValue={auxEngineValue.stbd.coolingWaterPressure} size={70}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 48, '--leftPos' : 2 }}> 
-                        <IndicatorLubOil rawValue={auxEngineValue.stbd.lubOilPressure} size={70}/>
+                        <IndicatorLubOil engine={auxEngineValue.stbd} size={70}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 67, '--leftPos' : 2 }}> 
                         <IndicatorExhaustTemperature rawValue={auxEngineValue.stbd.exhaustTemp} size={120} />
@@ -71,13 +71,13 @@ function AuxEngine({auxEngineValue, state, setState}) {
                         PORT ENGINE
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 74 }}> 
-                        <IndicatorCoolingWaterTemperature rawValue={auxEngineValue.port.coolingWaterTemp} size={120}/>
+                        <IndicatorCoolingWaterTemperature engine={auxEngineValue.port} size={120}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 33, '--leftPos' : 74 }}> 
                         <IndicatorCoolingWaterPressure rawValue={auxEngineValue.port.coolingWaterPressure} size={70}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 48, '--leftPos' : 84 }}> 
-                        <IndicatorLubOil rawValue={auxEngineValue.port.lubOilPressure} size={70}/>
+                        <IndicatorLubOil engine={auxEngineValue.port} size={70}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 67, '--leftPos' : 74 }}> 
                         <IndicatorExhaustTemperature rawValue={auxEngineValue.port.exhaustTemp} size={120} />

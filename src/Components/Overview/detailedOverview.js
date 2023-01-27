@@ -25,7 +25,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                     STBD ENGINE
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 25 }}>
-                                    <IndicatorRevolutionPropeller rawValue={mainEngineValue.stbd.shaftRev} size={100}/>
+                                    <IndicatorRevolutionPropeller engine={mainEngineValue.stbd} size={100}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 200, '--leftPos' : 55 }}>
                                     <IndicatorRevolutionEngine engine={mainEngineValue.stbd} size={140} />
@@ -44,7 +44,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                     PORT ENGINE
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 45 }}>
-                                    <IndicatorRevolutionPropeller rawValue={mainEngineValue.port.shaftRev} size={100}/>
+                                    <IndicatorRevolutionPropeller engine={mainEngineValue.port} size={100}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 200, '--leftPos' : 2 }}>
                                     <IndicatorRevolutionEngine engine={mainEngineValue.port} size={140} />

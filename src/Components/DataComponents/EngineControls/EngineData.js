@@ -16,14 +16,14 @@ export default class EngineData extends EventEmitter{
     constructor() {
         super()
         this.engineTemperature = [
-            600,
-            600,
-            600,
-            600,
-            600,
-            600,
-            600,
-            600];
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100];
         this.engineRev = 2000;
         this.shaftRev = 2000;
         this.lubOilPressure = 0.5;
@@ -54,16 +54,17 @@ export default class EngineData extends EventEmitter{
         this.stopRPM = 1546;
         this.restartRPM = 1406;
         this.startStopTimeDelay = 15;
-        this.lowPressureFO = 0.38;
-        this.lowPressureCW = 0.28;
-        this.highTempCW = 48;
-        this.lowTempExhGas = 0.38;
+        this.lowPressureFO = 0.2;
+        this.lowTempCW = 40;
+        this.highTempCW = 80;
+        this.lowTempExhGas = 100;
         this.highTempExhGas = 485;
 
         this.maxEngineRev = 3500;
         this.maxCoolingWaterTemp = 120;
         this.maxLubOilPressure = 1;
         this.maxBoostPressure = 0.3;
+        this.shaftGearBox = 0.3;
     }
 
     getEngineTemperature(){
@@ -127,8 +128,8 @@ export default class EngineData extends EventEmitter{
         this.lowPressureFO = value;
     }
 
-    setLowPressureCW(value){
-        this.lowPressureCW = value;
+    setLowTempCW(value){
+        this.lowTempCW = value;
     }
     
     setHighTempCW(value){
@@ -145,13 +146,17 @@ export default class EngineData extends EventEmitter{
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){
         this.engineRev = (engineRPM / 1023) * this.maxEngineRev;
+        this.shaftRev = this.engineRev * this.shaftGearBox
         this.coolingWaterTemp = (coolantTemp / 1023) * this.maxCoolingWaterTemp;
         this.lubOilPressure = (OilPressure / 1023) * this.maxLubOilPressure;
         this.boostPressure = (HydraulicPressure / 1023) * this.maxBoostPressure;
 
         this.emit('Engine Rev', this.engineRev);
+        this.emit('Shaft Rev', this.shaftRev);
+
         this.emit('Cooling Water Temp', this.coolingWaterTemp);
         this.emit('Lub Oil Pressure', this.lubOilPressure);
         this.emit('Boost Pressure', this.boostPressure);
+
     }
 }

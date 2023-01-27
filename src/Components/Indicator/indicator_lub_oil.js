@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import UI_ENIN_Boost_MPa_BG from '../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/BoostPressure/UI_ENIN_Boost_MPa_BG.png'
@@ -15,7 +15,7 @@ function getSizeMultiplier(fontSize, currentSize){
     return fontSize * (currentSize/baseSize)
 }
 
-function IndicatorLubOil({rawValue, size}) {
+function IndicatorLubOil({engine, size}) {
     const titleValue = "LUB. OIL PRESSURE";
     const unitValue = "MPa";
     const maxPercentageValue = 56.15;
@@ -25,6 +25,14 @@ function IndicatorLubOil({rawValue, size}) {
     const unitStyle= { fontSize: getSizeMultiplier(15, size)}
     const tittleStyle = {fontSize: getSizeMultiplier(15, size)}
     const constantData = [UI_ENIN_Boost_MPa_BG, UI_ENIN_Lub_oil_MPa_FG, UI_ENIN_Boost_MPa_OuterRing, size, fillRotation, titleValue, unitValue];
+
+    const[rawValue, setRawValue] = useState(engine.lubOilPressure);
+
+    useEffect(() => {
+        engine.on('Lub Oil Pressure', (value) => {
+            setRawValue(value);
+        });
+    }, []);
 
     return (
         <Indicator 

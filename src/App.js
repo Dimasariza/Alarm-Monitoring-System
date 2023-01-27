@@ -27,7 +27,7 @@ function App() {
   useEffect(() =>{
     vkbm.on('hide', () => {
         setRefresh(prev => !prev)
-        console.log('refresh go! ', mainEngine)
+        // console.log('refresh go! ', mainEngine)
     })
 
     // const timer = setInterval(() => {
@@ -35,8 +35,9 @@ function App() {
     //   // console.log(mainEngine.stbd.boostPressure);
     //   if(rots > 100) rots = rots - 10
     //   mainEngine.updateEngineData((rots), (rots), (rots), (rots));
-    //   // console.log(mainEngine);
-    //   setRefresh(prev => !prev);
+    //   auxEngine.updateEngineData((rots), (rots), (rots), (rots));
+    //   // console.log(loginManager);
+    //   // setRefresh(prev => !prev);
     // }, 1000);
 
     socket.on('arduino-data', (data) => {

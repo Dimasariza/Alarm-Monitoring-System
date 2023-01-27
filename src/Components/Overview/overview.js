@@ -17,7 +17,7 @@ function Overview({inputValue}) {
                     <div className='text-block-right'> STBD ENGINE</div>
                     <div className='overviewContainer-indicator-center'>
                         <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 15 }}>
-                            <IndicatorRevolutionPropeller rawValue={inputValue.stbd.shaftRev} size={150}/>
+                            <IndicatorRevolutionPropeller engine={inputValue.stbd} size={150}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 2 }}>
                             <BattreyIndicator voltage={inputValue.stbd.battreyVolt} battreyLife={inputValue.stbd.battreyLife} boxWidth={77} />
@@ -34,7 +34,7 @@ function Overview({inputValue}) {
                     <div className='text-block-left'> PORT ENGINE</div>
                     <div className='overviewContainer-indicator-center'>
                         <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 55 }}>
-                            <IndicatorRevolutionPropeller rawValue={inputValue.port.shaftRev} size={150}/>
+                            <IndicatorRevolutionPropeller engine={inputValue.port} size={150}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos' : 1600, '--leftPos' : 78 }}>
                             <BattreyIndicator voltage={inputValue.port.battreyVolt} battreyLife={inputValue.port.battreyLife} boxWidth={77}/>
