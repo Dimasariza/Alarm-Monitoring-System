@@ -5,6 +5,7 @@ import UI_ENIN_Boost_MPa_BG from '../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/Boos
 import UI_ENIN_Boost_MPa_FG from "../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/BoostPressure/UI_ENIN_Boost_MPa_FG.png"
 import UI_ENIN_Boost_MPa_OuterRing from "../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/BoostPressure/UI_ENIN_Boost_MPa_OuterRing.png"
 import Indicator from './indicator';
+import { AlarmStatus } from '../DataComponents/AlarmControls/AlarmManager';
 
 function rawValueToPercentage(maxValue, rawValue, maxPercentageValue){
     return maxPercentageValue * (rawValue / maxValue)
@@ -27,10 +28,28 @@ function IndicatorBoostPressure({engine, size, lowWarning, alarmManager}) {
     const constantData = [UI_ENIN_Boost_MPa_BG, UI_ENIN_Boost_MPa_FG, UI_ENIN_Boost_MPa_OuterRing, size, fillRotation, titleValue, unitValue];
 
     const[rawValue, setRawValue] = useState(engine.boostPressure);
+    const[alarm, setAlarm] = useState(false);
+    
+    const respondCommand = "lowPressureBoost";
 
     useEffect(() => {
         engine.on('Boost Pressure', (value) => {
             setRawValue(value);
+        });
+
+        engine.alarmManager.on('Alarm', (value) => {
+            if(alarmManager.activeLowPressureBoost){
+                if(value.command == respondCommand && value.source == engine.source){
+                    if(value.status == AlarmStatus.Active){
+                        setAlarm(true);
+                    }else{
+                        setAlarm(false);
+                    }
+                }
+            }else{
+                setAlarm(false);
+            }
+            
         });
     }, []);
 
@@ -41,7 +60,7 @@ function IndicatorBoostPressure({engine, size, lowWarning, alarmManager}) {
             valueStyle={valueStyle}
             unitStyle={unitStyle}
             rawValue={rawValue.toFixed(2)}
-            activeAlarm={false}
+            activeAlarm={alarm}
             constantData={constantData}
             />
     );

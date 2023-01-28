@@ -13,7 +13,7 @@ export const EngineControlStatus = {
 
 export default class EngineData extends EventEmitter{
     
-    constructor() {
+    constructor(alarmManager, source) {
         super()
         this.engineTemperature = [
             100,
@@ -49,7 +49,7 @@ export default class EngineData extends EventEmitter{
         this.power = 80;
         this.halfCircle = 100;
 
-        this.startCommandActive = false;
+        this.startCommandActive = true;
         this.valveOpenActive = false;
         this.stopRPM = 1546;
         this.restartRPM = 1406;
@@ -59,12 +59,17 @@ export default class EngineData extends EventEmitter{
         this.highTempCW = 80;
         this.lowTempExhGas = 100;
         this.highTempExhGas = 485;
+        this.highPressLubOil = 0.8;
+        this.lowPressLubOil = 0.4;
 
         this.maxEngineRev = 3500;
         this.maxCoolingWaterTemp = 120;
         this.maxLubOilPressure = 1;
         this.maxBoostPressure = 0.3;
         this.shaftGearBox = 0.3;
+
+        this.alarmManager = alarmManager;
+        this.source = source;
     }
 
     getEngineTemperature(){
@@ -146,7 +151,7 @@ export default class EngineData extends EventEmitter{
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){
         this.engineRev = (engineRPM / 1023) * this.maxEngineRev;
-        this.shaftRev = this.engineRev * this.shaftGearBox
+        this.shaftRev = this.engineRev * this.shaftGearBox;
         this.coolingWaterTemp = (coolantTemp / 1023) * this.maxCoolingWaterTemp;
         this.lubOilPressure = (OilPressure / 1023) * this.maxLubOilPressure;
         this.boostPressure = (HydraulicPressure / 1023) * this.maxBoostPressure;
@@ -158,5 +163,29 @@ export default class EngineData extends EventEmitter{
         this.emit('Lub Oil Pressure', this.lubOilPressure);
         this.emit('Boost Pressure', this.boostPressure);
 
+
+        if(this.boostPressure < this.lowPressureFO){
+            this.alarmManager.lowPressureBoost_ON(this.source)
+            // console.log("Low Pressure ON");
+        }else{
+            this.alarmManager.lowPressureBoost_OFF(this.source)
+            // console.log("Low Pressure OFF");
+        }
+
+        if(this.coolingWaterTemp < this.lowTempCW){
+
+        }else if(this.coolingWaterTemp > this.highTempCW){
+
+        }else{
+
+        }
+        
+        // if(this.exhaustTemp < this.lowTempExhGas){
+
+        // }
+
+        // if(this.exhaustTemp < this.highTempExhGas){
+
+        // }
     }
 }

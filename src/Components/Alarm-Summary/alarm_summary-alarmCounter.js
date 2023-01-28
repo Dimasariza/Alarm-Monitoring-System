@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 
-function AlarmCounter({alarmCount, inhCount}) {
+function AlarmCounter({}) {
     return (
         <div className='whiteBox-topInfo-container'>
                 <div className='tealBox' style={{width : 250, textAlign : 'center'}}> ACTIVE TIME</div>
