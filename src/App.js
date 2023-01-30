@@ -30,11 +30,12 @@ function App() {
 
     socket.on('arduino-data', (data) => {
       var splitArray = data.split(',');
+      console.log(data)
       switch(splitArray[0]){
-        case "alarm":
+        case "digital":
           alarmManager.updateAlarmCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
           break;
-        case "ananlog":
+        case "analog": 
           mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
           break;
         case "safety":

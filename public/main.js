@@ -10,7 +10,7 @@ function createWindow(){
     win = new BrowserWindow({
         width: 1024,
         height: 600,
-        fullscreen: false,
+        fullscreen: true,
         autoHideMenuBar: true,
         frame:false,
         webPrefrences: {
@@ -22,7 +22,7 @@ function createWindow(){
     })
 
    
-    // win.webContents.openDevTools();
+    win.webContents.openDevTools();
 
     // win.loadURL(
     //     isDev
