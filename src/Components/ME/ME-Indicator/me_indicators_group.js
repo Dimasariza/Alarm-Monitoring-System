@@ -7,30 +7,29 @@ import IndicatorExhaustTemperature from '../../Indicator/indicator_exhaustTemp';
 import IndicatorCoolingWaterTemperature from '../../Indicator/indicator_coolingWaterTemp';
 
 
-function MEIndicatorGroup({setState, stateName, inputValue}) {
+function MEIndicatorGroup({setState, stateName, inputValue, alarmManager}) {
     return (
-        
             <div className='whiteBox-splitComp-indicator'>
                 <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 70 }}>
                     <div style={{ width: 200, fontSize: 20}}>{stateName}</div>
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 5, '--leftPos' : 5 }}>
-                    <IndicatorRevolutionEngine rawValue={inputValue.engineRev} size={220} />
+                    <IndicatorRevolutionEngine engine={inputValue} size={220} alarmManager={alarmManager}/>
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 12, '--leftPos' : 53 }}>
-                    <IndicatorRevolutionPropeller rawValue={inputValue.shaftRev} size={180} />
+                    <IndicatorRevolutionPropeller engine={inputValue} size={180} alarmManager={alarmManager}/>
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 52, '--leftPos' : 6 }}>
-                    <IndicatorLubOil rawValue={inputValue.lubOilPressure} size={135} />
+                    <IndicatorLubOil engine={inputValue} size={135} alarmManager={alarmManager}/>
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 46, '--leftPos' : 35 }}>
-                    <IndicatorBoostPressure rawValue={inputValue.boostPressure} size={160} />
+                    <IndicatorBoostPressure engine={inputValue} size={160} alarmManager={alarmManager} />
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 52, '--leftPos' : 70 }}>
-                    <IndicatorCoolingWaterTemperature rawValue={inputValue.coolingWaterTemp} size={100} />
+                    <IndicatorCoolingWaterTemperature engine={inputValue} size={100} alarmManager={alarmManager}/>
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 73, '--leftPos' : 61 }}>
-                    <IndicatorExhaustTemperature rawValue={inputValue.exhaustTemp} size={100} />
+                    <IndicatorExhaustTemperature rawValue={inputValue.exhaustTemp} size={100} alarmManager={alarmManager}/>
                 </div>
             </div>
         

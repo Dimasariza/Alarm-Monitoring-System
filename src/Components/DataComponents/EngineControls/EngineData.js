@@ -13,17 +13,17 @@ export const EngineControlStatus = {
 
 export default class EngineData extends EventEmitter{
     
-    constructor() {
+    constructor(alarmManager, source) {
         super()
         this.engineTemperature = [
-            600,
-            600,
-            600,
-            600,
-            600,
-            600,
-            600,
-            600];
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100];
         this.engineRev = 2000;
         this.shaftRev = 2000;
         this.lubOilPressure = 0.5;
@@ -49,16 +49,27 @@ export default class EngineData extends EventEmitter{
         this.power = 80;
         this.halfCircle = 100;
 
-        this.startCommandActive = false;
+        this.startCommandActive = true;
         this.valveOpenActive = false;
         this.stopRPM = 1546;
         this.restartRPM = 1406;
         this.startStopTimeDelay = 15;
-        this.lowPressureFO = 0.38;
-        this.lowPressureCW = 0.28;
-        this.highTempCW = 48;
-        this.lowPressExhGas = 0.38;
-        this.highPressExhGas = 485;
+        this.lowPressureFO = 0.2;
+        this.lowTempCW = 40;
+        this.highTempCW = 80;
+        this.lowTempExhGas = 100;
+        this.highTempExhGas = 485;
+        this.highPressLubOil = 0.8;
+        this.lowPressLubOil = 0.4;
+
+        this.maxEngineRev = 3500;
+        this.maxCoolingWaterTemp = 120;
+        this.maxLubOilPressure = 1;
+        this.maxBoostPressure = 0.3;
+        this.shaftGearBox = 0.3;
+
+        this.alarmManager = alarmManager;
+        this.source = source;
     }
 
     getEngineTemperature(){
@@ -122,26 +133,73 @@ export default class EngineData extends EventEmitter{
         this.lowPressureFO = value;
     }
 
-    setLowPressureCW(value){
-        this.lowPressureCW = value;
+    setLowTempCW(value){
+        this.lowTempCW = value;
     }
     
     setHighTempCW(value){
         this.highTempCW = value;
     }
 
-    setLowPressExhGas(value){
-        this.lowPressExhGas = value;
+    setLowTempExhGas(value){
+        this.lowTempExhGas = value;
     }
         
-    setHighPressExhGas(value){
-        this.highPressExhGas = value;
+    setHighTempExhGas(value){
+        this.highTempExhGas = value;
     }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){
-        this.engineRev = engineRPM / 1023 * this.maxEngineRev;
-        this.coolingWaterTemp = coolantTemp / 1023 * this.maxCoolingWaterTemp;
-        this.lubOilPressure = OilPressure / 1023 * this.maxLubOilPressure;
-        this.boostPressure = HydraulicPressure / 1023 * this.maxBoostPressure;
+        this.engineRev = (engineRPM / 1023) * this.maxEngineRev;
+        this.shaftRev = this.engineRev * this.shaftGearBox;
+        this.coolingWaterTemp = (coolantTemp / 1023) * this.maxCoolingWaterTemp;
+        this.lubOilPressure = (OilPressure / 1023) * this.maxLubOilPressure;
+        this.boostPressure = (HydraulicPressure / 1023) * this.maxBoostPressure;
+
+        this.emit('Engine Rev', this.engineRev);
+        this.emit('Shaft Rev', this.shaftRev);
+
+        this.emit('Cooling Water Temp', this.coolingWaterTemp);
+        this.emit('Lub Oil Pressure', this.lubOilPressure);
+        this.emit('Boost Pressure', this.boostPressure);
+
+
+        if(this.boostPressure < this.lowPressureFO){
+            this.alarmManager.alarm_ON(this.source, 'lowPressureBoost', 'Low Boost Pressure')
+            // console.log("Low Pressure ON");
+        }else{
+            this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')
+            // console.log("Low Pressure OFF");
+        }
+
+        if(this.lubOilPressure < this.lowPressLubOil){
+            // console.log("Lower");
+            this.alarmManager.alarm_ON(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
+        }else{
+            this.alarmManager.alarm_OFF(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
+        }
+        
+        if(this.lubOilPressure > this.highPressLubOil){
+            // console.log("Higher");
+            this.alarmManager.alarm_ON(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+        }else{
+            // console.log("Neither");
+            this.alarmManager.alarm_OFF(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+        }
+
+        if(this.coolingWaterTemp < this.lowTempCW){
+            // console.log("Lower");
+            this.alarmManager.alarm_ON(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
+        }else{
+            this.alarmManager.alarm_OFF(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
+        }
+        
+        if(this.coolingWaterTemp > this.highTempCW){
+            // console.log("Higher");
+            this.alarmManager.alarm_ON(this.source, 'highTempWC', 'High Cooling Water Temperature')
+        }else{
+            // console.log("Neither");
+            this.alarmManager.alarm_OFF(this.source, 'highTempWC', 'High Cooling Water Temperature')
+        }
     }
 }

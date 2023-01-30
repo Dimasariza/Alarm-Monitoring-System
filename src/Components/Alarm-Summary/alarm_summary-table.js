@@ -1,4 +1,5 @@
 import React from 'react'
+import { AlarmStatus } from '../DataComponents/AlarmControls/AlarmManager';
 
 function getTableHeight(alarmRecord){
     var totalHeight = 55 + 55 * alarmRecord.length;
@@ -41,11 +42,11 @@ function AlarmSummaryTable({alarmRecord}) {
                         {   
                             alarmRecord.map((value, key) =>{
                                 return(
-                                    <tr style={{background: value.active? '#FF0000' : '#2C2C2C'}} key={key}>
-                                        <td>{dateToStringFormat(value.activeTime)}</td>
-                                        <td>{value.description}</td>
-                                        <td>{value.category}</td>
-                                        <td>{value.alertSymbol}</td>
+                                    <tr style={{background: (value.status == AlarmStatus.Active)? '#FF0000' : '#2C2C2C'}} key={key}>
+                                        <td>{dateToStringFormat(value.recordedTime)}</td>
+                                        <td>{value.desc}</td>
+                                        <td>{value.source}</td>
+                                        <td>{(value.status == AlarmStatus.Active)? 'ALH' : 'INH'}</td>
                                     </tr>
                                 )
                             })

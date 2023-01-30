@@ -15,9 +15,10 @@ import AlarmSummary from '../Alarm-Summary/alarm_summary.js'
 import Parameter from '../Parameter/parameter.js'
 import AuxEngine from '../AuxEngine/auxEngine';
 import DetailedOverview from '../Overview/detailedOverview';
+import RunningHourDisplay from './runningHour';
 // import io from 'socket.io-client';
 
-function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardManager}) {
+function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardManager, alarmManager}) {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
@@ -41,11 +42,12 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
             <Header state={currentState} stateIndicator={activeIndicatorView} loginManager={loginManager}/>
         </div>
         <div className="displayContainer">
-          <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
-          <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView}  />} />
+          <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
+          {/* <DisplayContainer name="MAIN. ENG." state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} /> */}
+          <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
           <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} />
-          <DisplayContainer name="ALARM" state={currentState}  content={<Alarm />} />
-          <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary  />} />
+          <DisplayContainer name="ALARM" state={currentState}  content={<Alarm alarmManager={alarmManager} />} />
+          <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary alarmManager={alarmManager} />} />
           <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} mainEngineValue={mainEngine} auxEngineValue={auxEngine} loginManager={loginManager} virtualKeyboardManager={virtualKeyboardManager} />} />
         </div>
         <div className="mainButtonSelectionContainer">

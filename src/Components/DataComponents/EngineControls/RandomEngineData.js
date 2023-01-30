@@ -11,7 +11,7 @@ function randomFloatFromInterval(min, max) { // min and max included
 
 export default class RandomEngineData extends EngineData{
 
-    constructor() {
+    constructor(alarmManager) {
         super()
         this.engineTemperature = [
             randomIntFromInterval(0, 600),
@@ -31,6 +31,7 @@ export default class RandomEngineData extends EngineData{
         this.runningHour = randomIntFromInterval(0, 10000);
         this.battreyVolt = randomFloatFromInterval(0, 30);
         this.battreyLife = randomIntFromInterval(0, 100);
+        this.alarmManager = alarmManager;
     }
 
     updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){

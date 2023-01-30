@@ -1,19 +1,16 @@
 import {EventEmitter} from 'events'
+import { AlarmStatus } from './AlarmManager';
 
-export default class Alarm extends EventEmitter{
+export default class AlarmDetail extends EventEmitter{
 
-    constructor() {
+    constructor(command, desc, source, alarmStatus) {
         super()
-        this.redAlarm = {};
-        this.greyAlarm = {};
-        this.engineRev = 2000;
-        this.shaftRev = 2000;
-        this.lubOilPressure = 0.5;
-        this.boostPressure = 0.3;
-        this.coolingWaterTemp = 120;
-        this.exhaustTemp = 700;
-        this.runningHour = 10000;
-        this.battreyVolt = 30;
-        this.battreyLife = 100;
+        this.recordedTime= new Date();
+        this.command = command;
+        this.desc = desc;
+        this.source = source;
+        this.status = alarmStatus; 
     }
+
+
 }
