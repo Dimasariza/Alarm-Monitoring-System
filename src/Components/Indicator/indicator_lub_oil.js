@@ -42,7 +42,7 @@ function IndicatorLubOil({engine, size, alarmManager}) {
         engine.alarmManager.on('Alarm', (value) => {
             if(engine.alarmManager.checkActive(value.command)){
                 if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
-                    console.log(titleValue, engine.source, value.command, value.source)
+                    // console.log(titleValue, engine.source, value.command, value.source)
                     if(value.status == AlarmStatus.Active){
                         // alarmCount++;
                         // console.log('plus', value.source, alarmCount)

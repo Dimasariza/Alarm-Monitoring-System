@@ -23,7 +23,7 @@ function App() {
   const [refresh, setRefresh] = useState(false);
 
   let rots = 500
-  let backward = true;
+  let backward = false;
   
   useEffect(() =>{
     vkbm.on('hide', () => {
@@ -31,34 +31,34 @@ function App() {
         // console.log('refresh go! ', mainEngine)
     })
 
-    const timer = setInterval(() => {
-      // console.log('you can see me every 1 seconds')
-      // console.log(mainEngine.stbd.boostPressure);
-      if(rots < 50 || rots > 1000) backward = !backward 
-      if(backward){
-        rots = rots - 20
-      }else{
-        rots = rots + 20
-      }
+    // const timer = setInterval(() => {
+    //   // console.log('you can see me every 1 seconds')
+    //   // console.log(mainEngine.stbd.boostPressure);
+    //   if(rots < 50 || rots > 1000) backward = !backward 
+    //   if(backward){
+    //     rots = rots - 20
+    //   }else{
+    //     rots = rots + 20
+    //   }
       
-      mainEngine.updateEngineData((rots), (rots), (rots), (rots));
-      auxEngine.updateEngineData((rots), (rots), (rots), (rots));
-      // console.log(loginManager);
-      // setRefresh(prev => !prev);
-    }, 1000);
+    //   mainEngine.updateEngineData((rots), (rots), (rots), (rots));
+    //   auxEngine.updateEngineData((rots), (rots), (rots), (rots));
+    //   // console.log(loginManager);
+    //   // setRefresh(prev => !prev);
+    // }, 1000);
 
     socket.on('arduino-data', (data) => {
       var splitArray = data.split(',');
       console.log(data)
       switch(splitArray[0]){
         case "digital":
-          alarmManager.updateAlarmCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
+          alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
           break;
         case "analog": 
           mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
           break;
         case "safety":
-          // mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+          alarmManager.updateSafetyCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
           break;
       }
     });

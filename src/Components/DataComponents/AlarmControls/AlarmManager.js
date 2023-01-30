@@ -14,25 +14,49 @@ export default class AlarmManager extends EventEmitter{
         this.redAlarm = [];
         this.greyAlarm = [];
 
-        this.activeHighPressLubOil = true;
-        this.activeLowPressLubOil = true;
-        this.activeLowPressureBoost = true;
-        this.activeHighTempWC = true;
-        this.activeLowTempWC = true;
-        this.activeFullLeakageInspPipe = true;
-        this.activeBattreyFault = true; 
+        this.pumpRawWaterFlowEngine = false; 
+        this.pumpFuelOilFlow = false; 
+        this.pumpLubOilFlow = false; 
+        this.pumpBilgeEngineRoom = false; 
+        this.loadPanelSwitch = false; 
+        this.lightingPanel = false; 
+        this.battreyFault = false; 
 
-        this.ME_highPressLubOil = AlarmStatus.Inactive;
-        this.ME_lowPressLubOil = AlarmStatus.Inactive;
-        this.ME_lowPressureBoost = AlarmStatus.Inactive;
-        this.ME_highTempWC = AlarmStatus.Inactive;
-        this.ME_lowTempWC = AlarmStatus.Inactive;
+        this.engineOverspeed = false; 
+        this.lubricatingOilPressureLow = false; 
+        this.lubricatingOilTemperatureHigh = false; 
+        this.fuelOilPressureFlow = false; 
+        this.fuelOilLeakageFromHighPressurePipes = false; 
+        this.coolingWaterPressureLow = false; 
+        this.coolingWaterTemperatureHigh = false; 
 
-        this.AE_highPressLubOil = AlarmStatus.Inactive;
-        this.AE_lowPressLubOil = AlarmStatus.Inactive;
-        this.AE_lowPressureBoost = AlarmStatus.Inactive;
-        this.AE_highTempWC = AlarmStatus.Inactive;
-        this.AE_lowTempWC = AlarmStatus.Inactive;
+        this.ME_OverspeedShutdown = AlarmStatus.Inactive;
+        this.ME_CoolingWaterHighTemperature = AlarmStatus.Inactive;
+        this.ME_StartFailure = AlarmStatus.Inactive;
+        this.ME_StopFailure = AlarmStatus.Inactive;
+        this.ME_LubOilPressureLow = AlarmStatus.Inactive;
+        this.ME_LubOilTemperatureHigh = AlarmStatus.Inactive;
+        this.lubOilFilterDiffrentialPressureHigh = AlarmStatus.Inactive;
+        this.lubOilSumpTankLevelLow = AlarmStatus.Inactive;
+        this.lubOilSumpTankHighLevel = AlarmStatus.Inactive;
+        this.lubOilGearTempHigh = AlarmStatus.Inactive;
+        this.lubOilGearPressureLow = AlarmStatus.Inactive;
+        this.SpeedGovernorFail = AlarmStatus.Inactive;
+        this.RemoteControlFail = AlarmStatus.Inactive;
+        this.VoltageFuseFail = AlarmStatus.Inactive;
+        this.ME_FuelPumpFail = AlarmStatus.Inactive;
+        this.ME_CoolingWaterTemperatureHigh = AlarmStatus.Inactive;
+        this.ME_CoolingWaterPressureLow = AlarmStatus.Inactive;
+        this.ME_FuelOilInjectPressureLow = AlarmStatus.Inactive;
+
+        this.AE_CoolingWaterTempHigh = AlarmStatus.Inactive;
+        this.AE_CoolingWaterPressureLow = AlarmStatus.Inactive;
+        this.AE_FuelOilPressureLow = AlarmStatus.Inactive;
+        this.AE_FuelOilTemperatureHigh = AlarmStatus.Inactive;
+        this.AE_Overspeed = AlarmStatus.Inactive;
+        this.AE_LubOilTemperatureHigh = AlarmStatus.Inactive;
+        this.AE_LubOilPressureLow = AlarmStatus.Inactive;
+        this.AE_FuelOilLeakage = AlarmStatus.Inactive;
 
         this.fullLeakageInspPipe = AlarmStatus.Inactive;
         this.battreyFault = AlarmStatus.Inactive; 
@@ -40,14 +64,24 @@ export default class AlarmManager extends EventEmitter{
         this.setMaxListeners(40);
     }
 
-    updateAlarmCommand(activeHighPressLubOil, activeLowPressLubOil, activeLowPressureBoost, activeHighTempWC, activeLowTempWC, activeFullLeakageInspPipe, activeBattreyFault ){
-        this.activeHighPressLubOil = activeHighPressLubOil;
-        this.activeLowPressLubOil = activeLowPressLubOil;
-        this.activeLowPressureBoost = activeLowPressureBoost;
-        this.activeHighTempWC = activeHighTempWC;
-        this.activeLowTempWC = activeLowTempWC;
-        this.activeFullLeakageInspPipe = activeFullLeakageInspPipe;
-        this.activeBattreyFault = activeBattreyFault; 
+    updateSafetyCommand(pumpRawWaterFlowEngine, pumpFuelOilFlow, pumpLubOilFlow, pumpBilgeEngineRoom, loadPanelSwitch, lightingPanel, battreyFault ){
+        this.pumpRawWaterFlowEngine = pumpRawWaterFlowEngine; 
+        this.pumpFuelOilFlow = pumpFuelOilFlow; 
+        this.pumpLubOilFlow = pumpLubOilFlow; 
+        this.pumpBilgeEngineRoom = pumpBilgeEngineRoom; 
+        this.loadPanelSwitch = loadPanelSwitch; 
+        this.lightingPanel = lightingPanel; 
+        this.battreyFault = battreyFault; 
+    }
+
+    updateDigitalCommand(engineOverspeed, lubricatingOilPressureLow, lubricatingOilTemperatureHigh, fuelOilPressureFlow, fuelOilLeakageFromHighPressurePipes, coolingWaterPressureLow, coolingWaterTemperatureHigh ){
+        this.engineOverspeed = engineOverspeed; 
+        this.lubricatingOilPressureLow = lubricatingOilPressureLow; 
+        this.lubricatingOilTemperatureHigh = lubricatingOilTemperatureHigh; 
+        this.fuelOilPressureFlow = fuelOilPressureFlow; 
+        this.fuelOilLeakageFromHighPressurePipes = fuelOilLeakageFromHighPressurePipes; 
+        this.coolingWaterPressureLow = coolingWaterPressureLow; 
+        this.coolingWaterTemperatureHigh = coolingWaterTemperatureHigh; 
     }
 
     acknowledgeAlarm(command, source) {
@@ -68,47 +102,26 @@ export default class AlarmManager extends EventEmitter{
     changeAlarmStatus(command, target, source){
         // console.log('changed', command, source, 'to', target)
         switch (command) {
-            case 'highPressureLubOil':
-                if(source =='Main Engine'){
-                    this.ME_highPressLubOil = target;
-                }else{
-                    this.AE_highPressLubOil = target;
-                }
-                break;
-            case 'lowPressureLubOil':
-                if(source =='Main Engine'){
-                    this.ME_lowPressLubOil = target;
-                }else{
-                    this.AE_lowPressLubOil = target;
-                }
-                break;
-            case 'lowPressureBoost':
-                if(source =='Main Engine'){
-                    this.ME_lowPressureBoost = target;
-                }else{
-                    this.AE_lowPressureBoost = target;
-                }
-                break;
-            case 'highTempWC':
-                if(source =='Main Engine'){
-                    this.ME_highTempWC = target;
-                }else{
-                    this.AE_highTempWC = target;
-                }
-                break;
-            case 'lowTempWC':
-                if(source =='Main Engine'){
-                    this.ME_lowTempWC = target;
-                }else{
-                    this.AE_lowTempWC = target;
-                }
-                break;
-            case 'fullLeakageInspPipe':
-                this.fullLeakageInspPipe = target;
-                break;
-            case 'battreyFault':
-                this.battreyFault = target;
-                break;
+            case 'ME_OverspeedShutdown':
+                return this.ME_OverspeedShutdown = target;
+            case 'ME_CoolingWaterHighTemperature':
+                return this.ME_CoolingWaterHighTemperature = target;
+            case 'ME_StartFailure':
+                return this.ME_StartFailure = target;
+            case 'ME_StopFailure':
+                return this.ME_StopFailure = target;
+            case 'ME_LubOilPressureLow':
+                return this.ME_LubOilPressureLow = target;
+            case 'ME_LubOilTemperatureHigh':
+                return this.ME_LubOilTemperatureHigh = target;
+            case 'lubOilFilterDiffrentialPressureHigh':
+                return this.lubOilFilterDiffrentialPressureHigh = target;
+            case 'VoltageFuseFail':
+                return this.VoltageFuseFail = target;
+            case 'AE_CoolingWaterTempHigh':
+                return this.lubOilFilterDiffrentialPressureHigh = target;
+            case 'AE_CoolingWaterPressureLow':
+                return this.AE_CoolingWaterPressureLow = target;
             default:
                 break;
         }
@@ -119,41 +132,26 @@ export default class AlarmManager extends EventEmitter{
 
     checkAlarmStatus(command, target, source){
         switch (command) {
-            case 'highPressureLubOil':
-                if(source =='Main Engine'){
-                    return this.ME_highPressLubOil == target;
-                }else{
-                    return this.AE_highPressLubOil == target;
-                }
-            case 'lowPressureLubOil':
-                if(source =='Main Engine'){
-                    return this.ME_lowPressLubOil == target;
-                }else{
-                    return this.AE_lowPressLubOil == target;
-                }
-            case 'lowPressureBoost':
-                if(source =='Main Engine'){
-                    return this.ME_lowPressureBoost == target;
-                }else{
-                    return this.AE_lowPressureBoost == target;
-                }
-                break;
-            case 'highTempWC':
-                if(source =='Main Engine'){
-                    return this.ME_highTempWC == target;
-                }else{
-                    return this.AE_highTempWC == target;
-                }
-            case 'lowTempWC':
-                if(source =='Main Engine'){
-                    return this.ME_lowTempWC == target;
-                }else{
-                    return this.AE_lowTempWC == target;
-                }
-            case 'fullLeakageInspPipe':
-                return this.fullLeakageInspPipe == target;
-            case 'battreyFault':
-                return this.battreyFault = target;
+            case 'ME_OverspeedShutdown':
+                return this.ME_OverspeedShutdown == target;
+            case 'ME_CoolingWaterHighTemperature':
+                return this.ME_CoolingWaterHighTemperature == target;
+            case 'ME_StartFailure':
+                return this.ME_StartFailure == target;
+            case 'ME_StopFailure':
+                return this.ME_StopFailure == target;
+            case 'ME_LubOilPressureLow':
+                return this.ME_LubOilPressureLow == target;
+            case 'ME_LubOilTemperatureHigh':
+                return this.ME_LubOilTemperatureHigh == target;
+            case 'lubOilFilterDiffrentialPressureHigh':
+                return this.lubOilFilterDiffrentialPressureHigh == target;
+            case 'VoltageFuseFail':
+                return this.VoltageFuseFail == target;
+            case 'AE_CoolingWaterTempHigh':
+                return this.lubOilFilterDiffrentialPressureHigh == target;
+            case 'AE_CoolingWaterPressureLow':
+                return this.AE_CoolingWaterPressureLow == target;
             default:
                 console.log('OUTLAWWW!!!')
                 return false;
@@ -162,20 +160,26 @@ export default class AlarmManager extends EventEmitter{
 
     checkActive(command){
         switch (command) {
-            case 'highPressureLubOil':
-                return this.activeHighPressLubOil;
-            case 'lowPressureLubOil':
-                return this.activeLowPressLubOil;
-            case 'lowPressureBoost':
-                return this.activeLowPressureBoost;
-            case 'highTempWC':
-                return this.activeHighTempWC;
-            case 'lowTempWC':
-                return this.activeLowTempWC;
-            case 'fullLeakageInspPipe':
-                return this.activeFullLeakageInspPipe;
-            case 'battreyFault':
-                return this.activeBattreyFault;
+            case 'ME_OverspeedShutdown':
+                return this.ME_OverspeedShutdown;
+            case 'ME_CoolingWaterHighTemperature':
+                return this.ME_CoolingWaterHighTemperature;
+            case 'ME_StartFailure':
+                return this.ME_StartFailure;
+            case 'ME_StopFailure':
+                return this.ME_StopFailure;
+            case 'ME_LubOilPressureLow':
+                return this.ME_LubOilPressureLow;
+            case 'ME_LubOilTemperatureHigh':
+                return this.ME_LubOilTemperatureHigh;
+            case 'lubOilFilterDiffrentialPressureHigh':
+                return this.lubOilFilterDiffrentialPressureHigh;
+            case 'VoltageFuseFail':
+                return this.VoltageFuseFail;
+            case 'AE_CoolingWaterTempHigh':
+                return this.lubOilFilterDiffrentialPressureHigh;
+            case 'AE_CoolingWaterPressureLow':
+                return this.AE_CoolingWaterPressureLow;
             default:
                 break;
         }
@@ -194,6 +198,7 @@ export default class AlarmManager extends EventEmitter{
             // console.log("Emit ", desc);
             let newAlarm = new AlarmDetail(command, desc, source, AlarmStatus.Active)
             console.log("alarm ON")
+            console.log(newAlarm)
             this.changeAlarmStatus(command, AlarmStatus.Active, source);
             if(this.checkAvaliableInAlarmSummary(source, command)){
                 this.redAlarm.push(newAlarm);

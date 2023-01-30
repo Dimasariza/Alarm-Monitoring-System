@@ -3,70 +3,52 @@ import AlarmBlock from './alarm-block';
 import { AlarmStatus } from '../DataComponents/AlarmControls/AlarmManager';
 
 function Alarm({alarmManager}) {
-    const[ME_FO_PressureLow, setME_FO_PressureLow] = useState(AlarmStatus.Inactive);
-    const[AE_FO_PressureLow, setAE_FO_PressureLow] = useState(AlarmStatus.Inactive);
-
-    const[ME_LubOil_PressureHigh, setME_LubOil_PressureHigh] = useState(AlarmStatus.Inactive);
-    const[ME_LubOil_PressureLow, setME_LubOil_PressureLow] = useState(AlarmStatus.Inactive);
-
-    const[AE_LubOil_PressureHigh, setAE_LubOil_PressureHigh] = useState(AlarmStatus.Inactive);
-    const[AE_LubOil_PressureLow, setAE_LubOil_PressureLow] = useState(AlarmStatus.Inactive);
-
-    const[ME_FW_TempHigh, setME_FW_TempHigh] = useState(AlarmStatus.Inactive);
-    const[ME_FW_TempLow, setME_FW_TempLow] = useState(AlarmStatus.Inactive);
-
-    const[AE_FW_TempHigh, setAE_FW_TempHigh] = useState(AlarmStatus.Inactive);
-    const[AE_FW_TempLow, setAE_FW_TempLow] = useState(AlarmStatus.Inactive);
+    const[ME_OverspeedShutdown, setME_OverspeedShutdown] = useState(AlarmStatus.Inactive);
+    const[ME_CoolingWaterHighTemperature, setME_CoolingWaterHighTemperature] = useState(AlarmStatus.Inactive);
+    const[ME_StartFailure, setME_StartFailure] = useState(AlarmStatus.Inactive);
+    const[ME_StopFailure, setME_StopFailure] = useState(AlarmStatus.Inactive);
+    const[ME_LubOilPressureLow, setME_LubOilPressureLow] = useState(AlarmStatus.Inactive);
+    const[ME_LubOilTemperatureHigh, setME_LubOilTemperatureHigh] = useState(AlarmStatus.Inactive);
+    const[lubOilFilterDiffrentialPressureHigh, setLubOilFilterDiffrentialPressureHigh] = useState(AlarmStatus.Inactive);
+    const[lubOilSumpTankLevelLow, setLubOilSumpTankLevelLow] = useState(AlarmStatus.Inactive);
+    const[lubOilSumpTankHighLevel, setLubOilSumpTankHighLevel] = useState(AlarmStatus.Inactive);
+    const[lubOilGearTempHigh, setLubOilGearTempHigh] = useState(AlarmStatus.Inactive);
+    const[lubOilGearPressureLow, setLubOilGearPressureLow ] = useState(AlarmStatus.Inactive);
+    const[SpeedGovernorFail, setSpeedGovernorFail] = useState(AlarmStatus.Inactive);
+    const[RemoteControlFail, setRemoteControlFail ] = useState(AlarmStatus.Inactive);
+    const[VoltageFuseFail, setVoltageFuseFail ] = useState(AlarmStatus.Inactive);
+    const[ME_FuelPumpFail, setME_FuelPumpFail ] = useState(AlarmStatus.Inactive);
+    const[ME_CoolingWaterTemperatureHigh, setME_CoolingWaterTemperatureHigh ] = useState(AlarmStatus.Inactive);
+    const[ME_CoolingWaterPressureLow, setME_CoolingWaterPressureLow] = useState(AlarmStatus.Inactive);
+    const[ME_FuelOilInjectPressureLow, setME_FuelOilInjectPressureLow] = useState(AlarmStatus.Inactive);
+    const[AE_CoolingWaterTempHigh, setAE_CoolingWaterTempHigh ] = useState(AlarmStatus.Inactive);
+    const[AE_CoolingWaterPressureLow, setAE_CoolingWaterPressureLow ] = useState(AlarmStatus.Inactive);
+    const[AE_FuelOilPressureLow, setAE_FuelOilPressureLow ] = useState(AlarmStatus.Inactive);
+    const[AE_FuelOilTemperatureHigh, setAE_FuelOilTemperatureHigh ] = useState(AlarmStatus.Inactive);
+    const[AE_Overspeed, setAE_Overspeed ] = useState(AlarmStatus.Inactive);
+    const[AE_LubOilTemperatureHigh, setAE_LubOilTemperatureHigh ] = useState(AlarmStatus.Inactive);
+    const[AE_LubOilPressureLow, setAE_LubOilPressureLow ] = useState(AlarmStatus.Inactive);
+    const[AE_FuelOilLeakage, setAE_FuelOilLeakage ] = useState(AlarmStatus.Inactive);
 
     useEffect(() => {
         alarmManager.on('Alarm', (value)=>{
-            // console.log(value.command, value.source, value.status)
+            console.log(value.command, value.source, value.status)
             if(value.status == AlarmStatus.Active || value.status == AlarmStatus.Inactive){
                 switch(value.command){
-                    case 'highPressureLubOil':
-                        // console.log(value.command, value.source, value.status)
-                        if(value.source =='Main Engine'){
-                            setME_LubOil_PressureHigh(value.status);
-                        }else{
-                            setAE_LubOil_PressureHigh(value.status)
-                        }
-                        // console.log(ME_LubOil_PressureHigh, AE_LubOil_PressureHigh)
+                    case 'ME_OverspeedShutdown':
+                        setME_OverspeedShutdown(value.status)
                         break;
-                    case 'lowPressureLubOil':
-                        // console.log(value.command, value.source, value.status)
-                        if(value.source =='Main Engine'){
-                            setME_LubOil_PressureLow(value.status)
-                        }else{
-                            setAE_LubOil_PressureLow(value.status)
-                        }
-                        // console.log(ME_LubOil_PressureLow, AE_FO_PressureLow)
+                    case 'VoltageFuseFail':
+                        setVoltageFuseFail(value.status)
                         break;
-                    case 'lowPressureBoost':
-                        if(value.source =='Main Engine'){
-                            setME_FO_PressureLow(value.status);
-                        }else{
-                            setAE_FO_PressureLow(value.status)
-                        }
+                    case 'ME_StopFailure':
+                        setME_StopFailure(value.status)
                         break;
-                    case 'highTempWC':
-                        if(value.source =='Main Engine'){
-                            setME_FW_TempHigh(value.status)
-                        }else{
-                            setAE_FW_TempHigh(value.status)
-                        }
+                    case 'AE_CoolingWaterTempHigh':
+                        setAE_CoolingWaterTempHigh(value.status)
                         break;
-                    case 'lowTempWC':
-                        if(value.source =='Main Engine'){
-                            setME_FW_TempLow(value.status)
-                        }else{
-                            setAE_FW_TempLow(value.status)
-                        }
-                        break;
-                    case 'fullLeakageInspPipe':
-                        // this.fullLeakageInspPipe = target;
-                        break;
-                    case 'battreyFault':
-                        // this.battreyFault = target;
+                    case 'AE_CoolingWaterPressureLow':
+                        setAE_CoolingWaterPressureLow(value.status)
                         break;
                     default:
                         break;
@@ -76,110 +58,82 @@ function Alarm({alarmManager}) {
     }, []);
 
     useEffect(() =>{
-        if(ME_LubOil_PressureHigh == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('highPressureLubOil', 'Main Engine');
+        if(ME_OverspeedShutdown == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_OverspeedShutdown', 'Main Engine');
         }
-    }, [ME_LubOil_PressureHigh])
+    }, [ME_OverspeedShutdown])
 
     useEffect(() =>{
-        if(AE_LubOil_PressureHigh == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('highPressureLubOil', 'Aux Engine');
+        if(VoltageFuseFail == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('VoltageFuseFail', 'Main Engine');
         }
-    }, [AE_LubOil_PressureHigh])
+    }, [VoltageFuseFail])
 
     useEffect(() =>{
-        if(ME_LubOil_PressureLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('lowPressureLubOil', 'Main Engine');
+        if(ME_StopFailure == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_StopFailure', 'Main Engine');
         }
-    }, [ME_LubOil_PressureLow])
+    }, [ME_StopFailure])
 
     useEffect(() =>{
-        if(AE_LubOil_PressureLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('lowPressureLubOil', 'Aux Engine');
+        if(AE_CoolingWaterTempHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_CoolingWaterTempHigh', 'Aux Engine');
         }
-    }, [AE_LubOil_PressureLow])
+    }, [AE_CoolingWaterTempHigh])
 
     useEffect(() =>{
-        if(ME_FO_PressureLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('lowPressureBoost', 'Main Engine');
+        if(AE_CoolingWaterPressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_CoolingWaterPressureLow', 'Aux Engine');
         }
-    }, [ME_FO_PressureLow])
-
-    useEffect(() =>{
-        if(AE_FO_PressureLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('lowPressureBoost', 'Aux Engine');
-        }
-    }, [AE_FO_PressureLow])
-
-    useEffect(() =>{
-        if(ME_FW_TempHigh == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('highTempWC', 'Main Engine');
-        }
-    }, [ME_FW_TempHigh])
-
-    useEffect(() =>{
-        if(AE_FW_TempHigh == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('highTempWC', 'Aux Engine');
-        }
-    }, [AE_FW_TempHigh])
-
-    useEffect(() =>{
-        if(ME_FW_TempLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('lowTempWC', 'Main Engine');
-        }
-    }, [ME_FW_TempLow])
-
-    useEffect(() =>{
-        if(AE_FW_TempLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('lowTempWC', 'Aux Engine');
-        }
-    }, [AE_FW_TempLow])
+    }, [AE_CoolingWaterPressureLow])
 
     return (
         <div className='whiteBox-AlarmContainer'>
-            <AlarmBlock name={"Overspeed Shutdown"} active={false}/>
-            <AlarmBlock name={"ME Lub Oil Pressure High"} active={ME_LubOil_PressureHigh} setState={setME_LubOil_PressureHigh}/>
-            <AlarmBlock name={"ME Fuel Oil Pressure Low"} active={ME_FO_PressureLow} setState={setME_FO_PressureLow}/>
+            <AlarmBlock name={"ME Overspeed Shutdown"} active={ME_OverspeedShutdown} setState={setME_OverspeedShutdown}/>
+            <AlarmBlock name={"Lub Oil Sump Tank High Level Alarm"} active={lubOilSumpTankHighLevel} setState={setLubOilSumpTankHighLevel}/>
+            <AlarmBlock name={"ME Fuel Oil Inject Pressure Low"} active={ME_FuelOilInjectPressureLow} setState={setME_FuelOilInjectPressureLow}/>
+
+            <AlarmBlock name={"ME Lub Oil Low Pressure"} active={ME_LubOilPressureLow} setState={setME_LubOilPressureLow}/>
+            <AlarmBlock name={"Lub Oil Gear Temp High"} active={lubOilGearTempHigh} setState={setLubOilGearTempHigh}/>
+            <AlarmBlock name={"AE Fuel Oil Pressure Low"} active={AE_FuelOilPressureLow} setState={setAE_FuelOilPressureLow}/>
+
+            <AlarmBlock name={"ME Cooling Water HT Shutdown"} active={ME_CoolingWaterHighTemperature} setState={setME_CoolingWaterHighTemperature}/>
+            <AlarmBlock name={"Lub Oil Gear Pressure Low"} active={lubOilGearPressureLow} setState={setLubOilGearPressureLow}/>
+            <AlarmBlock name={"Speed Governor Fail"} active={SpeedGovernorFail} setState={setSpeedGovernorFail}/>
+
+            
+            <AlarmBlock name={"Remote Control Fail"} active={RemoteControlFail} setState={setRemoteControlFail}/>
+            <AlarmBlock name={"AE Lub Oil Pressure Low"} active={AE_LubOilPressureLow} setState={setAE_LubOilPressureLow}/>
+            <AlarmBlock name={"Start Failure"} active={ME_StartFailure} setState={setME_StartFailure}/>
+
+            <AlarmBlock name={"Voltage / Fuse Fail"} active={VoltageFuseFail} setState={setVoltageFuseFail}/>
+            <AlarmBlock name={"AE Lub Oil Temperature High"} active={AE_LubOilTemperatureHigh} setState={setAE_LubOilTemperatureHigh}/>
+            <AlarmBlock name={"Stop Failure"} active={ME_StopFailure} setState={setME_StopFailure}/>
+
+            <AlarmBlock name={"ME Pump Fail"} active={ME_FuelPumpFail} setState={ME_FuelPumpFail}/>
+            <AlarmBlock name={"ME Lub Oil Pressure Low"} active={ME_LubOilPressureLow} setState={ME_LubOilPressureLow}/>
+            <AlarmBlock name={"ME Cooling Water Temperature High"} active={ME_CoolingWaterTemperatureHigh} setState={ME_CoolingWaterHighTemperature}/>
+
+            <AlarmBlock name={"AE Fuel Oil Temperature High"} active={AE_FuelOilTemperatureHigh} setState={setAE_FuelOilTemperatureHigh}/>
+            <AlarmBlock name={"ME Lub Oil Temperature High"} active={ME_LubOilTemperatureHigh} setState={setME_LubOilTemperatureHigh}/>
+            <AlarmBlock name={"ME Cooling Water Pressure Low"} active={ME_CoolingWaterPressureLow} setState={setME_CoolingWaterPressureLow}/>
+
+            <AlarmBlock name={"AE Overspeed"} active={AE_Overspeed} setState={setAE_Overspeed}/>
+            <AlarmBlock name={"Lub Oil Filter Diff. Pressure High"} active={lubOilFilterDiffrentialPressureHigh} setState={setLubOilFilterDiffrentialPressureHigh}/>
+            <AlarmBlock name={"AE Cooling Water Temperature High"} active={AE_CoolingWaterTempHigh} setState={setAE_CoolingWaterTempHigh}/>
+
+            <AlarmBlock name={"AE FuelOilLeakage"} active={AE_FuelOilLeakage} setState={setAE_FuelOilLeakage}/>
+            <AlarmBlock name={"Lub Oil Sump Tank Level Low"} active={lubOilSumpTankLevelLow} setState={setLubOilSumpTankLevelLow}/>
+            <AlarmBlock name={"AE Cooling Water Pressure Low"} active={AE_CoolingWaterPressureLow} setState={setAE_CoolingWaterPressureLow}/>
 
             <AlarmBlock name={"Shutdown Canceled"} active={false}/>
-            <AlarmBlock name={"AE Lub Oil Pressure High"} active={AE_LubOil_PressureHigh} setState={setAE_LubOil_PressureHigh}/>
-            <AlarmBlock name={"AE Fuel Oil Pressure Low"} active={AE_FO_PressureLow} setState={setAE_FO_PressureLow}/>
-
-            <AlarmBlock name={"Start Failure"} active={false}/>
-            <AlarmBlock name={"ME Lub Oil Pressure Low"} active={ME_LubOil_PressureLow} setState={setME_LubOil_PressureLow}/>
+            <AlarmBlock name={"AE Pump Fail"} active={false}/>
             <AlarmBlock name={"Exhaust Gas After T/C Temp High"} active={false}/>
 
-            <AlarmBlock name={"Stop Failure"} active={false}/>
-            <AlarmBlock name={"AE Lub Oil Pressure Low"} active={AE_LubOil_PressureLow} setState={setAE_LubOil_PressureLow}/>
-            <AlarmBlock name={"Exhaust Gas Before T/C Temp High"} active={false}/>
-
-            <AlarmBlock name={"Remote Control Fail"} active={false}/>
-            <AlarmBlock name={"Lub Oil Gear Temp High"} active={false}/>
             <AlarmBlock name={"Air Compress Pressure Low"} active={false}/>
-
-            <AlarmBlock name={"AE Pump Fail"} active={false}/>
-            <AlarmBlock name={"Voltage / Fuse Fail"} active={false}/>
-            <AlarmBlock name={"Lub Oil Sump Tank High Level Alarm"} active={false}/>
+            <AlarmBlock name={"Exhaust Gas Before T/C Temp High"} active={false}/>
+            <AlarmBlock name={""} active={false}/>
             
-            <AlarmBlock name={"ME Pump Fail"} active={false}/>
-            <AlarmBlock name={"Speed Governor Fail"} active={false}/>
-            <AlarmBlock name={"ME Cooling Water HT Shutdown"} active={false}/>
-
-            <AlarmBlock name={"ME Lub Oil Pressure Low"} active={false}/>
-            <AlarmBlock name={"ME Cooling Water Temperature High"} active={ME_FW_TempHigh} setState={setME_FW_TempHigh}/>
-            <AlarmBlock name={""} active={false}/>
-
-            <AlarmBlock name={"Lub Oil Gear Pressure Low"} active={false}/>
-            <AlarmBlock name={"AE Cooling Water Temperature High"} active={AE_FW_TempHigh} setState={setAE_FW_TempHigh}/>
-            <AlarmBlock name={""} active={false}/>
-
-            <AlarmBlock name={"Lub Oil Filter Diff. Pressure High"} active={false}/>
-            <AlarmBlock name={"ME Cooling Water Temperature Low"} active={ME_FW_TempLow}  setState={setME_FW_TempLow}/>
-            <AlarmBlock name={""} active={false}/>
-
-            <AlarmBlock name={"Lub Oil Sump Tank Level Low"} active={false}/>
-            <AlarmBlock name={"AE Cooling Water Temperature Low"} active={AE_FW_TempLow} setState={setAE_FW_TempLow}/>
-            <AlarmBlock name={""} active={false}/>
         </div>
     );
 }

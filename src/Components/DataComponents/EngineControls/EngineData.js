@@ -51,7 +51,7 @@ export default class EngineData extends EventEmitter{
 
         this.startCommandActive = true;
         this.valveOpenActive = false;
-        this.stopRPM = 1546;
+        this.stopRPM = 1654;
         this.restartRPM = 1406;
         this.startStopTimeDelay = 15;
         this.lowPressureFO = 0.2;
@@ -59,8 +59,10 @@ export default class EngineData extends EventEmitter{
         this.highTempCW = 80;
         this.lowTempExhGas = 100;
         this.highTempExhGas = 485;
-        this.highPressLubOil = 0.8;
-        this.lowPressLubOil = 0.4;
+        this.highPressLubOil = 0.25;
+        this.lowPressLubOil = 0.15;
+        this.workloadMax = 500;
+        this.workloadMin = 250;
 
         this.maxEngineRev = 3500;
         this.maxCoolingWaterTemp = 120;
@@ -70,6 +72,7 @@ export default class EngineData extends EventEmitter{
 
         this.alarmManager = alarmManager;
         this.source = source;
+        this.workload = 0
     }
 
     getEngineTemperature(){
@@ -84,41 +87,8 @@ export default class EngineData extends EventEmitter{
         return averageTemp / this.engineTemperature.length;
     }
 
-    getEngineRev(){
-        return this.engineRev;
-    }
-
-    getShaftRev(){
-        return this.shaftRev;
-    }
-
-    getLubOilPressure(){
-        return this.lubOilPressure;
-    }
-
-    getCoolingWaterTemp(){
-        return this.coolingWaterTemp;
-    }
-
-    getExhaustTemp(){
-        return this.exhaustTemp;
-    }
-
-    getRunningHour(){
-        return this.runningHour;
-    }
-
-    getBattreyVolt(){
-        return this.battreyVolt;
-    }
-
-    getBattreyLife(){
-        return this.battreyLife;
-    }
-
     setStopRPM(value){
         this.stopRPM = value;
-        console.log(this.stopRPM);
     }
 
     setRestartRPM(value){
@@ -149,12 +119,13 @@ export default class EngineData extends EventEmitter{
         this.highTempExhGas = value;
     }
         
-    updateEngineData(engineRPM, coolantTemp, OilPressure, HydraulicPressure){
+    updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
         this.engineRev = (engineRPM / 1023) * this.maxEngineRev;
         this.shaftRev = this.engineRev * this.shaftGearBox;
         this.coolingWaterTemp = (coolantTemp / 1023) * this.maxCoolingWaterTemp;
         this.lubOilPressure = (OilPressure / 1023) * this.maxLubOilPressure;
-        this.boostPressure = (HydraulicPressure / 1023) * this.maxBoostPressure;
+        if(this.source == "Aux Engine") this.workload = workload
+        // this.boostPressure = (HydraulicPressure / 1023) * this.maxBoostPressure;
 
         this.emit('Engine Rev', this.engineRev);
         this.emit('Shaft Rev', this.shaftRev);
@@ -163,43 +134,102 @@ export default class EngineData extends EventEmitter{
         this.emit('Lub Oil Pressure', this.lubOilPressure);
         this.emit('Boost Pressure', this.boostPressure);
 
+        if(this.engineRev > this.stopRPM){
+            if(this.source == "Main Engine"){
+                // this.alarmManager.pumpFuelOilFlow = true
+                // this.alarmManager.engineOverspeed = true
+                if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
+                    this.alarmManager.alarm_ON(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
+                }
+                // this.alarmManager.battreyFault = false
+                // this.alarmManager.engineOverspeed = true
+                if(!this.alarmManager.battreyFault && this.alarmManager.engineOverspeed){
+                    this.alarmManager.alarm_ON(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
+                }
+            }
+            
+        }else{
+            if(this.source == "Main Engine"){
+                if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
+                    this.alarmManager.alarm_OFF(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
+                }
+                if(!this.alarmManager.battreyFault && this.alarmManager.engineOverspeed){
+                    this.alarmManager.alarm_OFF(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
+                }
+            }
+            // this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')
+            // console.log("Low Pressure OFF");
+        }
 
         if(this.boostPressure < this.lowPressureFO){
-            this.alarmManager.alarm_ON(this.source, 'lowPressureBoost', 'Low Boost Pressure')
+            // this.alarmManager.alarm_ON(this.source, 'lowPressureBoost', 'Low Boost Pressure')
             // console.log("Low Pressure ON");
         }else{
-            this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')
+            // this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')
             // console.log("Low Pressure OFF");
         }
 
         if(this.lubOilPressure < this.lowPressLubOil){
             // console.log("Lower");
-            this.alarmManager.alarm_ON(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
+            // this.alarmManager.alarm_ON(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
         }else{
-            this.alarmManager.alarm_OFF(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
+            // this.alarmManager.alarm_OFF(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
         }
         
         if(this.lubOilPressure > this.highPressLubOil){
             // console.log("Higher");
-            this.alarmManager.alarm_ON(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+            // this.alarmManager.alarm_ON(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
         }else{
             // console.log("Neither");
-            this.alarmManager.alarm_OFF(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+            // this.alarmManager.alarm_OFF(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
         }
 
         if(this.coolingWaterTemp < this.lowTempCW){
             // console.log("Lower");
-            this.alarmManager.alarm_ON(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
+            // this.alarmManager.alarm_ON(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
         }else{
-            this.alarmManager.alarm_OFF(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
+            // this.alarmManager.alarm_OFF(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
         }
         
+        // console.log(this.coolingWaterTemp, this.highTempCW)
         if(this.coolingWaterTemp > this.highTempCW){
-            // console.log("Higher");
-            this.alarmManager.alarm_ON(this.source, 'highTempWC', 'High Cooling Water Temperature')
+            // this.alarmManager.pumpFuelOilFlow = false
+            // this.alarmManager.coolingWaterTemperatureHigh = true
+            if(this.source == "Main Engine" && !this.alarmManager.pumpFuelOilFlow && this.alarmManager.coolingWaterTemperatureHigh){
+                this.alarmManager.alarm_ON("Main Engine", 'ME_StopFailure', 'ME Stop Failure')
+            }
         }else{
-            // console.log("Neither");
-            this.alarmManager.alarm_OFF(this.source, 'highTempWC', 'High Cooling Water Temperature')
+            if(this.source == "Main Engine" && !this.alarmManager.pumpFuelOilFlow && this.alarmManager.coolingWaterTemperatureHigh){
+                this.alarmManager.alarm_OFF("Main Engine", 'ME_StopFailure', 'ME Stop Failure')
+            }
         }
+
+        if(this.source == "Aux Engine"){
+            // this.alarmManager.pumpRawWaterFlowEngine = true
+            // this.alarmManager.coolingWaterTemperatureHigh = true
+            if(this.workload > this.workloadLimit){
+                if(this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.coolingWaterTemperatureHigh){
+                    this.alarmManager.alarm_ON("Aux Engine", 'AE_CoolingWaterTempHigh', 'AE Cooling Water Temp High')
+                }
+            }else{
+                // this.alarmManager.pumpRawWaterFlowEngine = false
+                // this.alarmManager.coolingWaterTemperatureHigh = true
+                if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.coolingWaterTemperatureHigh){
+                    this.alarmManager.alarm_OFF("Aux Engine", 'AE_CoolingWaterTempHigh', 'AE Cooling Water Temp High')
+                }
+            }
+    
+            if(this.workload < this.workloadLimit){
+                if(this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.coolingWaterTemperatureHigh){
+                    this.alarmManager.alarm_ON(this.source, 'AE_CoolingWaterPressureLow', 'AE Cooling Water Pressure Low')
+                }
+            }else{
+                if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.coolingWaterTemperatureHigh){
+                    this.alarmManager.alarm_OFF(this.source, 'AE_CoolingWaterPressureLow', 'AE Cooling Water Pressure Low')
+                }
+            }
+        }
+
+        
     }
 }

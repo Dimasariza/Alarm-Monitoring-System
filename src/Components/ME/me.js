@@ -10,10 +10,10 @@ function ME({mainEngineValue, state, setState, alarmManager}) {
     return (
         <div className='meContainer'>
             <div className={state==0 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
-                <ME_Indicator stateName={'STBD ENGINE'} inputValue={mainEngineValue.stbd} alarmManager={alarmManager}/>
+                <ME_Indicator stateName={'STBD ENGINE'} inputValueStbd={mainEngineValue.stbd}  inputValuePort={mainEngineValue.port} alarmManager={alarmManager}/>
             </div>
             <div className={state==1 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
-                <ME_Indicator stateName={'PORT ENGINE'} inputValue={mainEngineValue.port} alarmManager={alarmManager}/>
+                <ME_Indicator stateName={'PORT ENGINE'} inputValueStbd={mainEngineValue.stbd}  inputValuePort={mainEngineValue.port}  alarmManager={alarmManager}/>
             </div>
             <div className={state==2 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
                 <Overview inputValue={mainEngineValue} alarmManager={alarmManager}/>

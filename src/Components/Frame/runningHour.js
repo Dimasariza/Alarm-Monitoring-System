@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import EngineIcon from '../../Assets/AMS-Modelling-Assets/EngineIcon.png'
 import HourIndicator from '../Overview/hourIndicator';
+import HDEngineImage from '../../Assets/PMSOL/HDEngineImage.png'
+import HDEngineImagePower from '../../Assets/PMSOL/HDEngineImage_Power.png'
 
 function RunningHourDisplay({mainEngineValue, state, setState}) {
     return (
@@ -8,25 +10,51 @@ function RunningHourDisplay({mainEngineValue, state, setState}) {
             <div className='displayContainer-split'style={{height : 455}}>
                 <div style={{display: 'flex', flexDirection: 'column', height: '100%', width: '50%'}}>
                     <div className='whiteBox' style={{display: 'flex', position: 'relative', flexDirection: 'column', height: '50%'}}>
-                        <div className='indicator-customLoc' style={{'--topPos': 10, '--leftPos': 90, fontSize: 10}}>
-                            STBD ENGINE
+                        <div className='indicator-customLoc' style={{'--topPos': 5, '--leftPos': 5}}>
+                            <img src={HDEngineImage} style={{width: '65%', height: '65%'}}/>
                         </div>
-                        <div className='indicator-customLoc' style={{'--topPos': 7, '--leftPos': 10}}>
-                            <img src={EngineIcon} style={{width: '200%', height: '200%'}}/>
+                        <div className='indicator-customLoc' style={{'--topPos': 3, '--leftPos': 70, fontSize: 20, width: 200, fontWeight: 'bold'}}>
+                            STBD ENGINE
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 70}}>
                             <HourIndicator lifeHour={100} />
                         </div>
                     </div>
                     <div className='whiteBox' style={{display: 'flex', position: 'relative', flexDirection: 'column', height: '50%'}}>
-                        <div className='indicator-customLoc' style={{'--topPos': 0, '--leftPos': 0}}>
-                            <img src={EngineIcon}/>
+                    <div className='indicator-customLoc' style={{'--topPos': 10, '--leftPos': 5}}>
+                            <img src={HDEngineImagePower} style={{width: '65%', height: '65%'}}/>
+                        </div>
+                        <div className='indicator-customLoc' style={{'--topPos': 3, '--leftPos': 60, fontSize: 20, width: 200, fontWeight: 'bold'}}>
+                            STBD GENERATOR
+                        </div>
+                        <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 70}}>
+                            <HourIndicator lifeHour={100} />
                         </div>
                     </div>
                 </div>
                 <div style={{display: 'flex', flexDirection: 'column', height: '100%', width: '50%'}}>
-                    <div className='whiteBox' style={{display: 'flex', flexDirection: 'column', height: '50%'}}></div>
-                    <div className='whiteBox' style={{display: 'flex', flexDirection: 'column', height: '50%'}}></div>
+                    <div className='whiteBox' style={{display: 'flex', position: 'relative', flexDirection: 'column', height: '50%'}}>
+                        <div className='indicator-customLoc' style={{'--topPos': 5, '--leftPos': 35}}>
+                            <img src={HDEngineImage} style={{width: '95%', height: '95%'}}/>
+                        </div>
+                        <div className='indicator-customLoc' style={{'--topPos': 3, '--leftPos': 2, fontSize: 20, width: 200, fontWeight: 'bold'}}>
+                            PORT ENGINE
+                        </div>
+                        <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 5}}>
+                            <HourIndicator lifeHour={100} />
+                        </div>
+                    </div>
+                    <div className='whiteBox' style={{display: 'flex', position: 'relative', flexDirection: 'column', height: '50%'}}>
+                        <div className='indicator-customLoc' style={{'--topPos': 10, '--leftPos': 35}}>
+                            <img src={HDEngineImagePower} style={{width: '95%', height: '95%'}}/>
+                        </div>
+                        <div className='indicator-customLoc' style={{'--topPos': 3, '--leftPos': 2, fontSize: 20, width: 200, fontWeight: 'bold'}}>
+                            PORT GENERATOR
+                        </div>
+                        <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 5}}>
+                            <HourIndicator lifeHour={100} />
+                        </div>
+                    </div>
                 </div>
                 {/* <METempGraph temperatureArray={inputValue.engineTemperature} />
                 <MEIndicatorGroup inputValue={inputValue} setState={setState} stateName={stateName}/> */}

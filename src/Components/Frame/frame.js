@@ -23,18 +23,22 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
   
-  // useEffect(() => {
-  //   const socket = io('http://localhost:3000');
-
-  //   socket.on('arduino-data', data => {
-  //     console.log(`Received data: ${data}`);
-  //     // Process the data here, such as updating the state or sending it to a server
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
+  useEffect(() => {
+    switch(currentState){
+      case "MAIN. ENG.":
+        mainEngine.updateActivation(true);
+        auxEngine.updateActivation(false);
+        break;
+      case "AUX. ENG.":
+        mainEngine.updateActivation(false);
+        auxEngine.updateActivation(true);
+        break;
+      default:
+        mainEngine.updateActivation(true);
+        auxEngine.updateActivation(false);
+        break;
+    }
+  }, [currentState]);
 
   return (
     <div className='mainContainer'>
@@ -43,9 +47,9 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
         </div>
         <div className="displayContainer">
           <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
-          {/* <DisplayContainer name="MAIN. ENG." state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} /> */}
           <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
-          <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} />
+          <DisplayContainer name="OVERVIEW" state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
+          {/* <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} /> */}
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm alarmManager={alarmManager} />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary alarmManager={alarmManager} />} />
           <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} mainEngineValue={mainEngine} auxEngineValue={auxEngine} loginManager={loginManager} virtualKeyboardManager={virtualKeyboardManager} />} />
