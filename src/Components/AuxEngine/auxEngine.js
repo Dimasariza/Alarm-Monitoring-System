@@ -71,7 +71,7 @@ function AuxEngine({auxEngineValue, state, setState, alarmManager}) {
                         PORT ENGINE
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 74 }}> 
-                        <IndicatorCoolingWaterTemperature engine={auxEngineValue.port} size={120}/>
+                        <IndicatorCoolingWaterTemperature engine={auxEngineValue.port} size={120} alarmManager={alarmManager}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 33, '--leftPos' : 74 }}> 
                         <IndicatorCoolingWaterPressure rawValue={auxEngineValue.port.coolingWaterPressure} size={70}/>

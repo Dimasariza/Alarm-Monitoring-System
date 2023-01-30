@@ -30,8 +30,9 @@ function IndicatorLubOil({engine, size, alarmManager}) {
     const[rawValue, setRawValue] = useState(engine.lubOilPressure);
     const[alarm, setAlarm] = useState(false);
     
-    const respondCommand = "lowPressLubOil";
-    const altCommand = "highPressLubOil";
+    const respondCommand = "lowPressureLubOil";
+    const altCommand = "highPressureLubOil";
+    let alarmCount = 0;
 
     useEffect(() => {
         engine.on('Lub Oil Pressure', (value) => {
@@ -41,15 +42,26 @@ function IndicatorLubOil({engine, size, alarmManager}) {
         engine.alarmManager.on('Alarm', (value) => {
             if(engine.alarmManager.checkActive(value.command)){
                 if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
+                    console.log(titleValue, engine.source, value.command, value.source)
                     if(value.status == AlarmStatus.Active){
+                        // alarmCount++;
+                        // console.log('plus', value.source, alarmCount)
                         setAlarm(true);
                     }else{
+                        // alarmCount--;
+                        // console.log('min', value.source, alarmCount)
                         setAlarm(false);
                     }
                 }
             }else{
+                alarmCount = 0;
                 setAlarm(false);
             }
+            // if(alarmCount == 0){
+            //     setAlarm(false);
+            // }else{
+            //     setAlarm(true);
+            // }
         });
 
     }, []);

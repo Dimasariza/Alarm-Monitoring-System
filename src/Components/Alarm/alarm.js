@@ -16,7 +16,7 @@ function Alarm({alarmManager}) {
     const[ME_FW_TempLow, setME_FW_TempLow] = useState(AlarmStatus.Inactive);
 
     const[AE_FW_TempHigh, setAE_FW_TempHigh] = useState(AlarmStatus.Inactive);
-    const[AAE_FW_TempLow, setAE_FW_TempLow] = useState(AlarmStatus.Inactive);
+    const[AE_FW_TempLow, setAE_FW_TempLow] = useState(AlarmStatus.Inactive);
 
     useEffect(() => {
         alarmManager.on('Alarm', (value)=>{
@@ -111,6 +111,30 @@ function Alarm({alarmManager}) {
         }
     }, [AE_FO_PressureLow])
 
+    useEffect(() =>{
+        if(ME_FW_TempHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('highTempWC', 'Main Engine');
+        }
+    }, [ME_FW_TempHigh])
+
+    useEffect(() =>{
+        if(AE_FW_TempHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('highTempWC', 'Aux Engine');
+        }
+    }, [AE_FW_TempHigh])
+
+    useEffect(() =>{
+        if(ME_FW_TempLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('lowTempWC', 'Main Engine');
+        }
+    }, [ME_FW_TempLow])
+
+    useEffect(() =>{
+        if(AE_FW_TempLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('lowTempWC', 'Aux Engine');
+        }
+    }, [AE_FW_TempLow])
+
     return (
         <div className='whiteBox-AlarmContainer'>
             <AlarmBlock name={"Overspeed Shutdown"} active={false}/>
@@ -142,19 +166,19 @@ function Alarm({alarmManager}) {
             <AlarmBlock name={"ME Cooling Water HT Shutdown"} active={false}/>
 
             <AlarmBlock name={"ME Lub Oil Pressure Low"} active={false}/>
-            <AlarmBlock name={"ME Cooling Water Temperature High"} active={false}/>
+            <AlarmBlock name={"ME Cooling Water Temperature High"} active={ME_FW_TempHigh} setState={setME_FW_TempHigh}/>
             <AlarmBlock name={""} active={false}/>
 
             <AlarmBlock name={"Lub Oil Gear Pressure Low"} active={false}/>
-            <AlarmBlock name={"ME Cooling Water Pressure Low"} active={false}/>
+            <AlarmBlock name={"AE Cooling Water Temperature High"} active={AE_FW_TempHigh} setState={setAE_FW_TempHigh}/>
             <AlarmBlock name={""} active={false}/>
 
             <AlarmBlock name={"Lub Oil Filter Diff. Pressure High"} active={false}/>
-            <AlarmBlock name={"AE Cooling Water Temperature High"} active={false}/>
+            <AlarmBlock name={"ME Cooling Water Temperature Low"} active={ME_FW_TempLow}  setState={setME_FW_TempLow}/>
             <AlarmBlock name={""} active={false}/>
 
             <AlarmBlock name={"Lub Oil Sump Tank Level Low"} active={false}/>
-            <AlarmBlock name={"AE Cooling Water Pressure Low"} active={false}/>
+            <AlarmBlock name={"AE Cooling Water Temperature Low"} active={AE_FW_TempLow} setState={setAE_FW_TempLow}/>
             <AlarmBlock name={""} active={false}/>
         </div>
     );

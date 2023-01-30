@@ -5,6 +5,7 @@ import UI_ENIN_Boost_MPa_BG from '../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/Boos
 import UI_ENIN_Water_degC_FG from "../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/WaterTemp/UI_ENIN_Water_degC_FG.png"
 import UI_ENIN_Boost_MPa_OuterRing from "../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/BoostPressure/UI_ENIN_Boost_MPa_OuterRing.png"
 import Indicator from './indicator';
+import { AlarmStatus } from '../DataComponents/AlarmControls/AlarmManager';
 
 function rawValueToPercentage(maxValue, rawValue, maxPercentageValue){
     return maxPercentageValue * (rawValue / maxValue)
@@ -15,7 +16,7 @@ function getSizeMultiplier(fontSize, currentSize){
     return fontSize * (currentSize/baseSize)
 }
 
-function IndicatorCoolingWaterTemperature({engine, size}) {
+function IndicatorCoolingWaterTemperature({engine, size, alarmManager}) {
     const titleValue = "COOLING WATER TEMPERATURE";
     const unitValue = "°C";
     const maxPercentageValue = 61.85;
@@ -27,10 +28,39 @@ function IndicatorCoolingWaterTemperature({engine, size}) {
     const constantData = [UI_ENIN_Boost_MPa_BG, UI_ENIN_Water_degC_FG, UI_ENIN_Boost_MPa_OuterRing, size, fillRotation, titleValue, unitValue];
 
     const[rawValue, setRawValue] = useState(engine.coolingWaterTemp);
+    const[alarm, setAlarm] = useState(false);
+    
+    const respondCommand = "lowTempWC";
+    const altCommand = "highTempWC";
+    let alarmCount = 0;
 
     useEffect(() => {
         engine.on('Cooling Water Temp', (value) => {
             setRawValue(value);
+        });
+
+        engine.alarmManager.on('Alarm', (value) => {
+            // console.log(value)
+            if(value.status == AlarmStatus.Inactive) return;
+            if(engine.alarmManager.checkActive(value.command)){
+                if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
+                    if(value.status == AlarmStatus.Active){
+                        // alarmCount++;
+                        setAlarm(true);
+                    }else{
+                        // alarmCount--;
+                        setAlarm(false);
+                    }
+                }
+            }else{
+                // alarmCount = 0
+                setAlarm(false);
+            }
+            // if(alarmCount == 0){
+            //     setAlarm(false);
+            // }else{
+            //     setAlarm(true);
+            // }
         });
     }, []);
 
@@ -41,7 +71,7 @@ function IndicatorCoolingWaterTemperature({engine, size}) {
             valueStyle={valueStyle}
             unitStyle={unitStyle}
             rawValue={rawValue.toFixed(0)}
-            activeAlarm={false}
+            activeAlarm={alarm}
             constantData={constantData}
             />
     );

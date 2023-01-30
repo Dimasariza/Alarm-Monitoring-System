@@ -172,27 +172,34 @@ export default class EngineData extends EventEmitter{
             // console.log("Low Pressure OFF");
         }
 
-        if(this.coolingWaterTemp < this.lowTempCW){
+        if(this.lubOilPressure < this.lowPressLubOil){
             // console.log("Lower");
             this.alarmManager.alarm_ON(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
         }else{
             this.alarmManager.alarm_OFF(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
         }
         
-        if(this.coolingWaterTemp > this.highTempCW){
+        if(this.lubOilPressure > this.highPressLubOil){
             // console.log("Higher");
             this.alarmManager.alarm_ON(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
         }else{
             // console.log("Neither");
             this.alarmManager.alarm_OFF(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
         }
+
+        if(this.coolingWaterTemp < this.lowTempCW){
+            // console.log("Lower");
+            this.alarmManager.alarm_ON(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
+        }else{
+            this.alarmManager.alarm_OFF(this.source, 'lowTempWC', 'Low Cooling Water Temperature')
+        }
         
-        // if(this.exhaustTemp < this.lowTempExhGas){
-
-        // }
-
-        // if(this.exhaustTemp < this.highTempExhGas){
-
-        // }
+        if(this.coolingWaterTemp > this.highTempCW){
+            // console.log("Higher");
+            this.alarmManager.alarm_ON(this.source, 'highTempWC', 'High Cooling Water Temperature')
+        }else{
+            // console.log("Neither");
+            this.alarmManager.alarm_OFF(this.source, 'highTempWC', 'High Cooling Water Temperature')
+        }
     }
 }
