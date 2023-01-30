@@ -10,6 +10,12 @@ import io from 'socket.io-client';
 import KeyboardComponent from './Components/Frame/keyboardComponent';
 import VirtualKeyboardManager from './Components/DataComponents/VirtualKeyboardControls/VirtualKeyboardManager';
 
+function sendCode(socket, code){
+  // send code to throttle or steer wheel
+  // console.log(code)
+  socket.emit('change', code.toString().toUpperCase())
+}
+
 function App() {
   const alarmManager = new AlarmManager();
   const mainEngine = new EngineDataManager(alarmManager, "Main Engine");

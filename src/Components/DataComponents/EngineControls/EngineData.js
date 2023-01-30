@@ -27,10 +27,10 @@ export default class EngineData extends EventEmitter{
         this.engineRev = 2000;
         this.shaftRev = 2000;
         this.lubOilPressure = 0.5;
-        this.boostPressure = 0.3;
+        this.boostPressure = 0.2;
         this.coolingWaterTemp = 120;
         this.coolingWaterPressure = 0.5;
-        this.exhaustTemp = 700;
+        this.exhaustTemp = 400;
         this.runningHour = 10000;
         this.battreyVolt = 30;
         this.battreyLife = 100;
@@ -54,11 +54,12 @@ export default class EngineData extends EventEmitter{
         this.stopRPM = 1654;
         this.restartRPM = 1406;
         this.startStopTimeDelay = 15;
-        this.lowPressureFO = 0.2;
-        this.lowTempCW = 40;
-        this.highTempCW = 80;
+        this.lowPressureFO = 0.01;
+        this.highPressureFO = 0.25;
+        this.lowTempCW = 88;
+        this.highTempCW = 95;
         this.lowTempExhGas = 100;
-        this.highTempExhGas = 485;
+        this.highTempExhGas = 495;
         this.highPressLubOil = 0.25;
         this.lowPressLubOil = 0.15;
         this.workloadMax = 500;
@@ -73,6 +74,7 @@ export default class EngineData extends EventEmitter{
         this.alarmManager = alarmManager;
         this.source = source;
         this.workload = 0
+        this.engineTrip = false
     }
 
     getEngineTemperature(){
@@ -118,6 +120,10 @@ export default class EngineData extends EventEmitter{
     setHighTempExhGas(value){
         this.highTempExhGas = value;
     }
+
+    setEngineTrip(){
+        
+    }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
         this.engineRev = (engineRPM / 1023) * this.maxEngineRev;
@@ -147,7 +153,7 @@ export default class EngineData extends EventEmitter{
                     this.alarmManager.alarm_ON(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
                 }
             }
-            
+            this.setEngineTrip();
         }else{
             if(this.source == "Main Engine"){
                 if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
@@ -162,8 +168,7 @@ export default class EngineData extends EventEmitter{
         }
 
         if(this.boostPressure < this.lowPressureFO){
-            // this.alarmManager.alarm_ON(this.source, 'lowPressureBoost', 'Low Boost Pressure')
-            // console.log("Low Pressure ON");
+            this.setEngineTrip()
         }else{
             // this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')
             // console.log("Low Pressure OFF");
@@ -172,6 +177,7 @@ export default class EngineData extends EventEmitter{
         if(this.lubOilPressure < this.lowPressLubOil){
             // console.log("Lower");
             // this.alarmManager.alarm_ON(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
+            this.setEngineTrip()
         }else{
             // this.alarmManager.alarm_OFF(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
         }
@@ -198,6 +204,7 @@ export default class EngineData extends EventEmitter{
             if(this.source == "Main Engine" && !this.alarmManager.pumpFuelOilFlow && this.alarmManager.coolingWaterTemperatureHigh){
                 this.alarmManager.alarm_ON("Main Engine", 'ME_StopFailure', 'ME Stop Failure')
             }
+            this.setEngineTrip()
         }else{
             if(this.source == "Main Engine" && !this.alarmManager.pumpFuelOilFlow && this.alarmManager.coolingWaterTemperatureHigh){
                 this.alarmManager.alarm_OFF("Main Engine", 'ME_StopFailure', 'ME Stop Failure')

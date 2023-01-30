@@ -15,10 +15,18 @@ const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 io.on('connection', socket => {
     console.log('A client connected');
 
-    // port.on('data', data => {
-    //     console.log(data);
-    //     socket.emit('arduino-data', data);
-    // });
+    // listening changes code here
+    socket.on('change', (code) => {
+        console.log(code)
+        switch(code) {
+            case 'INIT': {
+                sendCode('ZR')
+                sendCode('STP')
+                break
+            }
+            default: sendCode(code)
+        }
+    })
 
     parser.on('data', (data) =>{
         socket.emit('arduino-data', data);
