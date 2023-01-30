@@ -122,7 +122,13 @@ export default class EngineData extends EventEmitter{
     }
 
     setEngineTrip(){
-        
+        this.engineRev = 0;
+        this.shaftRev = 0;
+        this.lubOilPressure = 0;
+        this.boostPressure = 0;
+        this.coolingWaterTemp = 0;
+        this.coolingWaterPressure = 0;
+        this.exhaustTemp = 0;
     }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
