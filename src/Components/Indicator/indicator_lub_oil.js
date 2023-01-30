@@ -5,6 +5,7 @@ import UI_ENIN_Boost_MPa_BG from '../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/Boos
 import UI_ENIN_Lub_oil_MPa_FG from "../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/LubOil/UI_ENIN_Lub_oil_MPa_FG.png"
 import UI_ENIN_Boost_MPa_OuterRing from "../../Assets/UI_Asset/SVG-UI-SIMS/UI-ECHO/BoostPressure/UI_ENIN_Boost_MPa_OuterRing.png"
 import Indicator from './indicator';
+import { AlarmStatus } from '../DataComponents/AlarmControls/AlarmManager';
 
 function rawValueToPercentage(maxValue, rawValue, maxPercentageValue){
     return maxPercentageValue * (rawValue / maxValue)
@@ -15,7 +16,7 @@ function getSizeMultiplier(fontSize, currentSize){
     return fontSize * (currentSize/baseSize)
 }
 
-function IndicatorLubOil({engine, size}) {
+function IndicatorLubOil({engine, size, alarmManager}) {
     const titleValue = "LUB. OIL PRESSURE";
     const unitValue = "MPa";
     const maxPercentageValue = 56.15;
@@ -27,11 +28,30 @@ function IndicatorLubOil({engine, size}) {
     const constantData = [UI_ENIN_Boost_MPa_BG, UI_ENIN_Lub_oil_MPa_FG, UI_ENIN_Boost_MPa_OuterRing, size, fillRotation, titleValue, unitValue];
 
     const[rawValue, setRawValue] = useState(engine.lubOilPressure);
+    const[alarm, setAlarm] = useState(false);
+    
+    const respondCommand = "lowPressLubOil";
+    const altCommand = "highPressLubOil";
 
     useEffect(() => {
         engine.on('Lub Oil Pressure', (value) => {
             setRawValue(value);
         });
+
+        engine.alarmManager.on('Alarm', (value) => {
+            if(engine.alarmManager.checkActive(value.command)){
+                if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
+                    if(value.status == AlarmStatus.Active){
+                        setAlarm(true);
+                    }else{
+                        setAlarm(false);
+                    }
+                }
+            }else{
+                setAlarm(false);
+            }
+        });
+
     }, []);
 
     return (
@@ -41,7 +61,7 @@ function IndicatorLubOil({engine, size}) {
             valueStyle={valueStyle}
             unitStyle={unitStyle}
             rawValue={rawValue.toFixed(1)}
-            activeAlarm={false}
+            activeAlarm={alarm}
             constantData={constantData}
             />
     );

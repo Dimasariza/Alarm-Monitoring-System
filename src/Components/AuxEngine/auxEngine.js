@@ -20,7 +20,7 @@ import ArrowRightIconActive from '../../Assets/AMS-Modelling-Assets/ArrowRightIc
 import MEStateButton from '../ME/ME-Indicator/me_state_change_button';
 
 
-function AuxEngine({auxEngineValue, state, setState}) {
+function AuxEngine({auxEngineValue, state, setState, alarmManager}) {
     return (
         <div className='overviewContainer'>
             <div className='overviewContainer-aux'>
@@ -30,16 +30,16 @@ function AuxEngine({auxEngineValue, state, setState}) {
                         STBD ENGINE
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 2 }}> 
-                        <IndicatorCoolingWaterTemperature engine={auxEngineValue.stbd} size={120}/>
+                        <IndicatorCoolingWaterTemperature engine={auxEngineValue.stbd} size={120} alarmManager={alarmManager}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 33, '--leftPos' : 12 }}> 
-                        <IndicatorCoolingWaterPressure rawValue={auxEngineValue.stbd.coolingWaterPressure} size={70}/>
+                        <IndicatorCoolingWaterPressure rawValue={auxEngineValue.stbd.coolingWaterPressure} size={70} alarmManager={alarmManager}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 48, '--leftPos' : 2 }}> 
-                        <IndicatorLubOil engine={auxEngineValue.stbd} size={70}/>
+                        <IndicatorLubOil engine={auxEngineValue.stbd} size={70} alarmManager={alarmManager}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 67, '--leftPos' : 2 }}> 
-                        <IndicatorExhaustTemperature rawValue={auxEngineValue.stbd.exhaustTemp} size={120} />
+                        <IndicatorExhaustTemperature rawValue={auxEngineValue.stbd.exhaustTemp} size={120} alarmManager={alarmManager}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 77, '--leftPos' : 81 }}> 
                         <BattreyIndicator voltage={auxEngineValue.stbd.battreyVolt} battreyLife={auxEngineValue.stbd.battreyLife} boxWidth={77} />

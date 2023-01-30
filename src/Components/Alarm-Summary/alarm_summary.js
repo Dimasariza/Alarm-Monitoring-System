@@ -27,7 +27,6 @@ function AlarmSummary({alarmManager}) {
         alarmManager.on('Alarm', (alarm) =>{
             let newData = alarmManager.redAlarm.reverse().concat(alarmManager.greyAlarm.reverse())
             setAlarmRecord(newData);
-            console.log(newData);
         })
     }, []);
 

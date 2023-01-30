@@ -16,7 +16,7 @@ function getSizeMultiplier(fontSize, currentSize){
     return fontSize * (currentSize/baseSize)
 }
 
-function IndicatorBoostPressure({engine, size, lowWarning, alarmManager}) {
+function IndicatorBoostPressure({engine, size, alarmManager}) {
     const titleValue = "BOOST PRESSURE";
     const unitValue = "MPA";
     const maxPercentageValue = 50.55;

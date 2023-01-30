@@ -11,32 +11,38 @@ export default class AlarmManager extends EventEmitter{
 
     constructor() {
         super()
-        // this.redAlarm = [new AlarmDetail('Air Compress Pressure Low', 'Air Compress Pressure Low', "Main Engine", AlarmStatus.Active), new AlarmDetail('DUMMY2', 'DUMMY2', "Main Engine", AlarmStatus.Active)];
-        // this.greyAlarm = [new AlarmDetail('DUMMY3', 'DUMMY3', "Main Engine", AlarmStatus.Acknowledged)];
-        
         this.redAlarm = [];
         this.greyAlarm = [];
 
-        this.activeHighTempLubOil = true;
-        this.activeLowTempLubOil = true;
+        this.activeHighPressLubOil = true;
+        this.activeLowPressLubOil = true;
         this.activeLowPressureBoost = true;
         this.activeHighTempWC = true;
         this.activeLowTempWC = true;
         this.activeFullLeakageInspPipe = true;
         this.activeBattreyFault = true; 
 
-        this.highTempLubOil = AlarmStatus.Inactive;
-        this.lowTempLubOil = AlarmStatus.Inactive;
-        this.lowPressureBoost = AlarmStatus.Inactive;
-        this.highTempWC = AlarmStatus.Inactive;
-        this.lowTempWC = AlarmStatus.Inactive;
+        this.ME_highPressLubOil = AlarmStatus.Inactive;
+        this.ME_lowPressLubOil = AlarmStatus.Inactive;
+        this.ME_lowPressureBoost = AlarmStatus.Inactive;
+        this.ME_highTempWC = AlarmStatus.Inactive;
+        this.ME_lowTempWC = AlarmStatus.Inactive;
+
+        this.AE_highPressLubOil = AlarmStatus.Inactive;
+        this.AE_lowPressLubOil = AlarmStatus.Inactive;
+        this.AE_lowPressureBoost = AlarmStatus.Inactive;
+        this.AE_highTempWC = AlarmStatus.Inactive;
+        this.AE_lowTempWC = AlarmStatus.Inactive;
+
         this.fullLeakageInspPipe = AlarmStatus.Inactive;
         this.battreyFault = AlarmStatus.Inactive; 
+
+        this.setMaxListeners(40);
     }
 
-    updateAlarmCommand(activeHighTempLubOil, activeLowTempLubOil, activeLowPressureBoost, activeHighTempWC, activeLowTempWC, activeFullLeakageInspPipe, activeBattreyFault ){
-        this.activeHighTempLubOil = activeHighTempLubOil;
-        this.activeLowTempLubOil = activeLowTempLubOil;
+    updateAlarmCommand(activeHighPressLubOil, activeLowPressLubOil, activeLowPressureBoost, activeHighTempWC, activeLowTempWC, activeFullLeakageInspPipe, activeBattreyFault ){
+        this.activeHighPressLubOil = activeHighPressLubOil;
+        this.activeLowPressLubOil = activeLowPressLubOil;
         this.activeLowPressureBoost = activeLowPressureBoost;
         this.activeHighTempWC = activeHighTempWC;
         this.activeLowTempWC = activeLowTempWC;
@@ -51,27 +57,49 @@ export default class AlarmManager extends EventEmitter{
         targets.forEach((newAlarm) => {
             newAlarm.status = AlarmStatus.Acknowledged;
             this.greyAlarm.push(newAlarm);
+            // console.log("Acknowledge alarm")
             this.changeAlarmStatus(command, AlarmStatus.Acknowledged, source)
         })
+
     }
 
     changeAlarmStatus(command, target, source){
+        // console.log('changed', command, source, 'to', target)
         switch (command) {
-            case 'highTempLubOil':
-                this.highTempLubOil = target;
+            case 'highPressureLubOil':
+                if(source =='Main Engine'){
+                    this.ME_highPressLubOil = target;
+                }else{
+                    this.AE_highPressLubOil = target;
+                }
                 break;
-            case 'lowTempLubOil':
-                this.lowTempLubOil = target;
+            case 'lowPressureLubOil':
+                if(source =='Main Engine'){
+                    this.ME_lowPressLubOil = target;
+                }else{
+                    this.AE_lowPressLubOil = target;
+                }
                 break;
             case 'lowPressureBoost':
-                this.lowPressureBoost = target;
-                this.emit('Alarm', new AlarmDetail('lowPressureBoost', 'Acknowledged', source, target));
+                if(source =='Main Engine'){
+                    this.ME_lowPressureBoost = target;
+                }else{
+                    this.AE_lowPressureBoost = target;
+                }
                 break;
             case 'highTempWC':
-                this.highTempWC = target;
+                if(source =='Main Engine'){
+                    this.ME_highTempWC = target;
+                }else{
+                    this.AE_highTempWC = target;
+                }
                 break;
             case 'lowTempWC':
-                this.lowTempWC = target;
+                if(source =='Main Engine'){
+                    this.ME_lowTempWC = target;
+                }else{
+                    this.AE_lowTempWC = target;
+                }
                 break;
             case 'fullLeakageInspPipe':
                 this.fullLeakageInspPipe = target;
@@ -82,43 +110,107 @@ export default class AlarmManager extends EventEmitter{
             default:
                 break;
         }
+        if(target == AlarmStatus.Acknowledged){
+            this.emit('Alarm', new AlarmDetail(command, 'Acknowledged', source, target));
+        }
     }
 
-    highTempLubOil_ON(source) {
-        if(!this.activeHighTempLubOil) return;
-        this.emit('Alarm', new AlarmDetail('highTempLubOil', 'Lub. Oil High Temp.', source, AlarmStatus.Active));
-        this.highTempLubOil = AlarmStatus.Active;
+    checkAlarmStatus(command, target, source){
+        switch (command) {
+            case 'highPressureLubOil':
+                if(source =='Main Engine'){
+                    return this.ME_highPressLubOil == target;
+                }else{
+                    return this.AE_highPressLubOil == target;
+                }
+            case 'lowPressureLubOil':
+                if(source =='Main Engine'){
+                    return this.ME_lowPressLubOil == target;
+                }else{
+                    return this.AE_lowPressLubOil == target;
+                }
+            case 'lowPressureBoost':
+                if(source =='Main Engine'){
+                    return this.ME_lowPressureBoost == target;
+                }else{
+                    return this.AE_lowPressureBoost == target;
+                }
+                break;
+            case 'highTempWC':
+                if(source =='Main Engine'){
+                    return this.ME_highTempWC == target;
+                }else{
+                    return this.AE_highTempWC == target;
+                }
+            case 'lowTempWC':
+                if(source =='Main Engine'){
+                    return this.ME_lowTempWC == target;
+                }else{
+                    return this.AE_lowTempWC == target;
+                }
+            case 'fullLeakageInspPipe':
+                return this.fullLeakageInspPipe == target;
+            case 'battreyFault':
+                return this.battreyFault = target;
+            default:
+                console.log('OUTLAWWW!!!')
+                return false;
+        }
     }
 
-    highTempLubOil_OFF(source) {
-        // if(!this.activeHighTempLubOil) return;
-        // this.emit('Alarm', new Alarm('highTempLubOil', 'Lub. Oil High Temp.', source));
-        this.highTempLubOil = true;
-        this.greyAlarm.forEach((alarm) => {
-            console.log(alarm);
-        });
+    checkActive(command){
+        switch (command) {
+            case 'highPressureLubOil':
+                return this.activeHighPressLubOil;
+            case 'lowPressureLubOil':
+                return this.activeLowPressLubOil;
+            case 'lowPressureBoost':
+                return this.activeLowPressureBoost;
+            case 'highTempWC':
+                return this.activeHighTempWC;
+            case 'lowTempWC':
+                return this.activeLowTempWC;
+            case 'fullLeakageInspPipe':
+                return this.activeFullLeakageInspPipe;
+            case 'battreyFault':
+                return this.activeBattreyFault;
+            default:
+                break;
+        }
+        return false;
     }
 
-    lowPressureBoost_ON(source) {
-        if(!this.activeLowPressureBoost) return;
-        if(this.lowPressureBoost == AlarmStatus.Inactive){
-            console.log("Emit alarm pressure boost");
-            let newAlarm = new AlarmDetail('lowPressureBoost', 'Low Boost Pressure', source, AlarmStatus.Active)
-            this.lowPressureBoost = AlarmStatus.Active;
-            this.redAlarm.push(newAlarm);
-            // console.log(this.redAlarm);
+    checkAvaliableInAlarmSummary(source, command){
+        let list = this.greyAlarm.concat(this.redAlarm)
+        let target = list.filter(alarm => alarm.command == command && alarm.source == source);
+        return target.length == 0;
+    }
+
+    alarm_ON(source, command, desc) {
+        if(!this.checkActive(command)) return;
+        if(this.checkAlarmStatus(command, AlarmStatus.Inactive, source)){
+            // console.log("Emit ", desc);
+            let newAlarm = new AlarmDetail(command, desc, source, AlarmStatus.Active)
+            // console.log("alarm ON")
+            this.changeAlarmStatus(command, AlarmStatus.Active, source);
+            if(this.checkAvaliableInAlarmSummary(source, command)){
+                this.redAlarm.push(newAlarm);
+            }
             this.emit('Alarm', newAlarm);
         }
     }
 
-    lowPressureBoost_OFF(source) {
-        if(this.lowPressureBoost == AlarmStatus.Acknowledged){
-            console.log('Emit low off')
-            this.lowPressureBoost = AlarmStatus.Inactive;
+    alarm_OFF(source, command, desc) {
+        // if(source=='Aux Engine') console.log("Target Aux", command, AlarmStatus.Acknowledged, "result", this.AE_lowPressLubOil)
+        // if(source == 'Main Engine') console.log("Target Main", command, AlarmStatus.Acknowledged, "result", this.ME_lowPressLubOil)
+        if(this.checkAlarmStatus(command, AlarmStatus.Acknowledged, source)){
+            // console.log('Emit low off')
+            // console.log("alarm off");
+            this.changeAlarmStatus(command, AlarmStatus.Inactive, source)
             this.greyAlarm.forEach(() => {
-                this.greyAlarm = this.greyAlarm.filter(alarm => !(alarm.command == 'lowPressureBoost' && alarm.source == source));
+                this.greyAlarm = this.greyAlarm.filter(alarm => !(alarm.command == command && alarm.source == source));
             });
-            this.emit('Alarm', new AlarmDetail('lowPressureBoost', 'Low Boost Pressure', source, AlarmStatus.Inactive));
+            this.emit('Alarm', new AlarmDetail(command, desc, source, AlarmStatus.Inactive));
         }
     }
 

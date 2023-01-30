@@ -4,52 +4,63 @@ import { AlarmStatus } from '../DataComponents/AlarmControls/AlarmManager';
 
 function Alarm({alarmManager}) {
     const[ME_FO_PressureLow, setME_FO_PressureLow] = useState(AlarmStatus.Inactive);
+    const[AE_FO_PressureLow, setAE_FO_PressureLow] = useState(AlarmStatus.Inactive);
+
+    const[ME_LubOil_PressureHigh, setME_LubOil_PressureHigh] = useState(AlarmStatus.Inactive);
+    const[ME_LubOil_PressureLow, setME_LubOil_PressureLow] = useState(AlarmStatus.Inactive);
+
+    const[AE_LubOil_PressureHigh, setAE_LubOil_PressureHigh] = useState(AlarmStatus.Inactive);
+    const[AE_LubOil_PressureLow, setAE_LubOil_PressureLow] = useState(AlarmStatus.Inactive);
+
+    const[ME_FW_TempHigh, setME_FW_TempHigh] = useState(AlarmStatus.Inactive);
+    const[ME_FW_TempLow, setME_FW_TempLow] = useState(AlarmStatus.Inactive);
+
+    const[AE_FW_TempHigh, setAE_FW_TempHigh] = useState(AlarmStatus.Inactive);
+    const[AAE_FW_TempLow, setAE_FW_TempLow] = useState(AlarmStatus.Inactive);
 
     useEffect(() => {
         alarmManager.on('Alarm', (value)=>{
-            if(value.status == AlarmStatus.Active){
+            // console.log(value.command, value.source, value.status)
+            if(value.status == AlarmStatus.Active || value.status == AlarmStatus.Inactive){
                 switch(value.command){
-                    case 'highTempLubOil':
-                        // this.highTempLubOil = target;
+                    case 'highPressureLubOil':
+                        // console.log(value.command, value.source, value.status)
+                        if(value.source =='Main Engine'){
+                            setME_LubOil_PressureHigh(value.status);
+                        }else{
+                            setAE_LubOil_PressureHigh(value.status)
+                        }
+                        // console.log(ME_LubOil_PressureHigh, AE_LubOil_PressureHigh)
                         break;
-                    case 'lowTempLubOil':
-                        // this.lowTempLubOil = target;
+                    case 'lowPressureLubOil':
+                        // console.log(value.command, value.source, value.status)
+                        if(value.source =='Main Engine'){
+                            setME_LubOil_PressureLow(value.status)
+                        }else{
+                            setAE_LubOil_PressureLow(value.status)
+                        }
+                        // console.log(ME_LubOil_PressureLow, AE_FO_PressureLow)
                         break;
                     case 'lowPressureBoost':
-                        setME_FO_PressureLow(AlarmStatus.Active);
+                        if(value.source =='Main Engine'){
+                            setME_FO_PressureLow(value.status);
+                        }else{
+                            setAE_FO_PressureLow(value.status)
+                        }
                         break;
                     case 'highTempWC':
-                        // this.highTempWC = target;
+                        if(value.source =='Main Engine'){
+                            setME_FW_TempHigh(value.status)
+                        }else{
+                            setAE_FW_TempHigh(value.status)
+                        }
                         break;
                     case 'lowTempWC':
-                        // this.lowTempWC = target;
-                        break;
-                    case 'fullLeakageInspPipe':
-                        // this.fullLeakageInspPipe = target;
-                        break;
-                    case 'battreyFault':
-                        // this.battreyFault = target;
-                        break;
-                    default:
-                        break;
-                }
-            }else if(value.status == AlarmStatus.Inactive){
-                switch(value.command){
-                    case 'highTempLubOil':
-                        // this.highTempLubOil = target;
-                        break;
-                    case 'lowTempLubOil':
-                        // this.lowTempLubOil = target;
-                        break;
-                    case 'lowPressureBoost':
-                        // console.log(ME_FO_PressureLow);
-                        setME_FO_PressureLow(AlarmStatus.Inactive);
-                        break;
-                    case 'highTempWC':
-                        // this.highTempWC = target;
-                        break;
-                    case 'lowTempWC':
-                        // this.lowTempWC = target;
+                        if(value.source =='Main Engine'){
+                            setME_FW_TempLow(value.status)
+                        }else{
+                            setAE_FW_TempLow(value.status)
+                        }
                         break;
                     case 'fullLeakageInspPipe':
                         // this.fullLeakageInspPipe = target;
@@ -65,30 +76,57 @@ function Alarm({alarmManager}) {
     }, []);
 
     useEffect(() =>{
+        if(ME_LubOil_PressureHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('highPressureLubOil', 'Main Engine');
+        }
+    }, [ME_LubOil_PressureHigh])
+
+    useEffect(() =>{
+        if(AE_LubOil_PressureHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('highPressureLubOil', 'Aux Engine');
+        }
+    }, [AE_LubOil_PressureHigh])
+
+    useEffect(() =>{
+        if(ME_LubOil_PressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('lowPressureLubOil', 'Main Engine');
+        }
+    }, [ME_LubOil_PressureLow])
+
+    useEffect(() =>{
+        if(AE_LubOil_PressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('lowPressureLubOil', 'Aux Engine');
+        }
+    }, [AE_LubOil_PressureLow])
+
+    useEffect(() =>{
         if(ME_FO_PressureLow == AlarmStatus.Acknowledged){
             alarmManager.acknowledgeAlarm('lowPressureBoost', 'Main Engine');
         }
-        // console.log('TEST ALARM ACKNOWLEDGHE')
-        // console.log(alarmManager.redAlarm);
-        // console.log(alarmManager.greyAlarm);
     }, [ME_FO_PressureLow])
+
+    useEffect(() =>{
+        if(AE_FO_PressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('lowPressureBoost', 'Aux Engine');
+        }
+    }, [AE_FO_PressureLow])
 
     return (
         <div className='whiteBox-AlarmContainer'>
             <AlarmBlock name={"Overspeed Shutdown"} active={false}/>
-            <AlarmBlock name={"ME Lub Oil Temperature High"} active={false}/>
+            <AlarmBlock name={"ME Lub Oil Pressure High"} active={ME_LubOil_PressureHigh} setState={setME_LubOil_PressureHigh}/>
             <AlarmBlock name={"ME Fuel Oil Pressure Low"} active={ME_FO_PressureLow} setState={setME_FO_PressureLow}/>
 
             <AlarmBlock name={"Shutdown Canceled"} active={false}/>
-            <AlarmBlock name={"AE Lub Oil Temperature High"} active={false}/>
-            <AlarmBlock name={"AE Fuel Oil Pressure Low"} active={false}/>
+            <AlarmBlock name={"AE Lub Oil Pressure High"} active={AE_LubOil_PressureHigh} setState={setAE_LubOil_PressureHigh}/>
+            <AlarmBlock name={"AE Fuel Oil Pressure Low"} active={AE_FO_PressureLow} setState={setAE_FO_PressureLow}/>
 
             <AlarmBlock name={"Start Failure"} active={false}/>
-            <AlarmBlock name={"ME Lub Oil Temperature Low"} active={false}/>
+            <AlarmBlock name={"ME Lub Oil Pressure Low"} active={ME_LubOil_PressureLow} setState={setME_LubOil_PressureLow}/>
             <AlarmBlock name={"Exhaust Gas After T/C Temp High"} active={false}/>
 
             <AlarmBlock name={"Stop Failure"} active={false}/>
-            <AlarmBlock name={"AE Lub Oil Temperature Low"} active={false}/>
+            <AlarmBlock name={"AE Lub Oil Pressure Low"} active={AE_LubOil_PressureLow} setState={setAE_LubOil_PressureLow}/>
             <AlarmBlock name={"Exhaust Gas Before T/C Temp High"} active={false}/>
 
             <AlarmBlock name={"Remote Control Fail"} active={false}/>

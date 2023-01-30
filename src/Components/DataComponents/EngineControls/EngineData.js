@@ -165,19 +165,26 @@ export default class EngineData extends EventEmitter{
 
 
         if(this.boostPressure < this.lowPressureFO){
-            this.alarmManager.lowPressureBoost_ON(this.source)
+            this.alarmManager.alarm_ON(this.source, 'lowPressureBoost', 'Low Boost Pressure')
             // console.log("Low Pressure ON");
         }else{
-            this.alarmManager.lowPressureBoost_OFF(this.source)
+            this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')
             // console.log("Low Pressure OFF");
         }
 
         if(this.coolingWaterTemp < this.lowTempCW){
-
-        }else if(this.coolingWaterTemp > this.highTempCW){
-
+            // console.log("Lower");
+            this.alarmManager.alarm_ON(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
         }else{
-
+            this.alarmManager.alarm_OFF(this.source, 'lowPressureLubOil', 'Low Lub. Oil Pressure')
+        }
+        
+        if(this.coolingWaterTemp > this.highTempCW){
+            // console.log("Higher");
+            this.alarmManager.alarm_ON(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+        }else{
+            // console.log("Neither");
+            this.alarmManager.alarm_OFF(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
         }
         
         // if(this.exhaustTemp < this.lowTempExhGas){

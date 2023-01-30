@@ -3,6 +3,7 @@ import ParameterSettings from './parameterSettings';
 import MEStateButton from '../ME/ME-Indicator/me_state_change_button';
 import ArrowLefticonActive from '../../Assets/AMS-Modelling-Assets/ArrowLefticonActive.png'
 import ArrowRightIconActive from '../../Assets/AMS-Modelling-Assets/ArrowRightIconActive.png'
+import ParameterSettings2 from './parameterSettings2';
 
 function Parameter({state, setState, mainEngineValue, auxEngineValue, loginManager, virtualKeyboardManager}) {
     const [allowEdit, setAllowEdit] = useState(false);
@@ -28,12 +29,20 @@ function Parameter({state, setState, mainEngineValue, auxEngineValue, loginManag
                     <ParameterSettings side={"MAIN ENGINE - PORT"} engineValue={mainEngineValue.port} virtualKeyboardManager={virtualKeyboardManager}/>
                 </div>
                 <div className={state==1 ? 'displayContainer-split-parameter-active' : 'displayContainer-split-parameter-inactive'}>
+                    <ParameterSettings2 side={"MAIN ENGINE - STBD"} engineValue={mainEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
+                    <ParameterSettings2 side={"MAIN ENGINE - PORT"} engineValue={mainEngineValue.port} virtualKeyboardManager={virtualKeyboardManager}/>
+                </div>
+                <div className={state==2 ? 'displayContainer-split-parameter-active' : 'displayContainer-split-parameter-inactive'}>
                     <ParameterSettings side={"AUX. ENGINE - STBD"} engineValue={auxEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
                     <ParameterSettings side={"AUX. ENGINE - PORT"} engineValue={auxEngineValue.port} virtualKeyboardManager={virtualKeyboardManager}/>
                 </div>
+                <div className={state==3 ? 'displayContainer-split-parameter-active' : 'displayContainer-split-parameter-inactive'}>
+                    <ParameterSettings2 side={"AUX. ENGINE - STBD"} engineValue={auxEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
+                    <ParameterSettings2 side={"AUX. ENGINE - PORT"} engineValue={auxEngineValue.port} virtualKeyboardManager={virtualKeyboardManager}/>
+                </div>
                 <div className='StateChangeButton-container'>
-                    <MEStateButton icon={ArrowLefticonActive} state={state} setState={setState} stateValueChange={-1} max={1} min={0} />
-                    <MEStateButton icon={ArrowRightIconActive} state={state} setState={setState} stateValueChange={1} max={1} min={0}/>
+                    <MEStateButton icon={ArrowLefticonActive} state={state} setState={setState} stateValueChange={-1} max={3} min={0} />
+                    <MEStateButton icon={ArrowRightIconActive} state={state} setState={setState} stateValueChange={1} max={3} min={0}/>
                 </div>
             </div>
         </div>
