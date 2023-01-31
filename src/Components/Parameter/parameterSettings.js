@@ -8,11 +8,15 @@ function ParameterSettings({side, engineValue, virtualKeyboardManager}) {
     const [stopRPM, setStopRPM] = useState(engineValue.stopRPM);
     const [restartRPM, setRestartRPM] = useState(engineValue.restartRPM);
     const [startStopTimeDelay, setStartStopTimeDelay] = useState(engineValue.startStopTimeDelay);
-    const [lowPressureFO, setLowPressureFO] = useState(engineValue.lowPressureFO);
     const [lowTempCW, setLowTempCW] = useState(engineValue.lowTempCW);
     const [highTempCW, setHighTempCW] = useState(engineValue.highTempCW);
-    const [lowPressLubOil, setLowTempExhGas] = useState(engineValue.lowPressLubOil);
-    const [highPressLubOil, setHighTempExhGas] = useState(engineValue.highPressLubOil);
+    const [lowPressLubOil, setLowPressLubOil] = useState(engineValue.lowPressLubOil);
+    const [highPressLubOil, setHighPressLubOil] = useState(engineValue.highPressLubOil);
+    const [highTempExhGas, setHighTempExhGas] = useState(engineValue.highTempExhGas);
+
+    useEffect(() =>{
+        engineValue.highTempExhGas = highTempExhGas
+    }, [highTempExhGas, engineValue])
 
     useEffect(() =>{
         engineValue.highPressLubOil = highPressLubOil
@@ -42,9 +46,7 @@ function ParameterSettings({side, engineValue, virtualKeyboardManager}) {
         engineValue.startStopTimeDelay = startStopTimeDelay
     }, [startStopTimeDelay, engineValue])
 
-    useEffect(() =>{
-        engineValue.lowPressureFO = lowPressureFO
-    }, [lowPressureFO, engineValue])
+    
 
     return (
         <div className='displayContainer-shard'>
@@ -68,19 +70,19 @@ function ParameterSettings({side, engineValue, virtualKeyboardManager}) {
                     virtualKeyboardManager.showKeyboard(setStartStopTimeDelay, "Start Stop Time Delay:", false)
                 }}/>
                 <ParameterSettingsNumber name={"High Pressure Lub. Oil Set Point"} value={highPressLubOil} onClick={() => {
-                    virtualKeyboardManager.showKeyboard(setHighTempExhGas, "High Pressure Lub. Oil Set Point:", false)
+                    virtualKeyboardManager.showKeyboard(setHighPressLubOil, "High Pressure Lub. Oil Set Point:", false)
                 }}/>
                 <ParameterSettingsNumber name={"Low Pressure Lub. Oil Set Point"} value={lowPressLubOil} onClick={() => {
-                    virtualKeyboardManager.showKeyboard(setLowTempExhGas, "Low Pressure Lub. Oil Set Point:", false)
-                }}/>
-                <ParameterSettingsNumber name={"Low Pressure FO Set Point"} value={lowPressureFO.toFixed(2)} onClick={() => {
-                    virtualKeyboardManager.showKeyboard(setLowPressureFO, "Low Pressure FO Set Point:", false)
+                    virtualKeyboardManager.showKeyboard(setLowPressLubOil, "Low Pressure Lub. Oil Set Point:", false)
                 }}/>
                 <ParameterSettingsNumber name={"High Temp CW Set Point"} value={highTempCW} onClick={() => {
                     virtualKeyboardManager.showKeyboard(setHighTempCW, "High Temp CW Set Point:", false)
                 }}/>
                 <ParameterSettingsNumber name={"Low Temp CW Set Point"} value={lowTempCW} onClick={() => {
                     virtualKeyboardManager.showKeyboard(setLowTempCW, "Low Temp CW Set Point:", false)
+                }}/>
+                <ParameterSettingsNumber name={"High Temp Exh Gas Set Point"} value={highTempExhGas} onClick={() => {
+                    virtualKeyboardManager.showKeyboard(setHighTempExhGas, "High Temp Exh Gas Set Point:", false)
                 }}/>
             </div>
         </div>

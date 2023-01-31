@@ -43,12 +43,12 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
   return (
     <div className='mainContainer'>
         <div className="headerContainer">
-            <Header state={currentState} stateIndicator={activeIndicatorView} loginManager={loginManager}/>
+            <Header state={currentState} stateIndicator={activeIndicatorView} loginManager={loginManager} alarmManager={alarmManager} />
         </div>
         <div className="displayContainer">
           <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
           <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
-          <DisplayContainer name="OVERVIEW" state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
+          <DisplayContainer name="OVERVIEW" state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
           {/* <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} /> */}
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm alarmManager={alarmManager} />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary alarmManager={alarmManager} />} />

@@ -27,10 +27,16 @@ function IndicatorRevolutionEngine({engine, size}) {
     const constantData = [UI_ENIN_Rev_RPM_BG, UI_ENIN_Rev_RPM_Front, UI_ENIN_Boost_MPa_OuterRing, size, fillRotation, titleValue, unitValue];
 
     const[rawValue, setRawValue] = useState(engine.engineRev);
+    const[warningLight, setWarningLight] = useState(false);
 
     useEffect(() => {
         engine.on('Engine Rev', (value) => {
             setRawValue(value);
+            if(value > engine.stopRPM){
+                setWarningLight(true)
+            }else{
+                setWarningLight(false)
+            }
         });
     }, []);
 
@@ -41,7 +47,7 @@ function IndicatorRevolutionEngine({engine, size}) {
             valueStyle={valueStyle}
             unitStyle={unitStyle}
             rawValue={rawValue.toFixed(0)}
-            activeAlarm={false}
+            activeAlarm={warningLight}
             constantData={constantData}
             />
     );

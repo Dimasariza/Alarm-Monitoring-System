@@ -28,26 +28,26 @@ export default class EngineData extends EventEmitter{
         this.shaftRev = 2000;
         this.lubOilPressure = 0.5;
         this.boostPressure = 0.2;
-        this.coolingWaterTemp = 120;
+        this.coolingWaterTemp = 60;
         this.coolingWaterPressure = 0.5;
         this.exhaustTemp = 400;
-        this.runningHour = 10000;
-        this.battreyVolt = 30;
+        this.runningHour = 0;
+        this.battreyVolt = 13.7;
         this.battreyLife = 100;
 
         this.engineDirection = EngineDirection.Neutral;
-        this.engineControlStatus = EngineControlStatus.Remote;
-        this.emergencyStop = false;
-        this.readyToStart = true;
+        this.engineControlStatus = EngineControlStatus.Local;
+        this.emergencyStop = true;
+        this.readyToStart = false;
         this.auxBlowerFailure = false;
-        this.engineRunning = true;
+        this.engineRunning = false;
         this.startingFailure = false;
         this.battreyCharging = false;
-        this.buzzer = true;
-        this.amp = 80;
+        this.buzzer = false;
+        this.voltMeter = 383
+        this.amp = 61;
         this.pf = 0.85;
-        this.power = 80;
-        this.halfCircle = 100;
+        this.power = 19157;
 
         this.startCommandActive = true;
         this.valveOpenActive = false;
@@ -59,11 +59,11 @@ export default class EngineData extends EventEmitter{
         this.lowTempCW = 88;
         this.highTempCW = 95;
         this.lowTempExhGas = 100;
-        this.highTempExhGas = 495;
+        this.highTempExhGas = 498;
         this.highPressLubOil = 0.25;
         this.lowPressLubOil = 0.15;
-        this.workloadMax = 500;
-        this.workloadMin = 250;
+        this.workloadMax = 75;
+        this.workloadMin = 10;
 
         this.maxEngineRev = 3500;
         this.maxCoolingWaterTemp = 120;
@@ -73,7 +73,7 @@ export default class EngineData extends EventEmitter{
 
         this.alarmManager = alarmManager;
         this.source = source;
-        this.workload = 0
+        this.workload = 100
         this.engineTrip = false
     }
 
@@ -122,16 +122,18 @@ export default class EngineData extends EventEmitter{
     }
 
     setEngineTrip(){
-        this.engineRev = 0;
-        this.shaftRev = 0;
-        this.lubOilPressure = 0;
-        this.boostPressure = 0;
-        this.coolingWaterTemp = 0;
-        this.coolingWaterPressure = 0;
-        this.exhaustTemp = 0;
+        // this.engineRev = 0;
+        // this.shaftRev = 0;
+        // this.lubOilPressure = 0;
+        // this.boostPressure = 0;
+        // this.coolingWaterTemp = 0;
+        // this.coolingWaterPressure = 0;
+        // this.exhaustTemp = 0;
+        // this.engineTrip = true
     }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
+        if(this.engineTrip) return;
         this.engineRev = (engineRPM / 1023) * this.maxEngineRev;
         this.shaftRev = this.engineRev * this.shaftGearBox;
         this.coolingWaterTemp = (coolantTemp / 1023) * this.maxCoolingWaterTemp;
@@ -153,11 +155,35 @@ export default class EngineData extends EventEmitter{
                 if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
                     this.alarmManager.alarm_ON(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
                 }
-                // this.alarmManager.battreyFault = false
-                // this.alarmManager.engineOverspeed = true
-                if(!this.alarmManager.battreyFault && this.alarmManager.engineOverspeed){
-                    this.alarmManager.alarm_ON(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
+
+                if(this.alarmManager.pumpRawWaterFlowEngine && !this.alarmManager.lubricatingOilPressureLow){
+                    this.alarmManager.alarm_ON(this.source, 'MELubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
                 }
+
+                if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.lubricatingOilPressureLow){
+                    this.alarmManager.alarm_ON(this.source, 'MELubOilGearPressureLow', 'ME Lub Oil Gear Pressure Low')
+                }
+
+                if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.lubricatingOilTemperatureHigh){
+                    this.alarmManager.alarm_ON(this.source, 'SpeedGovernorFail', 'Speed Governor Fail')
+                }
+
+                if(this.alarmManager.loadPanelSwitch && this.alarmManager.engineOverspeed){
+                    this.alarmManager.alarm_ON(this.source, 'RemoteControlFail', 'Remote Control Fail')
+                }
+
+
+                // // Interm
+                // // this.alarmManager.battreyFault = false
+                // // this.alarmManager.engineOverspeed = true
+                // if(!this.alarmManager.battreyFault && this.alarmManager.engineOverspeed){
+                //     this.alarmManager.alarm_ON(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
+                // }
+
+                // if(!this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
+                //     this.alarmManager.alarm_ON(this.source, 'MEFuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
+                // }
+                this.ME_InterimCondition = true
             }
             this.setEngineTrip();
         }else{
@@ -165,9 +191,30 @@ export default class EngineData extends EventEmitter{
                 if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
                     this.alarmManager.alarm_OFF(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
                 }
+                if(this.alarmManager.pumpRawWaterFlowEngine && !this.alarmManager.lubricatingOilPressureLow){
+                    this.alarmManager.alarm_OFF(this.source, 'MELubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
+                }
+
+                if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.lubricatingOilPressureLow){
+                    this.alarmManager.alarm_OFF(this.source, 'MELubOilGearPressureLow', 'ME Lub Oil Gear Pressure Low')
+                }
+
+                if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.lubricatingOilTemperatureHigh){
+                    this.alarmManager.alarm_OFF(this.source, 'SpeedGovernorFail', 'Speed Governor Fail')
+                }
+
+                if(this.alarmManager.loadPanelSwitch && this.alarmManager.engineOverspeed){
+                    this.alarmManager.alarm_OFF(this.source, 'RemoteControlFail', 'Remote Control Fail')
+                }
+
                 if(!this.alarmManager.battreyFault && this.alarmManager.engineOverspeed){
                     this.alarmManager.alarm_OFF(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
                 }
+
+                if(!this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
+                    this.alarmManager.alarm_OFF(this.source, 'MEFuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
+                }
+                this.ME_InterimCondition = false
             }
             // this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')
             // console.log("Low Pressure OFF");

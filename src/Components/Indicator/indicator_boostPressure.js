@@ -35,22 +35,26 @@ function IndicatorBoostPressure({engine, size, alarmManager}) {
     useEffect(() => {
         engine.on('Boost Pressure', (value) => {
             setRawValue(value);
+            if(value < engine.lowPressureFO || value > engine.highPressureFO){
+                setAlarm(true)
+            }else{
+                setAlarm(false)
+            }
         });
 
-        engine.alarmManager.on('Alarm', (value) => {
-            if(alarmManager.activeLowPressureBoost){
-                if(value.command == respondCommand && value.source == engine.source){
-                    if(value.status == AlarmStatus.Active){
-                        setAlarm(true);
-                    }else{
-                        setAlarm(false);
-                    }
-                }
-            }else{
-                setAlarm(false);
-            }
-            
-        });
+        // engine.alarmManager.on('Alarm', (value) => {
+        //     if(alarmManager.activeLowPressureBoost){
+        //         if(value.command == respondCommand && value.source == engine.source){
+        //             if(value.status == AlarmStatus.Active){
+        //                 setAlarm(true);
+        //             }else{
+        //                 setAlarm(false);
+        //             }
+        //         }
+        //     }else{
+        //         setAlarm(false);
+        //     }
+        // });
     }, []);
 
     return (

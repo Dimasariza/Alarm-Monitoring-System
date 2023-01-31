@@ -9,10 +9,10 @@ import Overview from '../Overview/overview';
 function ME({mainEngineValue, state, setState, alarmManager}) {
     return (
         <div className='meContainer'>
-            <div className={state==0 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
+            <div className={state==0 ? 'displayContainer-activated' : 'displayContainer-deactivated'} >
                 <ME_Indicator stateName={'STBD ENGINE'} inputValueStbd={mainEngineValue.stbd}  inputValuePort={mainEngineValue.port} alarmManager={alarmManager}/>
             </div>
-            <div className={state==1 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
+            {/* <div className={state==1 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
                 <ME_Indicator stateName={'PORT ENGINE'} inputValueStbd={mainEngineValue.stbd}  inputValuePort={mainEngineValue.port}  alarmManager={alarmManager}/>
             </div>
             <div className={state==2 ? 'displayContainer-activated' : 'displayContainer-deactivated'}>
@@ -21,7 +21,7 @@ function ME({mainEngineValue, state, setState, alarmManager}) {
             <div className='StateChangeButton-container'>
                 <MEStateButton icon={ArrowLefticonActive} state={state} setState={setState} stateValueChange={-1} max={2} min={0} />
                 <MEStateButton icon={ArrowRightIconActive} state={state} setState={setState} stateValueChange={1} max={2} min={0}/>
-            </div>
+            </div> */}
         </div>
         
     );

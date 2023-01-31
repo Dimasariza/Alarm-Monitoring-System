@@ -77,7 +77,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                     <img src={Electricity} style={{width: 50}}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 190, '--leftPos' : 44 }}> 
-                                    <IndicatorHalfCircle rawValue={100} size={90}/>
+                                    <IndicatorHalfCircle rawValue={auxEngineValue.stbd.workload} size={90}/>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +102,7 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                     <img src={Electricity} style={{width: 50}}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 190, '--leftPos' : 0 }}> 
-                                    <IndicatorHalfCircle rawValue={100} size={90}/>
+                                    <IndicatorHalfCircle rawValue={auxEngineValue.port.workload} size={90}/>
                                 </div>
                             </div>
                         </div>

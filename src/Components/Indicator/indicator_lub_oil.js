@@ -37,32 +37,37 @@ function IndicatorLubOil({engine, size, alarmManager}) {
     useEffect(() => {
         engine.on('Lub Oil Pressure', (value) => {
             setRawValue(value);
+            if(value < engine.lowPressLubOil || value > engine.highPressLubOil){
+                setAlarm(true)
+            }else{
+                setAlarm(false)
+            }
         });
 
-        engine.alarmManager.on('Alarm', (value) => {
-            if(engine.alarmManager.checkActive(value.command)){
-                if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
-                    // console.log(titleValue, engine.source, value.command, value.source)
-                    if(value.status == AlarmStatus.Active){
-                        // alarmCount++;
-                        // console.log('plus', value.source, alarmCount)
-                        setAlarm(true);
-                    }else{
-                        // alarmCount--;
-                        // console.log('min', value.source, alarmCount)
-                        setAlarm(false);
-                    }
-                }
-            }else{
-                alarmCount = 0;
-                setAlarm(false);
-            }
-            // if(alarmCount == 0){
-            //     setAlarm(false);
-            // }else{
-            //     setAlarm(true);
-            // }
-        });
+        // engine.alarmManager.on('Alarm', (value) => {
+        //     if(engine.alarmManager.checkActive(value.command)){
+        //         if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
+        //             // console.log(titleValue, engine.source, value.command, value.source)
+        //             if(value.status == AlarmStatus.Active){
+        //                 // alarmCount++;
+        //                 // console.log('plus', value.source, alarmCount)
+        //                 setAlarm(true);
+        //             }else{
+        //                 // alarmCount--;
+        //                 // console.log('min', value.source, alarmCount)
+        //                 setAlarm(false);
+        //             }
+        //         }
+        //     }else{
+        //         alarmCount = 0;
+        //         setAlarm(false);
+        //     }
+        //     // if(alarmCount == 0){
+        //     //     setAlarm(false);
+        //     // }else{
+        //     //     setAlarm(true);
+        //     // }
+        // });
 
     }, []);
 

@@ -12,9 +12,12 @@ function getBoxHeight(boxHeight){
 
 function PowerMeterIndicator({lifeHour, boxWidth, boxHeight}) {
     return (
-        <div style={{width: getBoxWidth(boxWidth), height: getBoxHeight(boxHeight), paddingTop: getBoxHeight(boxHeight)/2}} className='tealBox'>
-            <div style={{'display': 'flex', fontWeight: 'bold', alignItems: 'center', justifyContent: 'center'}}> POWER </div>
-            <div className='battreyText-value'> {lifeHour + ' kW'} </div>
+        <div className='tealBox' style={{width: getBoxWidth(boxWidth), height: getBoxHeight(boxHeight), display: 'flex', alignItems: 'center', justifyContent: 'center'}} >
+            <div style={{'display': 'flex', fontWeight: 'bold', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}> 
+                POWER
+                <div className='battreyText-value'> {lifeHour + ' kW'} </div> 
+            </div>
+            
         </div>
     );
 }

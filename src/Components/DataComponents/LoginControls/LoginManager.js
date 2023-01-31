@@ -6,7 +6,7 @@ export default class LoginManager extends EventEmitter{
         super()
         this.username = "batera";
         this.password = "123";
-        this.loggedIn = false;
+        this.loggedIn = true;
         this.showDisplay = false;
     }
 

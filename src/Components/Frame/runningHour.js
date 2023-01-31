@@ -4,7 +4,7 @@ import HourIndicator from '../Overview/hourIndicator';
 import HDEngineImage from '../../Assets/PMSOL/HDEngineImage.png'
 import HDEngineImagePower from '../../Assets/PMSOL/HDEngineImage_Power.png'
 
-function RunningHourDisplay({mainEngineValue, state, setState}) {
+function RunningHourDisplay({mainEngineValue, auxEngineValue, state, setState}) {
     return (
         <div className='meContainer'>
             <div className='displayContainer-split'style={{height : 455}}>
@@ -17,18 +17,18 @@ function RunningHourDisplay({mainEngineValue, state, setState}) {
                             STBD ENGINE
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 70}}>
-                            <HourIndicator lifeHour={100} />
+                            <HourIndicator lifeHour={mainEngineValue.stbd.runningHour} />
                         </div>
                     </div>
                     <div className='whiteBox' style={{display: 'flex', position: 'relative', flexDirection: 'column', height: '50%'}}>
-                    <div className='indicator-customLoc' style={{'--topPos': 10, '--leftPos': 5}}>
+                        <div className='indicator-customLoc' style={{'--topPos': 10, '--leftPos': 5}}>
                             <img src={HDEngineImagePower} style={{width: '65%', height: '65%'}}/>
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos': 3, '--leftPos': 60, fontSize: 20, width: 200, fontWeight: 'bold'}}>
                             STBD GENERATOR
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 70}}>
-                            <HourIndicator lifeHour={100} />
+                            <HourIndicator lifeHour={auxEngineValue.stbd.runningHour} />
                         </div>
                     </div>
                 </div>
@@ -41,8 +41,9 @@ function RunningHourDisplay({mainEngineValue, state, setState}) {
                             PORT ENGINE
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 5}}>
-                            <HourIndicator lifeHour={100} />
+                            <HourIndicator lifeHour={0} />
                         </div>
+                        <div className={'indicator-customLoc'} style={{background: 'rgba(100, 100, 100, 0.7)', width: '100%', height: '100%'}}/>
                     </div>
                     <div className='whiteBox' style={{display: 'flex', position: 'relative', flexDirection: 'column', height: '50%'}}>
                         <div className='indicator-customLoc' style={{'--topPos': 10, '--leftPos': 35}}>
@@ -52,8 +53,9 @@ function RunningHourDisplay({mainEngineValue, state, setState}) {
                             PORT GENERATOR
                         </div>
                         <div className='indicator-customLoc' style={{'--topPos': 55, '--leftPos': 5}}>
-                            <HourIndicator lifeHour={100} />
+                            <HourIndicator lifeHour={0} />
                         </div>
+                        <div className={'indicator-customLoc'} style={{background: 'rgba(100, 100, 100, 0.7)', width: '100%', height: '100%'}}/>
                     </div>
                 </div>
                 {/* <METempGraph temperatureArray={inputValue.engineTemperature} />

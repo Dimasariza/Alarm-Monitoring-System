@@ -26,8 +26,11 @@ function AuxEngine({auxEngineValue, state, setState, alarmManager}) {
             <div className='overviewContainer-aux'>
             
                 <div className='whiteBox-overview-indicator' style={{'--whiteBoxHeight': 370}}>
-                    <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 75, fontWeight: 'bold' }}> 
+                    <div className='indicator-customLoc' style={{'--topPos' : 3, '--leftPos' : 70, fontWeight: 'bold', fontSize: 20 }}> 
                         STBD ENGINE
+                    </div>
+                    <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 61 }}> 
+                        <img src={Electricity} style={{width: 30}}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 2 }}> 
                         <IndicatorCoolingWaterTemperature engine={auxEngineValue.stbd} size={120} alarmManager={alarmManager}/>
@@ -54,21 +57,21 @@ function AuxEngine({auxEngineValue, state, setState, alarmManager}) {
                         <PFIndicator lifeHour={auxEngineValue.stbd.pf} boxWidth={50} />
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 61, '--leftPos' : 77.5 }}> 
-                        <VoltMeterIndicator lifeHour={auxEngineValue.stbd.battreyVolt} boxWidth={94} />
+                        <VoltMeterIndicator lifeHour={auxEngineValue.stbd.voltMeter} boxWidth={94} />
                     </div>
-                    <div className='indicator-customLoc' style={{'--topPos' : 61, '--leftPos' : 41 }}> 
-                        <PowerMeterIndicator lifeHour={auxEngineValue.stbd.power} boxWidth={160} />
-                    </div>
-                    <div className='indicator-customLoc' style={{'--topPos' : 61.5, '--leftPos' : 29 }}> 
-                        <img src={Electricity} style={{width: 50}}/>
+                    <div className='indicator-customLoc' style={{'--topPos' : 61, '--leftPos' : 31 }}> 
+                        <PowerMeterIndicator lifeHour={auxEngineValue.stbd.power} boxWidth={210} boxHeight={50}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 15, '--leftPos' : 30 }}> 
-                        <IndicatorHalfCircle rawValue={auxEngineValue.stbd.halfCircle} size={170}/>
+                        <IndicatorHalfCircle rawValue={auxEngineValue.stbd.workload} size={170}/>
                     </div>
                 </div>
                 <div className='whiteBox-overview-indicator' style={{'--whiteBoxHeight': 370}}>
-                <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 2, fontWeight: 'bold' }}> 
+                    <div className='indicator-customLoc' style={{'--topPos' : 3, '--leftPos' : 2, fontWeight: 'bold', fontSize: 20 }}> 
                         PORT ENGINE
+                    </div>
+                    <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 32 }}> 
+                        <img src={Electricity} style={{width: 30}}/>
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 2, '--leftPos' : 74 }}> 
                         <IndicatorCoolingWaterTemperature engine={auxEngineValue.port} size={120} alarmManager={alarmManager}/>
@@ -95,16 +98,13 @@ function AuxEngine({auxEngineValue, state, setState, alarmManager}) {
                         <PFIndicator lifeHour={auxEngineValue.port.pf} boxWidth={50} />
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 61, '--leftPos' : 0.5 }}> 
-                        <VoltMeterIndicator lifeHour={auxEngineValue.port.battreyVolt} boxWidth={94} />
+                        <VoltMeterIndicator lifeHour={auxEngineValue.port.voltMeter} boxWidth={94} />
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 61, '--leftPos' : 24 }}> 
-                        <PowerMeterIndicator lifeHour={auxEngineValue.port.power} boxWidth={160} />
-                    </div>
-                    <div className='indicator-customLoc' style={{'--topPos' : 61.5, '--leftPos' : 62 }}> 
-                        <img src={Electricity} style={{width: 50}}/>
+                        <PowerMeterIndicator lifeHour={auxEngineValue.port.power} boxWidth={200} />
                     </div>
                     <div className='indicator-customLoc' style={{'--topPos' : 15, '--leftPos' : 1 }}> 
-                        <IndicatorHalfCircle rawValue={auxEngineValue.port.halfCircle} size={170}/>
+                        <IndicatorHalfCircle rawValue={auxEngineValue.port.workload} size={170}/>
                     </div>
                 </div>
             </div>
@@ -120,7 +120,7 @@ function AuxEngine({auxEngineValue, state, setState, alarmManager}) {
                     </div>
                     <div className='whiteBox-overview-indicator-noBorder'>
                         <div className='overviewContainer-indicator-center-maxWidth'>
-                            <GreenOverviewLight overrideWidth={120} name={"EMERGENCY STOP"} active={auxEngineValue.port.emergencyStop}/>
+                            <RedOverviewLight overrideWidth={120} name={"EMERGENCY STOP"} active={auxEngineValue.port.emergencyStop}/>
                             <GreenOverviewLight overrideWidth={120} name={"READY TO START"} active={auxEngineValue.port.readyToStart}/>
                             <GreenOverviewLight overrideWidth={120} name={"ENGINE RUNNING"} active={auxEngineValue.port.engineRunning}/>
                             <GreenOverviewLight overrideWidth={120} name={"BUZZER"} active={auxEngineValue.port.buzzer}/>

@@ -26,6 +26,8 @@ function IndicatorExhaustTemperature({rawValue, size}) {
     const tittleStyle = {fontSize: getSizeMultiplier(12, size)}
     const constantData = [UI_ENIN_Boost_MPa_BG, UI_ENIN_Eshaust_degC_FG, UI_ENIN_Boost_MPa_OuterRing, size, fillRotation, titleValue, unitValue];
 
+    
+
     return (
         <Indicator 
             percentage={rawValueToPercentage(maxValue, rawValue, maxPercentageValue)}
