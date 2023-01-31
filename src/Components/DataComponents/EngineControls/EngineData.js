@@ -156,21 +156,23 @@ export default class EngineData extends EventEmitter{
                     this.alarmManager.alarm_ON(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
                 }
 
-                if(this.alarmManager.pumpRawWaterFlowEngine && !this.alarmManager.lubricatingOilPressureLow){
-                    this.alarmManager.alarm_ON(this.source, 'MELubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
-                }
+                // this.alarmManager.pumpRawWaterFlowEngine = true
+                // this.alarmManager.lubricatingOilPressureLow = false
+                // if(this.alarmManager.pumpRawWaterFlowEngine && !this.alarmManager.lubricatingOilPressureLow){
+                //     this.alarmManager.alarm_ON(this.source, 'LubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
+                // }
 
-                if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.lubricatingOilPressureLow){
-                    this.alarmManager.alarm_ON(this.source, 'MELubOilGearPressureLow', 'ME Lub Oil Gear Pressure Low')
-                }
+                // if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.lubricatingOilPressureLow){
+                //     this.alarmManager.alarm_ON(this.source, 'LubOilGearPressureLow', 'ME Lub Oil Gear Pressure Low')
+                // }
 
-                if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.lubricatingOilTemperatureHigh){
-                    this.alarmManager.alarm_ON(this.source, 'SpeedGovernorFail', 'Speed Governor Fail')
-                }
+                // if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.lubricatingOilTemperatureHigh){
+                //     this.alarmManager.alarm_ON(this.source, 'SpeedGovernorFail', 'Speed Governor Fail')
+                // }
 
-                if(this.alarmManager.loadPanelSwitch && this.alarmManager.engineOverspeed){
-                    this.alarmManager.alarm_ON(this.source, 'RemoteControlFail', 'Remote Control Fail')
-                }
+                // if(this.alarmManager.loadPanelSwitch && this.alarmManager.engineOverspeed){
+                //     this.alarmManager.alarm_ON(this.source, 'RemoteControlFail', 'Remote Control Fail')
+                // }
 
 
                 // // Interm
@@ -191,29 +193,29 @@ export default class EngineData extends EventEmitter{
                 if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
                     this.alarmManager.alarm_OFF(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
                 }
-                if(this.alarmManager.pumpRawWaterFlowEngine && !this.alarmManager.lubricatingOilPressureLow){
-                    this.alarmManager.alarm_OFF(this.source, 'MELubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
-                }
+                // if(this.alarmManager.pumpRawWaterFlowEngine && !this.alarmManager.lubricatingOilPressureLow){
+                //     this.alarmManager.alarm_OFF(this.source, 'LubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
+                // }
 
-                if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.lubricatingOilPressureLow){
-                    this.alarmManager.alarm_OFF(this.source, 'MELubOilGearPressureLow', 'ME Lub Oil Gear Pressure Low')
-                }
+                // if(!this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.lubricatingOilPressureLow){
+                //     this.alarmManager.alarm_OFF(this.source, 'LubOilGearPressureLow', 'ME Lub Oil Gear Pressure Low')
+                // }
 
-                if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.lubricatingOilTemperatureHigh){
-                    this.alarmManager.alarm_OFF(this.source, 'SpeedGovernorFail', 'Speed Governor Fail')
-                }
+                // if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.lubricatingOilTemperatureHigh){
+                //     this.alarmManager.alarm_OFF(this.source, 'SpeedGovernorFail', 'Speed Governor Fail')
+                // }
 
-                if(this.alarmManager.loadPanelSwitch && this.alarmManager.engineOverspeed){
-                    this.alarmManager.alarm_OFF(this.source, 'RemoteControlFail', 'Remote Control Fail')
-                }
+                // if(this.alarmManager.loadPanelSwitch && this.alarmManager.engineOverspeed){
+                //     this.alarmManager.alarm_OFF(this.source, 'RemoteControlFail', 'Remote Control Fail')
+                // }
 
-                if(!this.alarmManager.battreyFault && this.alarmManager.engineOverspeed){
-                    this.alarmManager.alarm_OFF(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
-                }
+                // if(!this.alarmManager.battreyFault && this.alarmManager.engineOverspeed){
+                //     this.alarmManager.alarm_OFF(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
+                // }
 
-                if(!this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
-                    this.alarmManager.alarm_OFF(this.source, 'MEFuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
-                }
+                // if(!this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
+                //     this.alarmManager.alarm_OFF(this.source, 'MEFuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
+                // }
                 this.ME_InterimCondition = false
             }
             // this.alarmManager.alarm_OFF(this.source, 'lowPressureBoost', 'Low Boost Pressure')

@@ -131,9 +131,9 @@ export default class AlarmManager extends EventEmitter{
                 this.lubOilSumpTankLevelLow = target;
             case 'LubOilSumpTankHighLevel':
                 this.lubOilSumpTankHighLevel = target;
-            case 'LubOilSumpGearTempHigh':
+            case 'LubOilGearTempHigh':
                 this.lubOilGearTempHigh = target;
-            case 'LubOilSumpGearPressureLow':
+            case 'LubOilGearPressureLow':
                 this.lubOilGearPressureLow = target;
             case 'SpeedGovernorFail':
                 this.SpeedGovernorFail = target;
@@ -190,9 +190,9 @@ export default class AlarmManager extends EventEmitter{
                 return this.lubOilSumpTankLevelLow == target;
             case 'LubOilSumpTankHighLevel':
                 return this.lubOilSumpTankHighLevel == target;
-            case 'LubOilSumpGearTempHigh':
+            case 'LubOilGearTempHigh':
                 return this.lubOilGearTempHigh == target;
-            case 'LubOilSumpGearPressureLow':
+            case 'LubOilGearPressureLow':
                 return this.lubOilGearPressureLow == target;
             case 'SpeedGovernorFail':
                 return this.SpeedGovernorFail == target;
@@ -250,9 +250,9 @@ export default class AlarmManager extends EventEmitter{
                 return this.lubOilSumpTankLevelLow;
             case 'LubOilSumpTankHighLevel':
                 return this.lubOilSumpTankHighLevel;
-            case 'LubOilSumpGearTempHigh':
+            case 'LubOilGearTempHigh':
                 return this.lubOilGearTempHigh;
-            case 'LubOilSumpGearPressureLow':
+            case 'LubOilGearPressureLow':
                 return this.lubOilGearPressureLow;
             case 'SpeedGovernorFail':
                 return this.SpeedGovernorFail;
