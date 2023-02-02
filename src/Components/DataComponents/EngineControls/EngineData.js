@@ -14,7 +14,7 @@ export const EngineControlStatus = {
 
 export default class EngineData extends EventEmitter{
     
-    constructor(alarmManager, source) {
+    constructor(alarmManager, source, codeSender, socket) {
         super()
         this.engineTemperature = [
             100,
@@ -77,6 +77,8 @@ export default class EngineData extends EventEmitter{
         this.workload = 100
         this.engineTrip = false;
         this.engineStandby = false;
+        this.codeSender = codeSender;
+        this.socket = socket;
     }
 
     getEngineTemperature(){
@@ -132,6 +134,7 @@ export default class EngineData extends EventEmitter{
         // this.coolingWaterPressure = 0;
         // this.exhaustTemp = 0;
         // this.engineTrip = true
+        // this.codeSender(this.socket, 'code')
     }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){

@@ -4,10 +4,10 @@ import RandomEngineData from './RandomEngineData';
 
 export default class EngineDataManager extends EventEmitter {
 
-    constructor(alarmManager, source) {
+    constructor(alarmManager, source, codeSender, socket) {
         super()
-        this.stbd = new EngineData(alarmManager, source);
-        this.port = new EngineData(alarmManager, source);
+        this.stbd = new EngineData(alarmManager, source, codeSender, socket);
+        this.port = new EngineData(alarmManager, source, codeSender, socket);
         this.active = false;
     }
 

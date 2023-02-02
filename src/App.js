@@ -12,20 +12,20 @@ import VirtualKeyboardManager from './Components/DataComponents/VirtualKeyboardC
 
 function sendCode(socket, code){
   // send code to throttle or steer wheel
-  // console.log(code)
+  console.log(code)
   socket.emit('change', code.toString().toUpperCase())
 }
 
 function App() {
+  const socket = io('http://localhost:3000');
   const alarmManager = new AlarmManager();
-  const mainEngine = new EngineDataManager(alarmManager, "Main Engine");
-  const auxEngine = new EngineDataManager(alarmManager, "Aux Engine");
+  const mainEngine = new EngineDataManager(alarmManager, "Main Engine", sendCode, socket);
+  const auxEngine = new EngineDataManager(alarmManager, "Aux Engine", sendCode, socket);
   const GPSData = new GPSDataControl();
   const loginManager = new LoginManager();
   const vkbm = new VirtualKeyboardManager();
   
   const [globalVariable, setArduinoData] = useState("UWU MATEY");
-  const socket = io('http://localhost:3000');
   const [refresh, setRefresh] = useState(false);
 
   let rots = 500
