@@ -41,7 +41,7 @@ function Header({state, stateIndicator, loginManager, alarmManager}) {
         });
 
         alarmManager.on('Deactivate Header', (value) =>{
-            console.log("Acknowlede Desc is " +  value, alarmManager.lastMassage)
+            // console.log("Acknowlede Desc is " +  value, alarmManager.lastMassage)
             if(value == alarmManager.lastMassage){
                 alarmManager.lastMassage=''
                 setHeaderWarning('');

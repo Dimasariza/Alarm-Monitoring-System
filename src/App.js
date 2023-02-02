@@ -37,21 +37,21 @@ function App() {
         // console.log('refresh go! ', mainEngine)
     })
 
-    // const timer = setInterval(() => {
-    //   // console.log('you can see me every 1 seconds')
-    //   // console.log(mainEngine.stbd.boostPressure);
-    //   if(rots < 50 || rots > 1000) backward = !backward 
-    //   if(backward){
-    //     rots = rots - 20
-    //   }else{
-    //     rots = rots + 20
-    //   }
+    const timer = setInterval(() => {
+      // console.log('you can see me every 1 seconds')
+      // console.log(mainEngine.stbd.boostPressure);
+      if(rots < 50 || rots > 1000) backward = !backward 
+      if(backward){
+        rots = rots - 20
+      }else{
+        rots = rots + 20
+      }
       
-    //   mainEngine.updateEngineData((rots), (rots), (rots), (rots));
-    //   auxEngine.updateEngineData((rots), (rots), (rots), (rots));
-    //   // console.log(loginManager);
-    //   // setRefresh(prev => !prev);
-    // }, 1000);
+      mainEngine.updateEngineData((rots), (rots), (rots), (rots));
+      auxEngine.updateEngineData((rots), (rots), (rots), (rots));
+      // console.log(loginManager);
+      // setRefresh(prev => !prev);
+    }, 1000);
 
     socket.on('arduino-data', (data) => {
       var splitArray = data.split(',');
@@ -70,7 +70,7 @@ function App() {
     });
     return () => {
         socket.off('arduino-data');
-        // clearInterval(timer);
+        clearInterval(timer);
     }
     
   }, []);

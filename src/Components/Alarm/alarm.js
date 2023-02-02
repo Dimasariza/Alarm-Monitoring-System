@@ -32,24 +32,61 @@ function Alarm({alarmManager}) {
 
     useEffect(() => {
         alarmManager.on('Alarm', (value)=>{
-            console.log(value.command, value.source, value.status)
+            // console.log(value.command, value.source, value.status)
             if(value.status == AlarmStatus.Active || value.status == AlarmStatus.Inactive){
                 switch(value.command){
                     case 'ME_OverspeedShutdown':
-                        setME_OverspeedShutdown(value.status)
-                        break;
-                    case 'VoltageFuseFail':
-                        setVoltageFuseFail(value.status)
-                        break;
+                        return setME_OverspeedShutdown(value.status);
+                    case 'ME_CoolingWaterHighTemperature':
+                        return setME_CoolingWaterHighTemperature(value.status);
+                    case 'ME_StartFailure':
+                        return setME_StartFailure(value.status);
                     case 'ME_StopFailure':
-                        setME_StopFailure(value.status)
-                        break;
+                        return setME_StopFailure(value.status);
+                    case 'ME_LubOilPressureLow':
+                        return setME_LubOilPressureLow(value.status);
+                    case 'ME_LubOilTemperatureHigh':
+                        return setME_LubOilTemperatureHigh(value.status);
+                    case 'LubOilFilterDiffrentialPressureHigh':
+                        return setLubOilFilterDiffrentialPressureHigh(value.status);
+                    case 'LubOilSumpTankLevelLow':
+                        return setLubOilSumpTankLevelLow(value.status);
+                    case 'LubOilSumpTankHighLevel':
+                        return setLubOilSumpTankHighLevel(value.status);
+                    case 'LubOilGearTempHigh':
+                        return setLubOilGearTempHigh(value.status);
+                    case 'LubOilGearPressureLow':
+                        return setLubOilGearPressureLow(value.status);
+                    case 'SpeedGovernorFail':
+                        return setSpeedGovernorFail(value.status);
+                    case 'RemoteControlFail':
+                        return setRemoteControlFail(value.status);
+                    case 'VoltageFuseFail':
+                        return setVoltageFuseFail(value.status);
+                    case 'ME_FuelPumpFail':
+                        return setME_FuelPumpFail(value.status);
+                    case 'ME_CoolingWaterTemperatureHigh':
+                        return setME_CoolingWaterTemperatureHigh(value.status);
+                    case 'ME_CoolingWaterPressureLow':
+                        return setME_CoolingWaterPressureLow(value.status);    
+                    case 'ME_FuelOilInjectPressureLow':
+                        return setME_FuelOilInjectPressureLow(value.status);    
                     case 'AE_CoolingWaterTempHigh':
-                        setAE_CoolingWaterTempHigh(value.status)
-                        break;
+                        return setAE_CoolingWaterTempHigh(value.status);
                     case 'AE_CoolingWaterPressureLow':
-                        setAE_CoolingWaterPressureLow(value.status)
-                        break;
+                        return setAE_CoolingWaterPressureLow(value.status);
+                    case 'AE_FuelOilPressureLow':
+                        return setAE_FuelOilPressureLow(value.status);
+                    case 'AE_FuelOilTemperatureHigh':
+                        return setAE_FuelOilTemperatureHigh(value.status);
+                    case 'AE_Overspeed':
+                        return setAE_Overspeed(value.status);
+                    case 'AE_LubOilTemperatureHigh':
+                        return setAE_LubOilTemperatureHigh(value.status);
+                    case 'AE_LubOilPressureLow':
+                        return setAE_LubOilPressureLow(value.status);
+                    case 'AE_FuelOilLeakage':
+                        return setAE_FuelOilLeakage(value.status);
                     default:
                         break;
                 }
@@ -64,16 +101,106 @@ function Alarm({alarmManager}) {
     }, [ME_OverspeedShutdown])
 
     useEffect(() =>{
-        if(VoltageFuseFail == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('VoltageFuseFail', 'Main Engine');
+        if(ME_CoolingWaterHighTemperature == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_CoolingWaterHighTemperature', 'Main Engine');
         }
-    }, [VoltageFuseFail])
+    }, [ME_CoolingWaterHighTemperature])
+
+    useEffect(() =>{
+        if(ME_StartFailure == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_StartFailure', 'Main Engine');
+        }
+    }, [ME_StartFailure])
 
     useEffect(() =>{
         if(ME_StopFailure == AlarmStatus.Acknowledged){
             alarmManager.acknowledgeAlarm('ME_StopFailure', 'Main Engine');
         }
     }, [ME_StopFailure])
+
+    useEffect(() =>{
+        if(ME_LubOilPressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_LubOilPressureLow', 'Main Engine');
+        }
+    }, [ME_LubOilPressureLow])
+
+    useEffect(() =>{
+        if(ME_LubOilTemperatureHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_LubOilTemperatureHigh', 'Main Engine');
+        }
+    }, [ME_LubOilTemperatureHigh])
+
+    useEffect(() =>{
+        if(lubOilFilterDiffrentialPressureHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('LubOilFilterDiffrentialPressureHigh', 'Main Engine');
+        }
+    }, [lubOilFilterDiffrentialPressureHigh])
+
+    useEffect(() =>{
+        if(lubOilSumpTankLevelLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('LubOilSumpTankLevelLow', 'Main Engine');
+        }
+    }, [lubOilSumpTankLevelLow])
+
+    useEffect(() =>{
+        if(lubOilSumpTankHighLevel == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('LubOilSumpTankHighLevel', 'Main Engine');
+        }
+    }, [lubOilSumpTankHighLevel])
+
+    useEffect(() =>{
+        if(lubOilGearPressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('lubOilGearPressureLow', 'Main Engine');
+        }
+    }, [lubOilGearPressureLow])
+
+    useEffect(() =>{
+        if(ME_CoolingWaterHighTemperature == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_CoolingWaterHighTemperature', 'Main Engine');
+        }
+    }, [ME_CoolingWaterHighTemperature])
+
+    useEffect(() =>{
+        if(SpeedGovernorFail == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('SpeedGovernorFail', 'Main Engine');
+        }
+    }, [SpeedGovernorFail])
+
+    useEffect(() =>{
+        if(RemoteControlFail == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('RemoteControlFail', 'Main Engine');
+        }
+    }, [RemoteControlFail])
+
+    useEffect(() =>{
+        if(VoltageFuseFail == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('VoltageFuseFail', 'Main Engine');
+        }
+    }, [VoltageFuseFail])
+
+    useEffect(() =>{
+        if(ME_CoolingWaterTemperatureHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_CoolingWaterTemperatureHigh', 'Main Engine');
+        }
+    }, [ME_CoolingWaterTemperatureHigh])
+
+    useEffect(() =>{
+        if(ME_FuelPumpFail == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_FuelPumpFail', 'Main Engine');
+        }
+    }, [ME_FuelPumpFail])
+
+    useEffect(() =>{
+        if(ME_CoolingWaterPressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_CoolingWaterPressureLow', 'Main Engine');
+        }
+    }, [ME_CoolingWaterPressureLow])
+
+    useEffect(() =>{
+        if(ME_FuelOilInjectPressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('ME_StopFailure', 'Main Engine');
+        }
+    }, [ME_FuelOilInjectPressureLow])
 
     useEffect(() =>{
         if(AE_CoolingWaterTempHigh == AlarmStatus.Acknowledged){
@@ -86,6 +213,42 @@ function Alarm({alarmManager}) {
             alarmManager.acknowledgeAlarm('AE_CoolingWaterPressureLow', 'Aux Engine');
         }
     }, [AE_CoolingWaterPressureLow])
+
+    useEffect(() =>{
+        if(AE_FuelOilPressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_FuelOilPressureLow', 'Aux Engine');
+        }
+    }, [AE_FuelOilPressureLow])
+
+    useEffect(() =>{
+        if(AE_FuelOilTemperatureHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_FuelOilTemperatureHigh', 'Aux Engine');
+        }
+    }, [AE_FuelOilTemperatureHigh])
+
+    useEffect(() =>{
+        if(AE_Overspeed == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_Overspeed', 'Aux Engine');
+        }
+    }, [AE_Overspeed])
+
+    useEffect(() =>{
+        if(AE_LubOilTemperatureHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_LubOilTemperatureHigh', 'Aux Engine');
+        }
+    }, [AE_LubOilTemperatureHigh])
+
+    useEffect(() =>{
+        if(AE_LubOilPressureLow == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_LubOilPressureLow', 'Aux Engine');
+        }
+    }, [AE_LubOilPressureLow])
+
+    useEffect(() =>{
+        if(AE_FuelOilLeakage == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('AE_FuelOilLeakage', 'Aux Engine');
+        }
+    }, [AE_FuelOilLeakage])
 
     return (
         <div className='whiteBox-AlarmContainer'>

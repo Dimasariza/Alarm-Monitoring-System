@@ -72,7 +72,7 @@ export default class AlarmManager extends EventEmitter{
             this.alarm_ON('Main Engine', 'VoltageFuseFail', 'Voltage / Fuse Fail');
         }
         if(this.pumpFuelOilFlow == true && pumpFuelOilFlow == false && this.ME_InterimCondition){
-            this.alarm_ON('Main Engine', 'MEFuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
+            this.alarm_ON('Main Engine', 'ME_FuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
         }
         this.pumpRawWaterFlowEngine = pumpRawWaterFlowEngine; 
         this.pumpFuelOilFlow = pumpFuelOilFlow; 
@@ -104,7 +104,7 @@ export default class AlarmManager extends EventEmitter{
             this.greyAlarm.push(newAlarm);
             console.log("Acknowledge alarm")
             this.changeAlarmStatus(command, AlarmStatus.Acknowledged, source)
-            console.log(newAlarm.desc)
+            // console.log(newAlarm.desc)
             this.emit('Deactivate Header', newAlarm.desc)
         })
 
@@ -137,7 +137,7 @@ export default class AlarmManager extends EventEmitter{
                 this.lubOilGearPressureLow = target;
             case 'SpeedGovernorFail':
                 this.SpeedGovernorFail = target;
-            case 'RemoteGovernorFail':
+            case 'RemoteControlFail':
                 this.RemoteControlFail = target;
             case 'VoltageFuseFail':
                 this.VoltageFuseFail = target;
@@ -196,7 +196,7 @@ export default class AlarmManager extends EventEmitter{
                 return this.lubOilGearPressureLow == target;
             case 'SpeedGovernorFail':
                 return this.SpeedGovernorFail == target;
-            case 'RemoteGovernorFail':
+            case 'RemoteControlFail':
                 return this.RemoteControlFail == target;
             case 'VoltageFuseFail':
                 return this.VoltageFuseFail == target;
@@ -256,7 +256,7 @@ export default class AlarmManager extends EventEmitter{
                 return this.lubOilGearPressureLow;
             case 'SpeedGovernorFail':
                 return this.SpeedGovernorFail;
-            case 'RemoteGovernorFail':
+            case 'RemoteControlFail':
                 return this.RemoteControlFail;
             case 'VoltageFuseFail':
                 return this.VoltageFuseFail;
@@ -386,7 +386,7 @@ export default class AlarmManager extends EventEmitter{
             // console.log("Emit ", desc);
             let newAlarm = new AlarmDetail(command, desc, source, AlarmStatus.Active)
             console.log("alarm ON")
-            console.log(newAlarm)
+            // console.log(newAlarm)
             this.changeAlarmStatus(command, AlarmStatus.Active, source);
             if(this.checkAvaliableInAlarmSummary(source, command)){
                 this.redAlarm.push(newAlarm);
