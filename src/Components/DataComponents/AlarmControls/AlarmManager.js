@@ -68,29 +68,29 @@ export default class AlarmManager extends EventEmitter{
     }
 
     updateDigitalCommand(pumpRawWaterFlowEngine, pumpFuelOilFlow, pumpLubOilFlow, pumpBilgeEngineRoom, loadPanelSwitch, lightingPanel, battreyFault ){
-        if(this.battreyFault == true && battreyFault == false && this.ME_InterimCondition){
+        if(this.battreyFault == true && (battreyFault == 1) && this.ME_InterimCondition){
             this.alarm_ON('Main Engine', 'VoltageFuseFail', 'Voltage / Fuse Fail');
         }
-        if(this.pumpFuelOilFlow == true && pumpFuelOilFlow == false && this.ME_InterimCondition){
+        if(this.pumpFuelOilFlow == true && (pumpFuelOilFlow == 1) && this.ME_InterimCondition){
             this.alarm_ON('Main Engine', 'ME_FuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
         }
-        this.pumpRawWaterFlowEngine = pumpRawWaterFlowEngine; 
-        this.pumpFuelOilFlow = pumpFuelOilFlow; 
-        this.pumpLubOilFlow = pumpLubOilFlow; 
-        this.pumpBilgeEngineRoom = pumpBilgeEngineRoom; 
-        this.loadPanelSwitch = loadPanelSwitch; 
-        this.lightingPanel = lightingPanel; 
-        this.battreyFault = battreyFault; 
+        this.pumpRawWaterFlowEngine = (pumpRawWaterFlowEngine == 0); 
+        this.pumpFuelOilFlow = (pumpFuelOilFlow == 0); 
+        this.pumpLubOilFlow = (pumpLubOilFlow == 0); 
+        this.pumpBilgeEngineRoom = (pumpBilgeEngineRoom == 0); 
+        this.loadPanelSwitch = (loadPanelSwitch == 0); 
+        this.lightingPanel = (lightingPanel == 0); 
+        this.battreyFault = (battreyFault == 0); 
     }
 
-    updateSafetyCommand(engineOverspeed, lubricatingOilPressureLow, lubricatingOilTemperatureHigh, fuelOilPressureFlow, fuelOilLeakageFromHighPressurePipes, coolingWaterPressureLow, coolingWaterTemperatureHigh ){
-        this.engineOverspeed = engineOverspeed; 
-        this.lubricatingOilPressureLow = lubricatingOilPressureLow; 
-        this.lubricatingOilTemperatureHigh = lubricatingOilTemperatureHigh; 
-        this.fuelOilPressureFlow = fuelOilPressureFlow; 
-        this.fuelOilLeakageFromHighPressurePipes = fuelOilLeakageFromHighPressurePipes; 
-        this.coolingWaterPressureLow = coolingWaterPressureLow; 
-        this.coolingWaterTemperatureHigh = coolingWaterTemperatureHigh; 
+    updateSafetyCommand(engineOverspeed, lubricatingOilPressureLow, lubricatingOilTemperatureHigh, fuelOilPressureFlow, coolingWaterPressureLow, coolingWaterTemperatureHigh, fuelOilLeakageFromHighPressurePipes ){
+        this.engineOverspeed = (engineOverspeed == 1); 
+        this.lubricatingOilPressureLow = (lubricatingOilPressureLow == 1); 
+        this.lubricatingOilTemperatureHigh = (lubricatingOilTemperatureHigh == 1); 
+        this.fuelOilPressureFlow = (fuelOilPressureFlow == 1); 
+        this.fuelOilLeakageFromHighPressurePipes = (fuelOilLeakageFromHighPressurePipes == 1); 
+        this.coolingWaterPressureLow = (coolingWaterPressureLow == 1); 
+        this.coolingWaterTemperatureHigh = (coolingWaterTemperatureHigh == 1); 
     }
 
     acknowledgeAlarm(command, source) {

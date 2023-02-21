@@ -186,8 +186,9 @@ export default class EngineData extends EventEmitter{
 
         //engine decrease and lub oil pressure increase
         if(this.engineRev < this.restartRPM && this.lubOilPressure > this.highPressLubOil){
+            console.log("Engine decrease, lub oil increase ", this.alarmManager.pumpLubOilFlow, !this.alarmManager.pumpLubOilFlow);
             if(this.source == "Main Engine"){
-                if(this.alarmManager.pumpFuelOilFlow && !this.alarmManager.pumpLubOilFlow){
+                if(this.alarmManager.pumpLubOilFlow && !this.alarmManager.lubricatingOilPressureLow){
                     this.alarmManager.alarm_ON(this.source, 'LubOilFilterDiffrentialPressureHigh', 'Lub Oil Filter Diffrential Pressure High')
                 }
                 if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.pumpBilgeEngineRoom && !this.alarmManager.fuelOilLeakageFromHighPressurePipes){
@@ -207,6 +208,7 @@ export default class EngineData extends EventEmitter{
 
         //engine standby
         if(this.engineStandby && this.source == "Main Engine"){
+            // console.log("Engine standby ", this.alarmManager.pumpFuelOilFlow, this.alarmManager.fuelOilPressureFlow)
             if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.fuelOilPressureFlow){
                 this.alarmManager.alarm_ON(this.source, 'ME_StartFailure', 'ME Start Failure')
             }
@@ -218,10 +220,12 @@ export default class EngineData extends EventEmitter{
 
         //Increase engine
         if(this.engineRev > this.stopRPM){
+            // console.log("Rpm max exceeeding", this.alarmManager.pumpFuelOilFlow, this.alarmManager.engineOverspeed)
             if(this.source == "Main Engine"){
                 // this.alarmManager.pumpFuelOilFlow = true
                 // this.alarmManager.engineOverspeed = true
                 if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.engineOverspeed){
+                    console.log(this.alarmManager.pumpFuelOilFlow, this.alarmManager.engineOverspeed)
                     this.alarmManager.alarm_ON(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
                 }
 
@@ -358,8 +362,7 @@ export default class EngineData extends EventEmitter{
         
         //Increase cooling water temp
         if(this.coolingWaterTemp > this.highTempCW){
-            // this.alarmManager.pumpFuelOilFlow = false
-            // this.alarmManager.coolingWaterTemperatureHigh = true
+            console.log("Temp exceed max ", this.alarmManager.pumpRawWaterFlowEngine, this.alarmManager.coolingWaterTemperatureHigh)
             if(this.source == "Main Engine" ){
                 if(this.alarmManager.pumpRawWaterFlowEngine && this.alarmManager.coolingWaterTemperatureHigh){
                     this.alarmManager.alarm_ON(this.source, 'ME_CoolingWaterHighTemperature', 'ME Cooling Water High Temperature')
