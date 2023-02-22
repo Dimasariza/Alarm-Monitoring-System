@@ -385,7 +385,7 @@ export default class AlarmManager extends EventEmitter{
         if(this.checkAlarmStatus(command, AlarmStatus.Inactive)){
             // console.log("Emit ", desc);
             let newAlarm = new AlarmDetail(command, desc, source, AlarmStatus.Active)
-            console.log("alarm ON")
+            console.log("alarm ON ", command)
             // console.log(newAlarm)
             this.changeAlarmStatus(command, AlarmStatus.Active, source);
             if(this.checkAvaliableInAlarmSummary(source, command)){
@@ -402,7 +402,7 @@ export default class AlarmManager extends EventEmitter{
         // if(source == 'Main Engine') console.log("Target Main", command, AlarmStatus.Acknowledged, "result", this.ME_lowPressLubOil)
         if(this.checkAlarmStatus(command, AlarmStatus.Acknowledged)){
             // console.log('Emit low off')
-            console.log("alarm off");
+            console.log("alarm off", command);
             this.changeAlarmStatus(command, AlarmStatus.Inactive, source)
             this.greyAlarm.forEach(() => {
                 this.greyAlarm = this.greyAlarm.filter(alarm => !(alarm.command == command && alarm.source == source));

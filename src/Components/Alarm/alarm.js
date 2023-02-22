@@ -273,9 +273,9 @@ function Alarm({alarmManager}) {
             <AlarmBlock name={"AE Lub Oil Temperature High"} active={AE_LubOilTemperatureHigh} setState={setAE_LubOilTemperatureHigh}/>
             <AlarmBlock name={"Stop Failure"} active={ME_StopFailure} setState={setME_StopFailure}/>
 
-            <AlarmBlock name={"ME Pump Fail"} active={ME_FuelPumpFail} setState={ME_FuelPumpFail}/>
-            <AlarmBlock name={"ME Lub Oil Pressure Low"} active={ME_LubOilPressureLow} setState={ME_LubOilPressureLow}/>
-            <AlarmBlock name={"ME Cooling Water Temperature High"} active={ME_CoolingWaterTemperatureHigh} setState={ME_CoolingWaterHighTemperature}/>
+            <AlarmBlock name={"ME Pump Fail"} active={ME_FuelPumpFail} setState={setME_FuelPumpFail}/>
+            <AlarmBlock name={"ME Lub Oil Pressure Low"} active={ME_LubOilPressureLow} setState={setME_LubOilPressureLow}/>
+            <AlarmBlock name={"ME Cooling Water Temperature High"} active={ME_CoolingWaterTemperatureHigh} setState={setME_CoolingWaterTemperatureHigh}/>
 
             <AlarmBlock name={"AE Fuel Oil Temperature High"} active={AE_FuelOilTemperatureHigh} setState={setAE_FuelOilTemperatureHigh}/>
             <AlarmBlock name={"ME Lub Oil Temperature High"} active={ME_LubOilTemperatureHigh} setState={setME_LubOilTemperatureHigh}/>

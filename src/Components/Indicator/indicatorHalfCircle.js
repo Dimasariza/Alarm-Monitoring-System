@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import RoundAlarm from './roundAlarm';
@@ -11,10 +11,17 @@ function getRotation(value){
     return 'rotate(' + trueValue+'deg)'
 }
 
-function IndicatorHalfCircle({percentage, tittleStyle, valueStyle, unitStyle, rawValue, activeAlarm, size}) {
+function IndicatorHalfCircle({engine, size}) {
+    const[rawValue, setRawValue] = useState(engine.workload);
+    useEffect(() => {
+        engine.on('Workload', (value) => {
+            setRawValue(value);
+        });
+    }, []);
     return (
         <div className='indicator-container' style={{width : size * 2, height : size}}>
             <img className='indicator' src={BG} alt="Indicator Background" />
+            <div>{rawValue}</div>
             <div className='indicator-customLoc-rotate' style={{'--topPos' : 21, '--leftPos' : 46, '--needleRot': getRotation(rawValue)}}>
                 <img src={Needle} width={size/6} />
             </div>
