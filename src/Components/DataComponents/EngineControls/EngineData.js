@@ -239,7 +239,7 @@ export default class EngineData extends EventEmitter{
                     return;
                 }
             }else{
-                console.log("Engine increase ", this.engineRev, "Pump oil flow", this.alarmManager.pumpFuelOilFlow, "Pressure flow", this.alarmManager.fuelOilPressureFlow);
+                // console.log("Engine increase ", this.engineRev, "Pump oil flow", this.alarmManager.pumpFuelOilFlow, "Pressure flow", this.alarmManager.fuelOilPressureFlow);
                 if(this.alarmManager.pumpFuelOilFlow && this.alarmManager.fuelOilPressureFlow && this.alarmManager.checkAlarmStatus('AE_FuelOilTemperatureHigh', AlarmStatus.Inactive) ){
                     this.alarmManager.alarm_ON(this.source, 'AE_FuelOilTemperatureHigh', 'AE Fuel Oil Temperature High');
                     return;
@@ -436,10 +436,10 @@ export default class EngineData extends EventEmitter{
             }
 
             //Increase engine
-            if(this.alarmManager.checkAlarmStatus('AE_FuelOilTemperatureHigh', AlarmStatus.Acknowledged) && !(this.engineRev < this.restartRPM && this.alarmManager.pumpFuelOilFlow && this.alarmManager.fuelOilPressureFlow)){
+            if(this.alarmManager.checkAlarmStatus('AE_FuelOilTemperatureHigh', AlarmStatus.Acknowledged) && !(this.engineRev > this.stopRPM && this.alarmManager.pumpFuelOilFlow && this.alarmManager.fuelOilPressureFlow)){
                 this.alarmManager.alarm_OFF(this.source, 'AE_FuelOilTemperatureHigh', 'AE Fuel Oil Temperature High')
             }
-            if(this.alarmManager.checkAlarmStatus('AE_Overspeed', AlarmStatus.Acknowledged) && !(this.engineRev < this.restartRPM && this.alarmManager.engineOverspeed)){
+            if(this.alarmManager.checkAlarmStatus('AE_Overspeed', AlarmStatus.Acknowledged) && !(this.engineRev > this.stopRPM && this.alarmManager.engineOverspeed)){
                 this.alarmManager.alarm_OFF(this.source, 'AE_Overspeed', 'AE Overspeed')
             }
 
