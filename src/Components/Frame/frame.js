@@ -25,17 +25,17 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
   
   useEffect(() => {
     switch(currentState){
-      case "MAIN. ENG.":
-        mainEngine.updateActivation(true);
-        auxEngine.updateActivation(false);
-        break;
-      case "AUX. ENG.":
-        mainEngine.updateActivation(false);
-        auxEngine.updateActivation(true);
-        break;
+      // case "MAIN. ENG.":
+      //   mainEngine.updateActivation(true);
+      //   auxEngine.updateActivation(false);
+      //   break;
+      // case "AUX. ENG.":
+      //   mainEngine.updateActivation(false);
+      //   auxEngine.updateActivation(true);
+      //   break;
       default:
         mainEngine.updateActivation(true);
-        auxEngine.updateActivation(false);
+        auxEngine.updateActivation(true);
         break;
     }
   }, [currentState]);
@@ -47,7 +47,7 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
         </div>
         <div className="displayContainer">
           <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
-          <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValuestbd={auxEngine.stbd} auxEngineValueport={auxEngine.port} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
+          <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValuestbd={auxEngine.stbd} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
           <DisplayContainer name="OVERVIEW" state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
           {/* <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} /> */}
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm alarmManager={alarmManager} />} />

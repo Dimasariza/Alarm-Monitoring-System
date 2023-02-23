@@ -68,6 +68,8 @@ function App() {
           alarmManager.updateSafetyCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
           break;
       }
+      mainEngine.stbd.CheckAlarmsConditions();
+      auxEngine.stbd.CheckAlarmsConditions();
     });
     return () => {
         socket.off('arduino-data');

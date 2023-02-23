@@ -35,11 +35,11 @@ function Parameter({state, setState, mainEngineValue, auxEngineValue, loginManag
                 </div> */}
                 <div className={state==1 ? 'displayContainer-split-parameter-active' : 'displayContainer-split-parameter-inactive'}>
                     <ParameterSettings side={"AUX. ENGINE - STBD"} engineValue={auxEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
-                    <ParameterSettings side={"AUX. ENGINE - PORT"} engineValue={auxEngineValue.port} virtualKeyboardManager={virtualKeyboardManager}/>
+                    <ParameterSettings side={"AUX. ENGINE - PORT"} engineValue={auxEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
                 </div>
                 <div className={state==2 ? 'displayContainer-split-parameter-active' : 'displayContainer-split-parameter-inactive'}>
                     <ParameterSettings2 side={"AUX. ENGINE - STBD"} engineValue={auxEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
-                    <ParameterSettings2 side={"AUX. ENGINE - PORT"} engineValue={auxEngineValue.port} virtualKeyboardManager={virtualKeyboardManager}/>
+                    <ParameterSettings2 side={"AUX. ENGINE - PORT"} engineValue={auxEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
                 </div>
                 <div className='StateChangeButton-container'>
                     <MEStateButton icon={ArrowLefticonActive} state={state} setState={setState} stateValueChange={-1} max={2} min={0} />

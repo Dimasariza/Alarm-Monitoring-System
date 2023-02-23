@@ -18,7 +18,7 @@ function Alarm({alarmManager}) {
     const[RemoteControlFail, setRemoteControlFail ] = useState(AlarmStatus.Inactive);
     const[VoltageFuseFail, setVoltageFuseFail ] = useState(AlarmStatus.Inactive);
     const[ME_FuelPumpFail, setME_FuelPumpFail ] = useState(AlarmStatus.Inactive);
-    const[ME_CoolingWaterTemperatureHigh, setME_CoolingWaterTemperatureHigh ] = useState(AlarmStatus.Inactive);
+    // const[ME_CoolingWaterTemperatureHigh, setME_CoolingWaterTemperatureHigh ] = useState(AlarmStatus.Inactive);
     const[ME_CoolingWaterPressureLow, setME_CoolingWaterPressureLow] = useState(AlarmStatus.Inactive);
     const[ME_FuelOilInjectPressureLow, setME_FuelOilInjectPressureLow] = useState(AlarmStatus.Inactive);
     const[AE_CoolingWaterTempHigh, setAE_CoolingWaterTempHigh ] = useState(AlarmStatus.Inactive);
@@ -65,8 +65,8 @@ function Alarm({alarmManager}) {
                         return setVoltageFuseFail(value.status);
                     case 'ME_FuelPumpFail':
                         return setME_FuelPumpFail(value.status);
-                    case 'ME_CoolingWaterTemperatureHigh':
-                        return setME_CoolingWaterTemperatureHigh(value.status);
+                    // case 'ME_CoolingWaterTemperatureHigh':
+                    //     return setME_CoolingWaterTemperatureHigh(value.status);
                     case 'ME_CoolingWaterPressureLow':
                         return setME_CoolingWaterPressureLow(value.status);    
                     case 'ME_FuelOilInjectPressureLow':
@@ -178,11 +178,11 @@ function Alarm({alarmManager}) {
         }
     }, [VoltageFuseFail])
 
-    useEffect(() =>{
-        if(ME_CoolingWaterTemperatureHigh == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('ME_CoolingWaterTemperatureHigh', 'Main Engine');
-        }
-    }, [ME_CoolingWaterTemperatureHigh])
+    // useEffect(() =>{
+    //     if(ME_CoolingWaterTemperatureHigh == AlarmStatus.Acknowledged){
+    //         alarmManager.acknowledgeAlarm('ME_CoolingWaterTemperatureHigh', 'Main Engine');
+    //     }
+    // }, [ME_CoolingWaterTemperatureHigh])
 
     useEffect(() =>{
         if(ME_FuelPumpFail == AlarmStatus.Acknowledged){
@@ -260,7 +260,7 @@ function Alarm({alarmManager}) {
             <AlarmBlock name={"Lub Oil Gear Temp High"} active={lubOilGearTempHigh} setState={setLubOilGearTempHigh}/>
             <AlarmBlock name={"AE Fuel Oil Pressure Low"} active={AE_FuelOilPressureLow} setState={setAE_FuelOilPressureLow}/>
 
-            <AlarmBlock name={"ME Cooling Water HT Shutdown"} active={ME_CoolingWaterHighTemperature} setState={setME_CoolingWaterHighTemperature}/>
+            <AlarmBlock name={"ME Cooling Water High Temperature"} active={ME_CoolingWaterHighTemperature} setState={setME_CoolingWaterHighTemperature}/>
             <AlarmBlock name={"Lub Oil Gear Pressure Low"} active={lubOilGearPressureLow} setState={setLubOilGearPressureLow}/>
             <AlarmBlock name={"Speed Governor Fail"} active={SpeedGovernorFail} setState={setSpeedGovernorFail}/>
 
@@ -274,8 +274,8 @@ function Alarm({alarmManager}) {
             <AlarmBlock name={"Stop Failure"} active={ME_StopFailure} setState={setME_StopFailure}/>
 
             <AlarmBlock name={"ME Pump Fail"} active={ME_FuelPumpFail} setState={setME_FuelPumpFail}/>
-            <AlarmBlock name={"ME Lub Oil Pressure Low"} active={ME_LubOilPressureLow} setState={setME_LubOilPressureLow}/>
-            <AlarmBlock name={"ME Cooling Water Temperature High"} active={ME_CoolingWaterTemperatureHigh} setState={setME_CoolingWaterTemperatureHigh}/>
+            <AlarmBlock name={""} active={false} />
+            <AlarmBlock name={""} active={false} />
 
             <AlarmBlock name={"AE Fuel Oil Temperature High"} active={AE_FuelOilTemperatureHigh} setState={setAE_FuelOilTemperatureHigh}/>
             <AlarmBlock name={"ME Lub Oil Temperature High"} active={ME_LubOilTemperatureHigh} setState={setME_LubOilTemperatureHigh}/>

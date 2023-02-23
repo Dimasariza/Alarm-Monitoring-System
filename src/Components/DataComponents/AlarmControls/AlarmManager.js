@@ -69,9 +69,11 @@ export default class AlarmManager extends EventEmitter{
 
     updateDigitalCommand(pumpRawWaterFlowEngine, pumpFuelOilFlow, pumpLubOilFlow, pumpBilgeEngineRoom, loadPanelSwitch, lightingPanel, battreyFault ){
         if(this.battreyFault == true && (battreyFault == 1) && this.ME_InterimCondition){
+            console.log("Yes interim VoltageFuseFail")
             this.alarm_ON('Main Engine', 'VoltageFuseFail', 'Voltage / Fuse Fail');
         }
         if(this.pumpFuelOilFlow == true && (pumpFuelOilFlow == 1) && this.ME_InterimCondition){
+            console.log("Yes interim ME_FuelOilInjectPressureLow")
             this.alarm_ON('Main Engine', 'ME_FuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
         }
         this.pumpRawWaterFlowEngine = (pumpRawWaterFlowEngine == 0); 
@@ -94,17 +96,14 @@ export default class AlarmManager extends EventEmitter{
     }
 
     acknowledgeAlarm(command, source) {
-        // console.log(command, source)
         var targets = this.redAlarm.filter(alarm => (alarm.command == command && alarm.source == source));
-        // console.log(targets)
         if(targets == 0) return;
         this.redAlarm = this.redAlarm.filter(alarm => !(alarm.command == command && alarm.source == source));
         targets.forEach((newAlarm) => {
             newAlarm.status = AlarmStatus.Acknowledged;
             this.greyAlarm.push(newAlarm);
-            console.log("Acknowledge alarm")
+            console.log("Acknowledge alarm ", source)
             this.changeAlarmStatus(command, AlarmStatus.Acknowledged, source)
-            // console.log(newAlarm.desc)
             this.emit('Deactivate Header', newAlarm.desc)
         })
 
@@ -115,56 +114,79 @@ export default class AlarmManager extends EventEmitter{
         switch (command) {
             case 'ME_OverspeedShutdown':
                 this.ME_OverspeedShutdown = target;
+                break;
             case 'ME_CoolingWaterHighTemperature':
                 this.ME_CoolingWaterHighTemperature = target;
+                break;
             case 'ME_StartFailure':
                 this.ME_StartFailure = target;
+                break;
             case 'ME_StopFailure':
                 this.ME_StopFailure = target;
+                break;
             case 'ME_LubOilPressureLow':
                 this.ME_LubOilPressureLow = target;
+                break;
             case 'ME_LubOilTemperatureHigh':
                 this.ME_LubOilTemperatureHigh = target;
+                break;
             case 'LubOilFilterDiffrentialPressureHigh':
                 this.lubOilFilterDiffrentialPressureHigh = target;
+                break;
             case 'LubOilSumpTankLevelLow':
                 this.lubOilSumpTankLevelLow = target;
+                break;
             case 'LubOilSumpTankHighLevel':
                 this.lubOilSumpTankHighLevel = target;
+                break;
             case 'LubOilGearTempHigh':
                 this.lubOilGearTempHigh = target;
+                break;
             case 'LubOilGearPressureLow':
                 this.lubOilGearPressureLow = target;
+                break;
             case 'SpeedGovernorFail':
                 this.SpeedGovernorFail = target;
+                break;
             case 'RemoteControlFail':
                 this.RemoteControlFail = target;
+                break;
             case 'VoltageFuseFail':
                 this.VoltageFuseFail = target;
+                break;
             case 'ME_FuelPumpFail':
                 this.ME_FuelPumpFail = target;
-            case 'ME_CoolingWaterTemperatureHigh':
-                this.ME_CoolingWaterTemperatureHigh = target;
+                break;
             case 'ME_CoolingWaterPressureLow':
-                this.ME_CoolingWaterPressureLow = target;    
+                this.ME_CoolingWaterPressureLow = target;   
+                break; 
             case 'ME_FuelOilInjectPressureLow':
-                this.ME_FuelOilInjectPressureLow = target;    
+                this.ME_FuelOilInjectPressureLow = target;  
+                break;  
             case 'AE_CoolingWaterTempHigh':
-                this.lubOilFilterDiffrentialPressureHigh = target;
+                this.AE_CoolingWaterTempHigh = target;
+                break;
             case 'AE_CoolingWaterPressureLow':
                 this.AE_CoolingWaterPressureLow = target;
+                break;
             case 'AE_FuelOilPressureLow':
                 this.AE_FuelOilPressureLow = target;
+                break;
             case 'AE_FuelOilTemperatureHigh':
                 this.AE_FuelOilTemperatureHigh = target;
+                break;
             case 'AE_Overspeed':
                 this.AE_Overspeed = target;
+                break;
             case 'AE_LubOilTemperatureHigh':
                 this.AE_LubOilTemperatureHigh = target;
+                break;
             case 'AE_LubOilPressureLow':
                 this.AE_LubOilPressureLow = target;
+                break;
             case 'AE_FuelOilLeakage':
                 this.AE_FuelOilLeakage = target;
+                break;
             default:
                 break;
         }
@@ -202,14 +224,12 @@ export default class AlarmManager extends EventEmitter{
                 return this.VoltageFuseFail == target;
             case 'ME_FuelPumpFail':
                 return this.ME_FuelPumpFail == target;
-            case 'ME_CoolingWaterTemperatureHigh':
-                return this.ME_CoolingWaterTemperatureHigh == target;
             case 'ME_CoolingWaterPressureLow':
                 return this.ME_CoolingWaterPressureLow == target;    
             case 'ME_FuelOilInjectPressureLow':
                 return this.ME_FuelOilInjectPressureLow == target;    
             case 'AE_CoolingWaterTempHigh':
-                return this.lubOilFilterDiffrentialPressureHigh == target;
+                return this.AE_CoolingWaterTempHigh == target;
             case 'AE_CoolingWaterPressureLow':
                 return this.AE_CoolingWaterPressureLow == target;
             case 'AE_FuelOilPressureLow':
@@ -262,14 +282,12 @@ export default class AlarmManager extends EventEmitter{
                 return this.VoltageFuseFail;
             case 'ME_FuelPumpFail':
                 return this.ME_FuelPumpFail;
-            case 'ME_CoolingWaterTemperatureHigh':
-                return this.ME_CoolingWaterTemperatureHigh;
             case 'ME_CoolingWaterPressureLow':
                 return this.ME_CoolingWaterPressureLow;    
             case 'ME_FuelOilInjectPressureLow':
                 return this.ME_FuelOilInjectPressureLow;    
             case 'AE_CoolingWaterTempHigh':
-                return this.lubOilFilterDiffrentialPressureHigh;
+                return this.AE_CoolingWaterTempHigh;
             case 'AE_CoolingWaterPressureLow':
                 return this.AE_CoolingWaterPressureLow;
             case 'AE_FuelOilPressureLow':
@@ -320,7 +338,6 @@ export default class AlarmManager extends EventEmitter{
         return(
             this.checkAlarmStatus('ME_CoolingWaterHighTemperature', AlarmStatus.Active) ||
             this.checkAlarmStatus('ME_StopFailure', AlarmStatus.Active) ||
-            this.checkAlarmStatus('ME_CoolingWaterTemperatureHigh', AlarmStatus.Active) ||
             this.checkAlarmStatus('ME_CoolingWaterPressureLow', AlarmStatus.Active) 
         )
     }
@@ -360,7 +377,6 @@ export default class AlarmManager extends EventEmitter{
             this.checkAlarmStatus('RemoteControlFail', AlarmStatus.Active) ||
             this.checkAlarmStatus('VoltageFuseFail', AlarmStatus.Active) ||
             this.checkAlarmStatus('ME_FuelPumpFail', AlarmStatus.Active) ||
-            this.checkAlarmStatus('ME_CoolingWaterTemperatureHigh', AlarmStatus.Active) ||
             this.checkAlarmStatus('ME_CoolingWaterPressureLow', AlarmStatus.Active) ||
             this.checkAlarmStatus('ME_FuelOilInjectPressureLow', AlarmStatus.Active) ||
             this.checkAlarmStatus('AE_CoolingWaterTempHigh', AlarmStatus.Active) ||
@@ -381,7 +397,6 @@ export default class AlarmManager extends EventEmitter{
     }
 
     alarm_ON(source, command, desc) {
-        // if(!this.checkActive(command)) return;
         if(this.checkAlarmStatus(command, AlarmStatus.Inactive)){
             // console.log("Emit ", desc);
             let newAlarm = new AlarmDetail(command, desc, source, AlarmStatus.Active)
@@ -393,13 +408,13 @@ export default class AlarmManager extends EventEmitter{
             }
             this.lastMassage = desc
             this.emit('Alarm', newAlarm);
+
+               
             
         }
     }
 
     alarm_OFF(source, command, desc) {
-        // if(source=='Aux Engine') console.log("Target Aux", command, AlarmStatus.Acknowledged, "result", this.AE_lowPressLubOil)
-        // if(source == 'Main Engine') console.log("Target Main", command, AlarmStatus.Acknowledged, "result", this.ME_lowPressLubOil)
         if(this.checkAlarmStatus(command, AlarmStatus.Acknowledged)){
             // console.log('Emit low off')
             console.log("alarm off", command);
