@@ -68,11 +68,11 @@ export default class AlarmManager extends EventEmitter{
     }
 
     updateDigitalCommand(pumpRawWaterFlowEngine, pumpFuelOilFlow, pumpLubOilFlow, pumpBilgeEngineRoom, loadPanelSwitch, lightingPanel, battreyFault ){
-        if(this.battreyFault == true && (battreyFault == 1) && this.ME_InterimCondition){
+        if(this.battreyFault == true && (battreyFault == 1) && this.ME_InterimCondition && this.engineOverspeed){
             console.log("Yes interim VoltageFuseFail")
             this.alarm_ON('Main Engine', 'VoltageFuseFail', 'Voltage / Fuse Fail');
         }
-        if(this.pumpFuelOilFlow == true && (pumpFuelOilFlow == 1) && this.ME_InterimCondition){
+        if(this.pumpFuelOilFlow == true && (pumpFuelOilFlow == 1) && this.ME_InterimCondition && this.engineOverspeed){
             console.log("Yes interim ME_FuelOilInjectPressureLow")
             this.alarm_ON('Main Engine', 'ME_FuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
         }
@@ -408,9 +408,6 @@ export default class AlarmManager extends EventEmitter{
             }
             this.lastMassage = desc
             this.emit('Alarm', newAlarm);
-
-               
-            
         }
     }
 

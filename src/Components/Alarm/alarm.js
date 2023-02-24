@@ -149,8 +149,14 @@ function Alarm({alarmManager}) {
     }, [lubOilSumpTankHighLevel])
 
     useEffect(() =>{
+        if(lubOilGearTempHigh == AlarmStatus.Acknowledged){
+            alarmManager.acknowledgeAlarm('LubOilGearTempHigh', 'Main Engine');
+        }
+    }, [lubOilGearTempHigh])
+
+    useEffect(() =>{
         if(lubOilGearPressureLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('lubOilGearPressureLow', 'Main Engine');
+            alarmManager.acknowledgeAlarm('LubOilGearPressureLow', 'Main Engine');
         }
     }, [lubOilGearPressureLow])
 
@@ -198,7 +204,7 @@ function Alarm({alarmManager}) {
 
     useEffect(() =>{
         if(ME_FuelOilInjectPressureLow == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('ME_StopFailure', 'Main Engine');
+            alarmManager.acknowledgeAlarm('ME_FuelOilInjectPressureLow', 'Main Engine');
         }
     }, [ME_FuelOilInjectPressureLow])
 

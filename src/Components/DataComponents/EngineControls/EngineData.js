@@ -80,6 +80,7 @@ export default class EngineData extends EventEmitter{
         this.engineStandby = false;
         this.codeSender = codeSender;
         this.socket = socket;
+        this.standbyTreshold = 60;
     }
 
     getEngineTemperature(){
@@ -140,7 +141,7 @@ export default class EngineData extends EventEmitter{
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
         // if(this.engineTrip) return;
-        this.engineStandby = ((engineRPM / 1023) * this.maxEngineRev == this.engineRev)
+        this.engineStandby = (Math.abs((engineRPM / 1023) * this.maxEngineRev - this.engineRev) < this.standbyTreshold)
         this.engineRev = (engineRPM / 1023) * this.maxEngineRev;
         this.shaftRev = this.engineRev * this.shaftGearBox;
         this.coolingWaterTemp = (coolantTemp / 1023) * this.maxCoolingWaterTemp;
@@ -210,6 +211,7 @@ export default class EngineData extends EventEmitter{
         }
 
         //Increase engine
+        // console.log("Engine increase = ", this.engineRev > this.stopRPM, this.engineRev, " VS ", this.stopRPM)
         if(this.engineRev > this.stopRPM){
             // console.log("Rpm max exceeeding", this.alarmManager.pumpFuelOilFlow, this.alarmManager.engineOverspeed)
             if(this.source == "Main Engine"){
@@ -398,11 +400,11 @@ export default class EngineData extends EventEmitter{
                 this.alarmManager.alarm_OFF(this.source, 'RemoteControlFail', 'Remote Control Fail')
             }
 
-            if(this.alarmManager.checkAlarmStatus('VoltageFuseFail', AlarmStatus.Acknowledged) && !(this.engineRev > this.stopRPM && this.alarmManager.engineOverspeed)){
+            if(this.alarmManager.checkAlarmStatus('VoltageFuseFail', AlarmStatus.Acknowledged) && !(this.engineRev > this.stopRPM && this.alarmManager.ME_InterimCondition && this.alarmManager.engineOverspeed)){
                 this.alarmManager.alarm_OFF(this.source, 'VoltageFuseFail', 'Voltage / Fuse Fail')
             }
 
-            if(this.alarmManager.checkAlarmStatus('ME_FuelOilInjectPressureLow', AlarmStatus.Acknowledged)  && !(this.engineRev > this.stopRPM && this.alarmManager.engineOverspeed)){
+            if(this.alarmManager.checkAlarmStatus('ME_FuelOilInjectPressureLow', AlarmStatus.Acknowledged)  && !(this.engineRev > this.stopRPM && this.alarmManager.ME_InterimCondition && this.alarmManager.engineOverspeed)){
                 this.alarmManager.alarm_OFF(this.source, 'ME_FuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
             }
 
