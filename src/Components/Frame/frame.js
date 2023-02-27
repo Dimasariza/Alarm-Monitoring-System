@@ -49,7 +49,6 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
           <DisplayContainer name="MAIN. ENG." state={currentState} content={<ME mainEngineValue={mainEngine} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
           <DisplayContainer name="AUX. ENG." state={currentState} content={<AuxEngine auxEngineValuestbd={auxEngine.stbd} state={activeIndicatorView} setState={setActiveIndicatorView} alarmManager={alarmManager} />} />
           <DisplayContainer name="OVERVIEW" state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
-          {/* <DisplayContainer name="OVERVIEW" state={currentState} content={<DetailedOverview mainEngineValue={mainEngine} auxEngineValue={auxEngine} GPSData={GPSData} />} /> */}
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm alarmManager={alarmManager} />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary alarmManager={alarmManager} />} />
           <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} mainEngineValue={mainEngine} auxEngineValue={auxEngine} loginManager={loginManager} virtualKeyboardManager={virtualKeyboardManager} />} />

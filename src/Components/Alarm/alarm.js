@@ -258,50 +258,62 @@ function Alarm({alarmManager}) {
 
     return (
         <div className='whiteBox-AlarmContainer'>
-            <AlarmBlock name={"ME Overspeed Shutdown"} active={ME_OverspeedShutdown} setState={setME_OverspeedShutdown}/>
-            <AlarmBlock name={"Lub Oil Sump Tank High Level Alarm"} active={lubOilSumpTankHighLevel} setState={setLubOilSumpTankHighLevel}/>
-            <AlarmBlock name={"ME Fuel Oil Inject Pressure Low"} active={ME_FuelOilInjectPressureLow} setState={setME_FuelOilInjectPressureLow}/>
-
-            <AlarmBlock name={"ME Lub Oil Low Pressure"} active={ME_LubOilPressureLow} setState={setME_LubOilPressureLow}/>
-            <AlarmBlock name={"Lub Oil Gear Temp High"} active={lubOilGearTempHigh} setState={setLubOilGearTempHigh}/>
-            <AlarmBlock name={"AE Fuel Oil Pressure Low"} active={AE_FuelOilPressureLow} setState={setAE_FuelOilPressureLow}/>
-
+            <AlarmBlock name={"ME Overspeed"} active={ME_OverspeedShutdown} setState={setME_OverspeedShutdown}/>
             <AlarmBlock name={"ME Cooling Water High Temperature"} active={ME_CoolingWaterHighTemperature} setState={setME_CoolingWaterHighTemperature}/>
-            <AlarmBlock name={"Lub Oil Gear Pressure Low"} active={lubOilGearPressureLow} setState={setLubOilGearPressureLow}/>
-            <AlarmBlock name={"Speed Governor Fail"} active={SpeedGovernorFail} setState={setSpeedGovernorFail}/>
-
+            <AlarmBlock name={"ME Lub Oil Temperature High"} active={ME_LubOilTemperatureHigh} setState={setME_LubOilTemperatureHigh}/>
             
-            <AlarmBlock name={"Remote Control Fail"} active={RemoteControlFail} setState={setRemoteControlFail}/>
-            <AlarmBlock name={"AE Lub Oil Pressure Low"} active={AE_LubOilPressureLow} setState={setAE_LubOilPressureLow}/>
+            <AlarmBlock name={"ME Fuel Oil Inject Pressure Low"} active={ME_FuelOilInjectPressureLow} setState={setME_FuelOilInjectPressureLow}/>
+            <AlarmBlock name={"ME Cooling Water Pressure Low"} active={ME_CoolingWaterPressureLow} setState={setME_CoolingWaterPressureLow}/>
+            <AlarmBlock name={"ME Lub Oil Low Pressure"} active={ME_LubOilPressureLow} setState={setME_LubOilPressureLow}/>
+
             <AlarmBlock name={"Start Failure"} active={ME_StartFailure} setState={setME_StartFailure}/>
+            <AlarmBlock name={"Speed Governor Fail"} active={SpeedGovernorFail} setState={setSpeedGovernorFail}/>
+            <AlarmBlock name={"Lub Oil Sump Tank High Level"} active={lubOilSumpTankHighLevel} setState={setLubOilSumpTankHighLevel}/>
+            
+            <AlarmBlock name={"Stop Failure"} active={ME_StopFailure} setState={setME_StopFailure}/>
+            <AlarmBlock name={"Remote Control Fail"} active={RemoteControlFail} setState={setRemoteControlFail}/>
+            <AlarmBlock name={"Lub Oil Sump Tank Level Low"} active={lubOilSumpTankLevelLow} setState={setLubOilSumpTankLevelLow}/>
+            
+            
+            <AlarmBlock name={"ME Pump Fail"} active={ME_FuelPumpFail} setState={setME_FuelPumpFail}/>
+            <AlarmBlock name={"Air Compress Pressure Low"} active={false}/>
+            <AlarmBlock name={"Lub Oil Filter Diff. Pressure High"} active={lubOilFilterDiffrentialPressureHigh} setState={setLubOilFilterDiffrentialPressureHigh}/>
+            
 
             <AlarmBlock name={"Voltage / Fuse Fail"} active={VoltageFuseFail} setState={setVoltageFuseFail}/>
-            <AlarmBlock name={"AE Lub Oil Temperature High"} active={AE_LubOilTemperatureHigh} setState={setAE_LubOilTemperatureHigh}/>
-            <AlarmBlock name={"Stop Failure"} active={ME_StopFailure} setState={setME_StopFailure}/>
-
-            <AlarmBlock name={"ME Pump Fail"} active={ME_FuelPumpFail} setState={setME_FuelPumpFail}/>
-            <AlarmBlock name={""} active={false} />
-            <AlarmBlock name={""} active={false} />
-
-            <AlarmBlock name={"AE Fuel Oil Temperature High"} active={AE_FuelOilTemperatureHigh} setState={setAE_FuelOilTemperatureHigh}/>
-            <AlarmBlock name={"ME Lub Oil Temperature High"} active={ME_LubOilTemperatureHigh} setState={setME_LubOilTemperatureHigh}/>
-            <AlarmBlock name={"ME Cooling Water Pressure Low"} active={ME_CoolingWaterPressureLow} setState={setME_CoolingWaterPressureLow}/>
-
-            <AlarmBlock name={"AE Overspeed"} active={AE_Overspeed} setState={setAE_Overspeed}/>
-            <AlarmBlock name={"Lub Oil Filter Diff. Pressure High"} active={lubOilFilterDiffrentialPressureHigh} setState={setLubOilFilterDiffrentialPressureHigh}/>
-            <AlarmBlock name={"AE Cooling Water Temperature High"} active={AE_CoolingWaterTempHigh} setState={setAE_CoolingWaterTempHigh}/>
-
-            <AlarmBlock name={"AE FuelOilLeakage"} active={AE_FuelOilLeakage} setState={setAE_FuelOilLeakage}/>
-            <AlarmBlock name={"Lub Oil Sump Tank Level Low"} active={lubOilSumpTankLevelLow} setState={setLubOilSumpTankLevelLow}/>
-            <AlarmBlock name={"AE Cooling Water Pressure Low"} active={AE_CoolingWaterPressureLow} setState={setAE_CoolingWaterPressureLow}/>
+            <AlarmBlock name={"Exhaust Gas Before T/C Temp High"} active={false}/>
+            <AlarmBlock name={"Lub Oil Gear Temp High"} active={lubOilGearTempHigh} setState={setLubOilGearTempHigh}/>
+            
 
             <AlarmBlock name={"Shutdown Canceled"} active={false}/>
-            <AlarmBlock name={"AE Pump Fail"} active={false}/>
             <AlarmBlock name={"Exhaust Gas After T/C Temp High"} active={false}/>
-
-            <AlarmBlock name={"Air Compress Pressure Low"} active={false}/>
-            <AlarmBlock name={"Exhaust Gas Before T/C Temp High"} active={false}/>
+            <AlarmBlock name={"Lub Oil Gear Pressure Low"} active={lubOilGearPressureLow} setState={setLubOilGearPressureLow}/>
+            
             <AlarmBlock name={""} active={false}/>
+            <AlarmBlock name={""} active={false} />
+            <AlarmBlock name={""} active={false} />
+
+            <AlarmBlock name={"AE Overspeed"} active={AE_Overspeed} setState={setAE_Overspeed}/>
+            <AlarmBlock name={"AE Cooling Water Temperature High"} active={AE_CoolingWaterTempHigh} setState={setAE_CoolingWaterTempHigh}/>
+            <AlarmBlock name={"AE Lub Oil Temperature High"} active={AE_LubOilTemperatureHigh} setState={setAE_LubOilTemperatureHigh}/>
+            
+            
+
+            <AlarmBlock name={"AE Fuel Oil Temperature High"} active={AE_FuelOilTemperatureHigh} setState={setAE_FuelOilTemperatureHigh}/>
+            <AlarmBlock name={"AE Cooling Water Pressure Low"} active={AE_CoolingWaterPressureLow} setState={setAE_CoolingWaterPressureLow}/>
+            <AlarmBlock name={"AE Lub Oil Pressure Low"} active={AE_LubOilPressureLow} setState={setAE_LubOilPressureLow}/>
+            
+            
+            <AlarmBlock name={"AE Fuel Oil Pressure Low"} active={AE_FuelOilPressureLow} setState={setAE_FuelOilPressureLow}/> 
+            <AlarmBlock name={"AE Fuel Oil Leakage"} active={AE_FuelOilLeakage} setState={setAE_FuelOilLeakage}/>
+            <AlarmBlock name={"AE Pump Fail"} active={false}/>
+            
+            
+            
+            
+
+            
+            
             
         </div>
     );

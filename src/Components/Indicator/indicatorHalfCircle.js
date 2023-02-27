@@ -21,7 +21,6 @@ function IndicatorHalfCircle({engine, size}) {
     return (
         <div className='indicator-container' style={{width : size * 2, height : size}}>
             <img className='indicator' src={BG} alt="Indicator Background" />
-            <div>{rawValue}</div>
             <div className='indicator-customLoc-rotate' style={{'--topPos' : 21, '--leftPos' : 46, '--needleRot': getRotation(rawValue)}}>
                 <img src={Needle} width={size/6} />
             </div>

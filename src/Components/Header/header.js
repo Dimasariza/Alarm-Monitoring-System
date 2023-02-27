@@ -12,13 +12,11 @@ function checkUniqueState(state){
     }
 }
 
-function checkSecondaryState(stateIndicator){
-    if(stateIndicator == 0){
+function checkSecondaryState(state){
+    if(state == "MAIN. ENG."){
         return 'Main Engine - Starboard';
-    }else if(stateIndicator == 1){
-        return "Main Engine - Port";
-    }else if(stateIndicator == 2){
-        return "Main Engine - Overview";
+    }else{
+        return 'Aux Engine - Starboard & Port';
     }
 }
 
@@ -56,7 +54,7 @@ function Header({state, stateIndicator, loginManager, alarmManager}) {
             <div className='whiteBoxUnspecHeightWidth-leftText' height={50}>
                 <div className={state == "OVERVIEW" ? 'mainContainer-login-off' : ''}>
                     <div className='tealText' style={{display:'block'}}>{checkUniqueState(state)}</div>
-                    <div className='tealText' style={{display:showSecondary(state)}}>{checkSecondaryState(stateIndicator)}</div>
+                    <div className='tealText' style={{display:showSecondary(state)}}>{checkSecondaryState(state)}</div>
                 </div>
                 <div className={state != "OVERVIEW" ? 'mainContainer-login-off' : ''} >
                     <div className='tealText' style={{display:'block', fontSize: 30, fontWeight: 'bold'}}>{'R/H MONITORING'}</div>
@@ -67,7 +65,7 @@ function Header({state, stateIndicator, loginManager, alarmManager}) {
                     <div style={{display:'block', fontSize: 15, fontWeight: 'bold', color: '#FF0000'}}>{alarmManager.lastMassage}</div>
                 </div>
                 <div className={state != "OVERVIEW" ? 'mainContainer-login-off' : ''}>
-                    <div className='tealText' style={{display:'block', fontSize: 25, fontWeight: 'bold'}}>{'MV. TRANSKO BETET'}</div>
+                    
                 </div>
             </div>
             <HeaderDate />
