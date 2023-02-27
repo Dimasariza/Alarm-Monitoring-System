@@ -17,7 +17,7 @@ function getSizeMultiplier(fontSize, currentSize){
 }
 
 function IndicatorBoostPressure({engine, size, alarmManager}) {
-    const titleValue = "BOOST PRESSURE";
+    const titleValue = "FUEL OIL PRESSURE";
     const unitValue = "MPA";
     const maxPercentageValue = 50.55;
     const maxValue = 0.3;
