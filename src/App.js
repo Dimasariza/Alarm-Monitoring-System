@@ -71,6 +71,7 @@ function App() {
       mainEngine.stbd.CheckAlarmsConditions();
       auxEngine.stbd.CheckAlarmsConditions();
     });
+    alarmManager.alarm_ON("Aux Engine", 'AE_Overspeed', 'AE Overspeed');
     return () => {
         socket.off('arduino-data');
         // clearInterval(timer);

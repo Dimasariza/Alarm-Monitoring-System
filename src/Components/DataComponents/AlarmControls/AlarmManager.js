@@ -97,6 +97,7 @@ export default class AlarmManager extends EventEmitter{
 
     acknowledgeAlarm(command, source) {
         var targets = this.redAlarm.filter(alarm => (alarm.command == command && alarm.source == source));
+        console.log(targets)
         if(targets == 0) return;
         this.redAlarm = this.redAlarm.filter(alarm => !(alarm.command == command && alarm.source == source));
         targets.forEach((newAlarm) => {
@@ -106,6 +107,7 @@ export default class AlarmManager extends EventEmitter{
             this.changeAlarmStatus(command, AlarmStatus.Acknowledged, source)
             this.emit('Deactivate Header', newAlarm.desc)
         })
+        this.emit('Alarm', new AlarmDetail(command, targets[0].desc, source, AlarmStatus.Acknowledged));
 
     }
 
