@@ -37,22 +37,6 @@ function App() {
         // console.log('refresh go! ', mainEngine)
     })
 
-    // const timer = setInterval(() => {
-    //   // console.log('you can see me every 1 seconds')
-    //   // console.log(mainEngine.stbd.boostPressure);
-    //   if(rots < 50 || rots > 1000) backward = !backward 
-    //   if(backward){
-    //     rots = rots - 20
-    //   }else{
-    //     rots = rots + 20
-    //   }
-      
-    //   mainEngine.updateEngineData((rots), (rots), (rots), (rots));
-    //   auxEngine.updateEngineData((rots), (rots), (rots), (rots));
-    //   // console.log(loginManager);
-    //   // setRefresh(prev => !prev);
-    // }, 1000);
-
     socket.on('arduino-data', (data) => {
       var splitArray = data.split(',');
       // console.log(data)
@@ -81,7 +65,7 @@ function App() {
   return (
     <div style={{position: 'absolute'}}>
       <KeyboardComponent virtualKeyboardManager={vkbm} keyboardDisplayState={vkbm.keyboardStatus}/>
-      <FrameLogin loginManager={loginManager} showLogin={loginManager.showDisplay} virtualKeyboardManager={vkbm}/>
+      <FrameLogin loginManager={loginManager} showLogin={loginManager.showDisplay} virtualKeyboardManager={vkbm} socket={socket}/>
       <Frame mainEngine={mainEngine} auxEngine={auxEngine} GPSData={GPSData} loginManager={loginManager} virtualKeyboardManager={vkbm} alarmManager={alarmManager}/>
     </div>
   );

@@ -4,6 +4,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const { SerialPort } = require('serialport');
 const { ReadlineParser } = require('@serialport/parser-readline');
+const { spawn } = require('child_process');
 
 const port = new SerialPort({
     path:'/dev/ttyACM0',
@@ -26,6 +27,14 @@ io.on('connection', socket => {
             }
             default: sendCode(code)
         }
+    })
+
+    socket.on('shutdown', () => {
+        const shutdownProcess = spawn('sudo', ['shutdown', '-h', 'now']);
+        shutdownProcess.on('exit', () => {
+            console.log('Shutting down...');
+            res.status(200).send('Shutting down...');
+          });
     })
 
     parser.on('data', (data) =>{

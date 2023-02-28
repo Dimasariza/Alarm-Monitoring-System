@@ -10,7 +10,11 @@ function getErrorTextDisplay(showState){
     }
 }
 
-function FrameLogin({loginManager, showLogin, virtualKeyboardManager}) {
+function handleShutdown(socket){
+    socket.emit('shutdown');
+}
+
+function FrameLogin({loginManager, showLogin, virtualKeyboardManager, socket}) {
     const[displayState, setDisplayState] = useState(showLogin);
     const[showError, setShowError] = useState(false);
     const[inputUsername, setInputUsername] = useState('');
@@ -52,6 +56,9 @@ function FrameLogin({loginManager, showLogin, virtualKeyboardManager}) {
                     <div className='whiteBox' style={{width: 100, height: 20, display: 'flex', justifyContent: 'center', alignItems: 'center'}} onClick={() => loginManager.logoutAttempt()}>
                         Logout
                     </div>
+                </div>
+                <div className='whiteBox' style={{width: 100, height: 20, display: 'flex', justifyContent: 'center', alignItems: 'center'}} onClick={() => handleShutdown(socket)}>
+                    Shutdown
                 </div>
             </div>
         </div>
