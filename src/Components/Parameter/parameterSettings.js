@@ -7,16 +7,16 @@ function ParameterSettings({side, engineValue, virtualKeyboardManager}) {
     const [valveOpenActive, setValveOpenActive] = useState(engineValue.valveOpenActive);
     const [stopRPM, setStopRPM] = useState(engineValue.stopRPM);
     const [restartRPM, setRestartRPM] = useState(engineValue.restartRPM);
+    const [minRPM, setMinRPM] = useState(engineValue.minRPM);
     const [startStopTimeDelay, setStartStopTimeDelay] = useState(engineValue.startStopTimeDelay);
     const [lowTempCW, setLowTempCW] = useState(engineValue.lowTempCW);
     const [highTempCW, setHighTempCW] = useState(engineValue.highTempCW);
     const [lowPressLubOil, setLowPressLubOil] = useState(engineValue.lowPressLubOil);
     const [highPressLubOil, setHighPressLubOil] = useState(engineValue.highPressLubOil);
-    const [highTempExhGas, setHighTempExhGas] = useState(engineValue.highTempExhGas);
 
     useEffect(() =>{
-        engineValue.highTempExhGas = highTempExhGas
-    }, [highTempExhGas, engineValue])
+        engineValue.minRPM = minRPM
+    }, [minRPM, engineValue])
 
     useEffect(() =>{
         engineValue.highPressLubOil = highPressLubOil
@@ -66,6 +66,9 @@ function ParameterSettings({side, engineValue, virtualKeyboardManager}) {
                 <ParameterSettingsNumber name={"Restart RPM Set Point"} value={restartRPM} onClick={() => {
                     virtualKeyboardManager.showKeyboard(setRestartRPM, "Restart RPM Set Point:", false)
                 }}/>
+                <ParameterSettingsNumber name={"Minimal RPM Set Point"} value={minRPM} onClick={() => {
+                    virtualKeyboardManager.showKeyboard(setMinRPM, "Minimal RPM Set Point:", false)
+                }}/>
                 <ParameterSettingsNumber name={"Start Stop Time Delay"} value={startStopTimeDelay} onClick={() => {
                     virtualKeyboardManager.showKeyboard(setStartStopTimeDelay, "Start Stop Time Delay:", false)
                 }}/>
@@ -80,9 +83,6 @@ function ParameterSettings({side, engineValue, virtualKeyboardManager}) {
                 }}/>
                 <ParameterSettingsNumber name={"Low Temp CW Set Point"} value={lowTempCW} onClick={() => {
                     virtualKeyboardManager.showKeyboard(setLowTempCW, "Low Temp CW Set Point:", false)
-                }}/>
-                <ParameterSettingsNumber name={"High Temp Exh Gas Set Point"} value={highTempExhGas} onClick={() => {
-                    virtualKeyboardManager.showKeyboard(setHighTempExhGas, "High Temp Exh Gas Set Point:", false)
                 }}/>
             </div>
         </div>

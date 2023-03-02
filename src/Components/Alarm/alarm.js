@@ -24,7 +24,6 @@ function Alarm({alarmManager}) {
     const[AE_CoolingWaterTempHigh, setAE_CoolingWaterTempHigh ] = useState(AlarmStatus.Inactive);
     const[AE_CoolingWaterPressureLow, setAE_CoolingWaterPressureLow ] = useState(AlarmStatus.Inactive);
     const[AE_FuelOilPressureLow, setAE_FuelOilPressureLow ] = useState(AlarmStatus.Inactive);
-    const[AE_FuelOilTemperatureHigh, setAE_FuelOilTemperatureHigh ] = useState(AlarmStatus.Inactive);
     const[AE_Overspeed, setAE_Overspeed ] = useState(AlarmStatus.Inactive);
     const[AE_LubOilTemperatureHigh, setAE_LubOilTemperatureHigh ] = useState(AlarmStatus.Inactive);
     const[AE_LubOilPressureLow, setAE_LubOilPressureLow ] = useState(AlarmStatus.Inactive);
@@ -77,8 +76,6 @@ function Alarm({alarmManager}) {
                         return setAE_CoolingWaterPressureLow(value.status);
                     case 'AE_FuelOilPressureLow':
                         return setAE_FuelOilPressureLow(value.status);
-                    case 'AE_FuelOilTemperatureHigh':
-                        return setAE_FuelOilTemperatureHigh(value.status);
                     case 'AE_Overspeed':
                         return setAE_Overspeed(value.status);
                     case 'AE_LubOilTemperatureHigh':
@@ -227,12 +224,6 @@ function Alarm({alarmManager}) {
     }, [AE_FuelOilPressureLow])
 
     useEffect(() =>{
-        if(AE_FuelOilTemperatureHigh == AlarmStatus.Acknowledged){
-            alarmManager.acknowledgeAlarm('AE_FuelOilTemperatureHigh', 'Aux Engine');
-        }
-    }, [AE_FuelOilTemperatureHigh])
-
-    useEffect(() =>{
         if(AE_Overspeed == AlarmStatus.Acknowledged){
             alarmManager.acknowledgeAlarm('AE_Overspeed', 'Aux Engine');
         }
@@ -299,7 +290,7 @@ function Alarm({alarmManager}) {
             
             
 
-            <AlarmBlock name={"AE Fuel Oil Temperature High"} active={AE_FuelOilTemperatureHigh} setState={setAE_FuelOilTemperatureHigh}/>
+            <AlarmBlock name={"AE Fuel Oil Temperature High"} active={false}/>
             <AlarmBlock name={"AE Cooling Water Pressure Low"} active={AE_CoolingWaterPressureLow} setState={setAE_CoolingWaterPressureLow}/>
             <AlarmBlock name={"AE Lub Oil Pressure Low"} active={AE_LubOilPressureLow} setState={setAE_LubOilPressureLow}/>
             

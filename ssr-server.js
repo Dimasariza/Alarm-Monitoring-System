@@ -13,6 +13,32 @@ const port = new SerialPort({
 
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
+const portPath = 'COM3';
+const selectPort = async () => {
+    const ports = await serialport.list()
+    if (ports.length <= 0) return null
+
+    const portInfo = ports.find(p => p.path === portPath)
+    let selected = null;
+    if (portInfo) {
+        selected = new serialport(portInfo.path, {baudRate: 38400, autoOpen: true})
+    }
+
+    return selected
+}
+
+const sendCode = async (code) => {
+    try {
+        if (!port) port = await selectPort()
+
+        port.write(`\n${code}\n`, (err, res) => {
+            console.log([err, res])
+        })
+    } catch (e) {
+        console.log(`Port Not Found Or Not Working`)
+    }
+}
+
 io.on('connection', socket => {
     console.log('A client connected');
 

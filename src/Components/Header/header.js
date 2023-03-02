@@ -14,9 +14,9 @@ function checkUniqueState(state){
 
 function checkSecondaryState(state){
     if(state == "MAIN. ENG."){
-        return 'Main Engine - Starboard';
+        return 'Main Engine';
     }else{
-        return 'Aux Engine - Starboard & Port';
+        return 'Aux Engine';
     }
 }
 

@@ -16,6 +16,11 @@ function sendCode(socket, code){
   socket.emit('change', code.toString().toUpperCase())
 }
 
+export const CurrentActiveEngine = {
+  MainEngine: 'MainEngine',
+  AuxEngine: 'AuxEngine'
+};
+
 function App() {
   const socket = io('http://localhost:3000');
   const alarmManager = new AlarmManager();

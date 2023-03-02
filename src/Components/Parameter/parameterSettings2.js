@@ -15,6 +15,11 @@ function ParameterSettings2({side, engineValue, virtualKeyboardManager}) {
     const [lowPressureFO, setLowPressureFO] = useState(engineValue.lowPressureFO);
     const [workloadMax, setWorkloadMax] = useState(engineValue.workloadMax);
     const [workloadMin, setWorkloadMin] = useState(engineValue.workloadMin);
+    const [highTempExhGas, setHighTempExhGas] = useState(engineValue.highTempExhGas);
+
+    useEffect(() =>{
+        engineValue.highTempExhGas = highTempExhGas
+    }, [highTempExhGas, engineValue])
 
     useEffect(() =>{
         engineValue.lowPressureFO = lowPressureFO
@@ -37,6 +42,9 @@ function ParameterSettings2({side, engineValue, virtualKeyboardManager}) {
         <div className='displayContainer-shard'>
             <div style={{'textAlign': 'center', 'fontWeight': 'bold', color: '#FFFFFF', marginBottom: 30 }}>{side}</div>
             <div className='whiteBox-parameterSetting'>
+                <ParameterSettingsNumber name={"High Temp Exh Gas Set Point"} value={highTempExhGas} onClick={() => {
+                    virtualKeyboardManager.showKeyboard(setHighTempExhGas, "High Temp Exh Gas Set Point:", false)
+                }}/>
                 <ParameterSettingsNumber name={"High Pressure FO Set Point"} value={highPressureFO.toFixed(2)} onClick={() => {
                     virtualKeyboardManager.showKeyboard(setHighPressureFO, "High Pressure FO Set Point:", false)
                 }}/>

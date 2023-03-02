@@ -9,7 +9,7 @@ function getProgressWidth(percentage, maxWidth){
 function BattreyIndicator({voltage, battreyLife, boxWidth}) {
     return (
         <div className='battreyBG' style={{'--boxWidth': boxWidth}}>
-            <div className='battreyText-title'> Battrey </div>
+            <div className='battreyText-title'> Battery </div>
             <div className='battreyText-value'> {voltage.toFixed(1)} </div>
             <div className='battreyImage'> 
                 <div className='battreyText-title'>

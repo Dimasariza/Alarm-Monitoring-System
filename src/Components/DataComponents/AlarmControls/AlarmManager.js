@@ -52,14 +52,12 @@ export default class AlarmManager extends EventEmitter{
         this.AE_CoolingWaterTempHigh = AlarmStatus.Inactive;
         this.AE_CoolingWaterPressureLow = AlarmStatus.Inactive;
         this.AE_FuelOilPressureLow = AlarmStatus.Inactive;
-        this.AE_FuelOilTemperatureHigh = AlarmStatus.Inactive;
         this.AE_Overspeed = AlarmStatus.Inactive;
         this.AE_LubOilTemperatureHigh = AlarmStatus.Inactive;
         this.AE_LubOilPressureLow = AlarmStatus.Inactive;
         this.AE_FuelOilLeakage = AlarmStatus.Inactive;
 
         this.fullLeakageInspPipe = AlarmStatus.Inactive;
-        this.battreyFault = AlarmStatus.Inactive; 
 
         this.ME_InterimCondition = false;
         this.lastMassage = ''
@@ -174,9 +172,6 @@ export default class AlarmManager extends EventEmitter{
             case 'AE_FuelOilPressureLow':
                 this.AE_FuelOilPressureLow = target;
                 break;
-            case 'AE_FuelOilTemperatureHigh':
-                this.AE_FuelOilTemperatureHigh = target;
-                break;
             case 'AE_Overspeed':
                 this.AE_Overspeed = target;
                 break;
@@ -236,8 +231,6 @@ export default class AlarmManager extends EventEmitter{
                 return this.AE_CoolingWaterPressureLow == target;
             case 'AE_FuelOilPressureLow':
                 return this.AE_FuelOilPressureLow == target;
-            case 'AE_FuelOilTemperatureHigh':
-                return this.AE_FuelOilTemperatureHigh == target;
             case 'AE_Overspeed':
                 return this.AE_Overspeed == target;
             case 'AE_LubOilTemperatureHigh':
@@ -294,8 +287,6 @@ export default class AlarmManager extends EventEmitter{
                 return this.AE_CoolingWaterPressureLow;
             case 'AE_FuelOilPressureLow':
                 return this.AE_FuelOilPressureLow;
-            case 'AE_FuelOilTemperatureHigh':
-                return this.AE_FuelOilTemperatureHigh;
             case 'AE_Overspeed':
                 return this.AE_Overspeed;
             case 'AE_LubOilTemperatureHigh':
@@ -347,7 +338,6 @@ export default class AlarmManager extends EventEmitter{
     checkAE_EngineAlarmActive(){
         return(
             this.checkAlarmStatus('AE_FuelOilPressureLow', AlarmStatus.Active) ||
-            this.checkAlarmStatus('AE_FuelOilTemperatureHigh', AlarmStatus.Active) ||
             this.checkAlarmStatus('AE_Overspeed', AlarmStatus.Active) 
         )
     }
@@ -383,7 +373,6 @@ export default class AlarmManager extends EventEmitter{
             this.checkAlarmStatus('ME_FuelOilInjectPressureLow', AlarmStatus.Active) ||
             this.checkAlarmStatus('AE_CoolingWaterTempHigh', AlarmStatus.Active) ||
             this.checkAlarmStatus('AE_CoolingWaterPressureLow', AlarmStatus.Active) ||
-            this.checkAlarmStatus('AE_FuelOilTemperatureHigh', AlarmStatus.Active) ||
             this.checkAlarmStatus('AE_FuelOilPressureLow', AlarmStatus.Active) ||
             this.checkAlarmStatus('AE_Overspeed', AlarmStatus.Active) ||
             this.checkAlarmStatus('AE_LubOilPressureLow', AlarmStatus.Active) ||
