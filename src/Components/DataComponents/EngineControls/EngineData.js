@@ -64,8 +64,8 @@ export default class EngineData extends EventEmitter{
         this.highTempExhGas = 498;
         this.highPressLubOil = 0.25;
         this.lowPressLubOil = 0.15;
-        this.workloadMax = 75;
-        this.workloadMin = 10;
+        this.workloadMax = 80;
+        this.workloadMin = 35;
 
         this.maxEngineRev = 3500;
         this.maxCoolingWaterTemp = 120;
