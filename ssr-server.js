@@ -13,25 +13,10 @@ const port = new SerialPort({
 
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
-const portPath = 'COM3';
-const selectPort = async () => {
-    const ports = await serialport.list()
-    if (ports.length <= 0) return null
-
-    const portInfo = ports.find(p => p.path === portPath)
-    let selected = null;
-    if (portInfo) {
-        selected = new serialport(portInfo.path, {baudRate: 38400, autoOpen: true})
-    }
-
-    return selected
-}
-
-const sendCode = async (code) => {
+const sendCode = async () => {
     try {
-        if (!port) port = await selectPort()
 
-        port.write(`\n${code}\n`, (err, res) => {
+        port.write(`\nactivateAlarm\n`, (err, res) => {
             console.log([err, res])
         })
     } catch (e) {
@@ -43,16 +28,8 @@ io.on('connection', socket => {
     console.log('A client connected');
 
     // listening changes code here
-    socket.on('change', (code) => {
-        console.log(code)
-        switch(code) {
-            case 'INIT': {
-                sendCode('ZR')
-                sendCode('STP')
-                break
-            }
-            default: sendCode(code)
-        }
+    socket.on('activateAlarm', () => {
+        sendCode();
     })
 
     socket.on('shutdown', () => {

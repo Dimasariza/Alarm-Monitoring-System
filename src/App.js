@@ -35,6 +35,7 @@ function App() {
   const [activeEngine, setActiveEngine] = useState(CurrentActiveEngine.MainEngine);
   
   useEffect(() =>{
+    socket.emit('activateAlarm')
     vkbm.on('hide', () => {
         setRefresh(prev => !prev)
         // console.log('refresh go! ', mainEngine)
