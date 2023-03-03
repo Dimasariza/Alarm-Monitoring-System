@@ -18,7 +18,7 @@ import DetailedOverview from '../Overview/detailedOverview';
 import RunningHourDisplay from './runningHour';
 // import io from 'socket.io-client';
 
-function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardManager, alarmManager}) {
+function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardManager, alarmManager, activeEngine, setActiveEngine}) {
     const[currentState, setCurrentState] = useState("MAIN. ENG.");
     const[activeIndicatorView, setActiveIndicatorView] = useState(0);
     const[activeParameterView, setActiveParameterView] = useState(0);
@@ -51,7 +51,7 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
           <DisplayContainer name="OVERVIEW" state={currentState} content={<RunningHourDisplay mainEngineValue={mainEngine} auxEngineValue={auxEngine} state={activeIndicatorView} setState={setActiveIndicatorView} />} />
           <DisplayContainer name="ALARM" state={currentState}  content={<Alarm alarmManager={alarmManager} />} />
           <DisplayContainer name="ALARM SUMMARY" state={currentState}  content={<AlarmSummary alarmManager={alarmManager} />} />
-          <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} mainEngineValue={mainEngine} auxEngineValue={auxEngine} loginManager={loginManager} virtualKeyboardManager={virtualKeyboardManager} alarmManager={alarmManager} />} />
+          <DisplayContainer name="PARAMETER" state={currentState}  content={<Parameter state={activeParameterView} setState={setActiveParameterView} mainEngineValue={mainEngine} auxEngineValue={auxEngine} loginManager={loginManager} virtualKeyboardManager={virtualKeyboardManager} alarmManager={alarmManager} activeEngine={activeEngine} setActiveEngine={setActiveEngine}/>} />
         </div>
         <div className="mainButtonSelectionContainer">
                 <NavigatorButtons name="MAIN. ENG." onNameChange={setCurrentState} icon={EngineIcon} iconPadding={60} state={currentState}/>
@@ -59,7 +59,7 @@ function Frame({mainEngine, auxEngine, GPSData, loginManager, virtualKeyboardMan
                 <NavigatorButtonsNoIcon name="OVERVIEW"  onNameChange={setCurrentState} state={currentState}/>
                 <NavigatorButtons name="ALARM"  onNameChange={setCurrentState} icon={AlarmIcon} iconPadding={50} state={currentState}/>
                 <NavigatorButtons name="ALARM SUMMARY"  onNameChange={setCurrentState} icon={AlarmSummaryIcon} iconPadding={50} state={currentState}/>
-                <NavigatorButtons name="PARAMETER"  onNameChange={setCurrentState} icon={ParameterIcon} iconPadding={50} state={currentState}/>
+                <NavigatorButtons name="PARAMETER"  onNameChange={setCurrentState} icon={ParameterIcon} iconPadding={50} state={currentState} />
         </div>
     </div>
   );

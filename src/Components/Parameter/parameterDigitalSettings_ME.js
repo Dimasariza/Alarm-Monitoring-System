@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react'
 import ParameterSettingsNumber from './parameterSettingsNumber';
 import ParameterSettingsToogle from './parameterSettingsToogle';
 import ParameterSettingsStatus from './parameterSettingsStatus';
+import { CurrentActiveEngine } from '../../App';
 
-function ParameterDigitalSettings_ME({side, engineValue, alarmManager}) {
-    const [startCommandActive, setStartCommandActive] = useState(engineValue.startCommandActive);
-    const [pumpRawWaterFlowEngine, setpumpRawWaterFlowEngine] = useState(alarmManager.pumpRawWaterFlowEngine);
-    const [pumpFuelOilFlow, setpumpFuelOilFlow] = useState(alarmManager.pumpFuelOilFlow);
-    const [pumpLubOilFlow, setpumpLubOilFlow] = useState(alarmManager.pumpLubOilFlow);
-    const [pumpBilgeEngineRoom, setpumpBilgeEngineRoom] = useState(alarmManager.pumpBilgeEngineRoom);
-    const [loadPanelSwitch, setloadPanelSwitch] = useState(alarmManager.loadPanelSwitch);
-    const [lightingPanel, setlightingPanel] = useState(alarmManager.lightingPanel);
-    const [battreyFault, setbattreyFault] = useState(alarmManager.battreyFault);
+function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEngine, setActiveEngine}) {
+    const [startCommandActive, setStartCommandActive] = useState(activeEngine == CurrentActiveEngine.MainEngine);
+    const [pumpRawWaterFlowEngine, setpumpRawWaterFlowEngine] = useState(alarmManager.pumpRawWaterFlowEngine[0]);
+    const [pumpFuelOilFlow, setpumpFuelOilFlow] = useState(alarmManager.pumpFuelOilFlow[0]);
+    const [pumpLubOilFlow, setpumpLubOilFlow] = useState(alarmManager.pumpLubOilFlow[0]);
+    const [pumpBilgeEngineRoom, setpumpBilgeEngineRoom] = useState(alarmManager.pumpBilgeEngineRoom[0]);
+    const [loadPanelSwitch, setloadPanelSwitch] = useState(alarmManager.loadPanelSwitch[0]);
+    const [lightingPanel, setlightingPanel] = useState(alarmManager.lightingPanel[0]);
+    const [battreyFault, setbattreyFault] = useState(alarmManager.battreyFault[0]);
 
-    const [engineOverspeed, setengineOverspeed] = useState(alarmManager.engineOverspeed);
-    const [lubricatingOilPressureLow, setlubricatingOilPressureLow] = useState(alarmManager.lubricatingOilPressureLow);
-    const [lubricatingOilTemperatureHigh, setlubricatingOilTemperatureHigh] = useState(alarmManager.lubricatingOilTemperatureHigh);
-    const [fuelOilPressureFlow, setfuelOilPressureFlow] = useState(alarmManager.fuelOilPressureFlow);
-    const [fuelOilLeakageFromHighPressurePipes, setfuelOilLeakageFromHighPressurePipes] = useState(alarmManager.fuelOilLeakageFromHighPressurePipes);
-    const [coolingWaterPressureLow, setcoolingWaterPressureLow] = useState(alarmManager.coolingWaterPressureLow);
-    const [coolingWaterTemperatureHigh, setcoolingWaterTemperatureHigh] = useState(alarmManager.coolingWaterTemperatureHigh);
+    const [engineOverspeed, setengineOverspeed] = useState(alarmManager.engineOverspeed[0]);
+    const [lubricatingOilPressureLow, setlubricatingOilPressureLow] = useState(alarmManager.lubricatingOilPressureLow[0]);
+    const [lubricatingOilTemperatureHigh, setlubricatingOilTemperatureHigh] = useState(alarmManager.lubricatingOilTemperatureHigh[0]);
+    const [fuelOilPressureFlow, setfuelOilPressureFlow] = useState(alarmManager.fuelOilPressureFlow[0]);
+    const [fuelOilLeakageFromHighPressurePipes, setfuelOilLeakageFromHighPressurePipes] = useState(alarmManager.fuelOilLeakageFromHighPressurePipes[0]);
+    const [coolingWaterPressureLow, setcoolingWaterPressureLow] = useState(alarmManager.coolingWaterPressureLow[0]);
+    const [coolingWaterTemperatureHigh, setcoolingWaterTemperatureHigh] = useState(alarmManager.coolingWaterTemperatureHigh[0]);
 
     useEffect(() => {
         engineValue.socket.on('arduino-data', (data) => {
@@ -50,13 +51,17 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager}) {
           }
     }, []);
 
+    useEffect(() =>{
+        setStartCommandActive(activeEngine == CurrentActiveEngine.MainEngine);
+    }, [activeEngine])
+
     return (
         <div className='displayContainer-shard'>
             <div style={{'textAlign': 'center', 'fontWeight': 'bold', color: '#FFFFFF', marginBottom: 30 }}>{side}</div>
             <div className='whiteBox-parameterSetting'>
                 <ParameterSettingsToogle name={"Alarm Active"} activation={startCommandActive}  onClick={() => {
-                    engineValue.startCommandActive = !engineValue.startCommandActive
-                    setStartCommandActive(engineValue.startCommandActive);
+                    setActiveEngine(CurrentActiveEngine.MainEngine);
+                    setStartCommandActive(true);
                 }} />
                 <div style={{padding: 5}}></div>
                 <ParameterSettingsStatus name1={"Pump Raw Water Flow Engine"} name2={"Engine Overspeed"}  selected1={pumpRawWaterFlowEngine} selected2={engineOverspeed} />

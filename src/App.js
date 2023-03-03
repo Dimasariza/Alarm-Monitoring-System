@@ -32,6 +32,7 @@ function App() {
   
   const [globalVariable, setArduinoData] = useState("UWU MATEY");
   const [refresh, setRefresh] = useState(false);
+  const [activeEngine, setActiveEngine] = useState(CurrentActiveEngine.MainEngine);
 
   let rots = 500
   let backward = false;
@@ -47,18 +48,25 @@ function App() {
       // console.log(data)
       switch(splitArray[0]){
         case "digital":
-          alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
+          alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
         case "analog": 
-          mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
-          auxEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+          if(activeEngine == CurrentActiveEngine.MainEngine){
+            mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+          }else{
+            auxEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+          }
           break;
         case "safety":
-          alarmManager.updateSafetyCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7])
+          alarmManager.updateSafetyCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
       }
-      mainEngine.stbd.CheckAlarmsConditions();
-      auxEngine.stbd.CheckAlarmsConditions();
+      if(activeEngine == CurrentActiveEngine.MainEngine){
+        mainEngine.stbd.CheckAlarmsConditions_ME();
+      }else{
+        auxEngine.stbd.CheckAlarmsConditions_AE();
+      }
+      
     });
     return () => {
         socket.off('arduino-data');
@@ -71,7 +79,11 @@ function App() {
     <div style={{position: 'absolute'}}>
       <KeyboardComponent virtualKeyboardManager={vkbm} keyboardDisplayState={vkbm.keyboardStatus}/>
       <FrameLogin loginManager={loginManager} showLogin={loginManager.showDisplay} virtualKeyboardManager={vkbm} socket={socket}/>
-      <Frame mainEngine={mainEngine} auxEngine={auxEngine} GPSData={GPSData} loginManager={loginManager} virtualKeyboardManager={vkbm} alarmManager={alarmManager}/>
+      <Frame mainEngine={mainEngine} auxEngine={auxEngine} 
+             GPSData={GPSData} loginManager={loginManager} 
+             virtualKeyboardManager={vkbm} alarmManager={alarmManager}
+             activeEngine={activeEngine}
+             setActiveEngine={setActiveEngine}/>
     </div>
   );
 }

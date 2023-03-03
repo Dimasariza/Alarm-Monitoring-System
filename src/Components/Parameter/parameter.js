@@ -7,7 +7,7 @@ import ParameterSettings2 from './parameterSettings2';
 import ParameterDigitalSettings from './parameterDigitalSettings';
 import ParameterDigitalSettings_ME from './parameterDigitalSettings_ME';
 
-function Parameter({state, setState, mainEngineValue, auxEngineValue, loginManager, virtualKeyboardManager, alarmManager}) {
+function Parameter({state, setState, mainEngineValue, auxEngineValue, loginManager, virtualKeyboardManager, alarmManager, activeEngine, setActiveEngine}) {
     const [allowEdit, setAllowEdit] = useState(loginManager.loggedIn);
     const [refresher, setRefresh] = useState(false);
     
@@ -27,8 +27,8 @@ function Parameter({state, setState, mainEngineValue, auxEngineValue, loginManag
             </div>
             <div className={allowEdit ? 'meContainer' : 'mainContainer-login-off'}>
             <div className={state==0 ? 'displayContainer-split-parameter-active' : 'displayContainer-split-parameter-inactive'}>
-                    <ParameterDigitalSettings_ME side={"MAIN ENGINE - DIGITAL & SAFETY ALARM"} engineValue={mainEngineValue.stbd} alarmManager={alarmManager}/>
-                    <ParameterDigitalSettings side={"AUX ENGINE - DIGITAL & SAFETY ALARM"} engineValue={auxEngineValue.stbd} alarmManager={alarmManager}/>
+                    <ParameterDigitalSettings_ME side={"MAIN ENGINE - DIGITAL & SAFETY ALARM"} engineValue={mainEngineValue.stbd} alarmManager={alarmManager} activeEngine={activeEngine} setActiveEngine={setActiveEngine}/>
+                    <ParameterDigitalSettings side={"AUX ENGINE - DIGITAL & SAFETY ALARM"} engineValue={auxEngineValue.stbd} alarmManager={alarmManager} activeEngine={activeEngine} setActiveEngine={setActiveEngine}/>
                 </div>
                 <div className={state==1 ? 'displayContainer-split-parameter-active' : 'displayContainer-split-parameter-inactive'}>
                     <ParameterSettings side={"MAIN ENGINE"} engineValue={mainEngineValue.stbd} virtualKeyboardManager={virtualKeyboardManager}/>
