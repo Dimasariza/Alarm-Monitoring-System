@@ -24,6 +24,7 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEng
 
     useEffect(() =>{
         setStartCommandActive(activeEngine == CurrentActiveEngine.MainEngine);
+        engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.MainEngine);
         // console.log("ME IS", activeEngine == CurrentActiveEngine.MainEngine);
         engineValue.socket.on('arduino-data', (data) => {
             if(activeEngine != CurrentActiveEngine.MainEngine) return;

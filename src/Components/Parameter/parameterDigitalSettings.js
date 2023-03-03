@@ -24,6 +24,7 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
 
     useEffect(() =>{
         setStartCommandActive(activeEngine == CurrentActiveEngine.AuxEngine);
+        engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.AuxEngine);
         engineValue.socket.on('arduino-data', (data) => {
             if(activeEngine != CurrentActiveEngine.AuxEngine) return;
             var splitArray = data.split(',');

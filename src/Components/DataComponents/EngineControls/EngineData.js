@@ -115,7 +115,7 @@ export default class EngineData extends EventEmitter{
     }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
-        // if(!this.activeParemeter) return;
+        if(!this.activeParemeter) return;
         this.engineStandby = (Math.abs((engineRPM / 1023) * this.maxEngineRev - this.engineRev) < this.standbyTreshold)
         this.engineRev = Math.min((engineRPM / 1023) * this.maxEngineRev, this.stopRPM);
         this.shaftRev = this.engineRev * this.shaftGearBox;
