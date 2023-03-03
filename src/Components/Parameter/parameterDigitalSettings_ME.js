@@ -3,6 +3,7 @@ import ParameterSettingsNumber from './parameterSettingsNumber';
 import ParameterSettingsToogle from './parameterSettingsToogle';
 import ParameterSettingsStatus from './parameterSettingsStatus';
 import { CurrentActiveEngine } from '../../App';
+import { addEventListener, removeEventListener } from '../DataComponents/SocketManager/socketManager';
 
 function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEngine, setActiveEngine}) {
     const [startCommandActive, setStartCommandActive] = useState(activeEngine == CurrentActiveEngine.MainEngine);
@@ -23,11 +24,13 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEng
     const [coolingWaterTemperatureHigh, setcoolingWaterTemperatureHigh] = useState(alarmManager.coolingWaterTemperatureHigh[0]);
 
     useEffect(() =>{
+        console.log("Value changed make new one ME");
         setStartCommandActive(activeEngine == CurrentActiveEngine.MainEngine);
-        engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.MainEngine);
+        // engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.MainEngine);
         // console.log("ME IS", activeEngine == CurrentActiveEngine.MainEngine);
-        engineValue.socket.on('arduino-data', (data) => {
+        const listener = (data) => {
             if(activeEngine != CurrentActiveEngine.MainEngine) return;
+            // console.log('ME', engineValue);
             var splitArray = data.split(',');
             switch(splitArray[0]){
               case "digital":
@@ -49,10 +52,12 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEng
                 setcoolingWaterTemperatureHigh(splitArray[7] == 1);
                 break;
             }
-        });
-        return () => {
-            engineValue.socket.off('arduino-data');
         }
+        addEventListener('arduino-data-ME-Settings', listener);
+        return () => {
+            console.log("Sayonara ME");
+            removeEventListener('arduino-data-ME-Settings', listener);
+        };
     }, [activeEngine])
 
     return (
@@ -61,7 +66,6 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEng
             <div className='whiteBox-parameterSetting'>
                 <ParameterSettingsToogle name={"Alarm Active"} activation={startCommandActive}  onClick={() => {
                     setActiveEngine(CurrentActiveEngine.MainEngine);
-                    setStartCommandActive(true);
                 }} />
                 <div style={{padding: 5}}></div>
                 <ParameterSettingsStatus name1={"Pump Raw Water Flow Engine"} name2={"Engine Overspeed"}  selected1={pumpRawWaterFlowEngine} selected2={engineOverspeed} />

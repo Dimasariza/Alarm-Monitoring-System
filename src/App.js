@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import KeyboardComponent from './Components/Frame/keyboardComponent';
 import VirtualKeyboardManager from './Components/DataComponents/VirtualKeyboardControls/VirtualKeyboardManager';
+import { addEventListener, removeEventListener } from './Components/DataComponents/SocketManager/socketManager';
 
 function sendCode(socket, code){
   // send code to throttle or steer wheel
@@ -35,40 +36,46 @@ function App() {
   const [activeEngine, setActiveEngine] = useState(CurrentActiveEngine.MainEngine);
   
   useEffect(() =>{
-    socket.emit('activateAlarm')
+    // socket.emit('activateAlarm')
     vkbm.on('hide', () => {
         setRefresh(prev => !prev)
         // console.log('refresh go! ', mainEngine)
     })
+  }, []);
 
-    socket.on('arduino-data', (data) => {
+  useEffect(() =>{
+    const listener = (data) => {
       var splitArray = data.split(',');
-      // console.log(data)
+      console.log(data)
       switch(splitArray[0]){
         case "digital":
           alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
         case "analog": 
-            mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
-            auxEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+            if(activeEngine == CurrentActiveEngine.MainEngine){
+              console.log('Update main engine');
+              mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+            }else{
+              console.log('Update aux engine');
+              auxEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
+            }
           break;
         case "safety":
           alarmManager.updateSafetyCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
       }
-      mainEngine.stbd.CheckAlarmsConditions_ME();
-      auxEngine.stbd.CheckAlarmsConditions_AE();
-    });
-    return () => {
-        socket.off('arduino-data');
-        // clearInterval(timer);
-    }
-  }, []);
+      if(activeEngine == CurrentActiveEngine.MainEngine){
+        mainEngine.stbd.CheckAlarmsConditions_ME();
+      }else{
+        auxEngine.stbd.CheckAlarmsConditions_AE();
+      }
+    };
 
-  // useEffect(() =>{
-  //     mainEngine.updateEngineActiveStatus(activeEngine == CurrentActiveEngine.MainEngine);
-  //     auxEngine.updateEngineActiveStatus(activeEngine == CurrentActiveEngine.AuxEngine);
-  // }, [activeEngine])
+    addEventListener('arduino-data-mainAppUpdater', listener);
+    return () => {
+        removeEventListener('arduino-data-mainAppUpdater', listener);
+    }
+  }, [activeEngine, alarmManager, auxEngine, mainEngine])
   
   return (
     <div style={{position: 'absolute'}}>

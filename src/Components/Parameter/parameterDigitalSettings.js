@@ -3,6 +3,7 @@ import ParameterSettingsNumber from './parameterSettingsNumber';
 import ParameterSettingsToogle from './parameterSettingsToogle';
 import ParameterSettingsStatus from './parameterSettingsStatus';
 import { CurrentActiveEngine } from '../../App';
+import { addEventListener, removeEventListener } from '../DataComponents/SocketManager/socketManager';
 
 function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine, setActiveEngine}) {
     const [startCommandActive, setStartCommandActive] = useState(activeEngine == CurrentActiveEngine.AuxEngine);
@@ -23,10 +24,12 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
     const [coolingWaterTemperatureHigh, setcoolingWaterTemperatureHigh] = useState(alarmManager.coolingWaterTemperatureHigh[1]);
 
     useEffect(() =>{
+        console.log('Value changed make new one AE');
         setStartCommandActive(activeEngine == CurrentActiveEngine.AuxEngine);
-        engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.AuxEngine);
-        engineValue.socket.on('arduino-data', (data) => {
+        // engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.AuxEngine);
+        const listener = (data) => {
             if(activeEngine != CurrentActiveEngine.AuxEngine) return;
+            // console.log('AE', engineValue);
             var splitArray = data.split(',');
             switch(splitArray[0]){
               case "digital":
@@ -48,10 +51,12 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
                 setcoolingWaterTemperatureHigh(splitArray[7] == 1);
                 break;
             }
-          });
-          return () => {
-                engineValue.socket.off('arduino-data');
-          }
+        }
+        addEventListener('arduino-data-AE-Settings', listener);
+        return () => {
+            console.log('SAYONARA AE');
+            removeEventListener('arduino-data-AE-Settings', listener);
+        };
     }, [activeEngine])
 
     return (
@@ -60,7 +65,6 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
             <div className='whiteBox-parameterSetting'>
                 <ParameterSettingsToogle name={"Alarm Active"} activation={startCommandActive}  onClick={() => {
                     setActiveEngine(CurrentActiveEngine.AuxEngine);
-                    setStartCommandActive(true);
                 }} />
                 <div style={{padding: 5}}></div>
                 <ParameterSettingsStatus name1={"Pump Raw Water Flow Engine"} name2={"Engine Overspeed"}  selected1={pumpRawWaterFlowEngine} selected2={engineOverspeed} />
