@@ -22,8 +22,10 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
     const [coolingWaterPressureLow, setcoolingWaterPressureLow] = useState(alarmManager.coolingWaterPressureLow[1]);
     const [coolingWaterTemperatureHigh, setcoolingWaterTemperatureHigh] = useState(alarmManager.coolingWaterTemperatureHigh[1]);
 
-    useEffect(() => {
+    useEffect(() =>{
+        setStartCommandActive(activeEngine == CurrentActiveEngine.AuxEngine);
         engineValue.socket.on('arduino-data', (data) => {
+            if(activeEngine != CurrentActiveEngine.AuxEngine) return;
             var splitArray = data.split(',');
             switch(splitArray[0]){
               case "digital":
@@ -49,10 +51,6 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
           return () => {
                 engineValue.socket.off('arduino-data');
           }
-    }, []);
-
-    useEffect(() =>{
-        setStartCommandActive(activeEngine == CurrentActiveEngine.AuxEngine);
     }, [activeEngine])
 
     return (

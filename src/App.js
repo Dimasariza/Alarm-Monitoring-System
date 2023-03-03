@@ -33,9 +33,6 @@ function App() {
   const [globalVariable, setArduinoData] = useState("UWU MATEY");
   const [refresh, setRefresh] = useState(false);
   const [activeEngine, setActiveEngine] = useState(CurrentActiveEngine.MainEngine);
-
-  let rots = 500
-  let backward = false;
   
   useEffect(() =>{
     vkbm.on('hide', () => {
@@ -51,29 +48,26 @@ function App() {
           alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
         case "analog": 
-          if(activeEngine == CurrentActiveEngine.MainEngine){
             mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
-          }else{
             auxEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
-          }
           break;
         case "safety":
           alarmManager.updateSafetyCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
       }
-      if(activeEngine == CurrentActiveEngine.MainEngine){
-        mainEngine.stbd.CheckAlarmsConditions_ME();
-      }else{
-        auxEngine.stbd.CheckAlarmsConditions_AE();
-      }
-      
+      mainEngine.stbd.CheckAlarmsConditions_ME();
+      auxEngine.stbd.CheckAlarmsConditions_AE();
     });
     return () => {
         socket.off('arduino-data');
         // clearInterval(timer);
     }
-    
   }, []);
+
+  // useEffect(() =>{
+  //     mainEngine.updateEngineActiveStatus(activeEngine == CurrentActiveEngine.MainEngine);
+  //     auxEngine.updateEngineActiveStatus(activeEngine == CurrentActiveEngine.AuxEngine);
+  // }, [activeEngine])
   
   return (
     <div style={{position: 'absolute'}}>

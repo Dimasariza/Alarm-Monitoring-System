@@ -12,8 +12,14 @@ export default class EngineDataManager extends EventEmitter {
     }
 
     updateEngineData(engineRPM, coolantTemp, lubOilPressure, workingLoad){
-        if(!this.active) return;
+        // if(!this.active) return;
         this.stbd.updateEngineData(engineRPM, coolantTemp, lubOilPressure, workingLoad);
+        // if(this.port != null){this.port.updateEngineData(engineRPM, coolantTemp, lubOilPressure, workingLoad);}
+    }
+
+    updateEngineActiveStatus(status){
+        // if(!this.active) return;
+        this.stbd.updateEngineActiveStatus(status);
         // if(this.port != null){this.port.updateEngineData(engineRPM, coolantTemp, lubOilPressure, workingLoad);}
     }
 

@@ -34,7 +34,7 @@ export default class EngineData extends EventEmitter{
         this.exhaustTemp = 400;
         this.runningHour = 0;
         this.battreyVolt = 13.7;
-        this.battreyLife = 100;
+        this.battreyLife = 90;
 
         this.engineDirection = EngineDirection.Neutral;
         this.engineControlStatus = EngineControlStatus.Local;
@@ -82,6 +82,8 @@ export default class EngineData extends EventEmitter{
         this.codeSender = codeSender;
         this.socket = socket;
         this.standbyTreshold = 60;
+
+        this.activeParemeter = false;
     }
 
     getEngineTemperature(){
@@ -107,9 +109,13 @@ export default class EngineData extends EventEmitter{
         // this.engineTrip = true
         // this.codeSender(this.socket, 'code')
     }
+
+    updateEngineActiveStatus(status){
+        this.activeParemeter = status;
+    }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
-        // if(this.engineTrip) return;
+        // if(!this.activeParemeter) return;
         this.engineStandby = (Math.abs((engineRPM / 1023) * this.maxEngineRev - this.engineRev) < this.standbyTreshold)
         this.engineRev = Math.min((engineRPM / 1023) * this.maxEngineRev, this.stopRPM);
         this.shaftRev = this.engineRev * this.shaftGearBox;
@@ -117,6 +123,7 @@ export default class EngineData extends EventEmitter{
         this.lubOilPressure = (OilPressure / 1023) * this.maxLubOilPressure;
         if(this.source == "Aux Engine"){
             this.workload = (workload / 1023) * this.maxWorkload;
+            console.log("Its aux allright")
         }
         // this.boostPressure = (HydraulicPressure / 1023) * this.maxBoostPressure;
 
@@ -127,11 +134,13 @@ export default class EngineData extends EventEmitter{
         this.emit('Lub Oil Pressure', this.lubOilPressure);
         this.emit('Boost Pressure', this.boostPressure);
         if(this.source == "Aux Engine"){
+            console.log("Its aux workload emit");
             this.emit('Workload', this.workload);
         }
     }
 
     CheckAlarmsConditions_ME(){
+        // if(!this.activeParemeter) return;
         this.CheckAlarmOff_ME();
         //engine decrease
         if(this.engineRev < this.minRPM){
@@ -298,7 +307,7 @@ export default class EngineData extends EventEmitter{
         }
     }
     
-    CheckAlarmOff_MainEngine(){
+    CheckAlarmOff_ME(){
         //engine decrease
         if(this.alarmManager.checkAlarmStatus('ME_LubOilPressureLow', AlarmStatus.Acknowledged) && !(this.engineRev < this.minRPM && !this.alarmManager.pumpLubOilFlow[0] && this.alarmManager.lubricatingOilPressureLow[0] )){
             this.alarmManager.alarm_OFF(this.source, 'ME_LubOilPressureLow', 'ME Lub Oil Pressure Low');
@@ -371,7 +380,7 @@ export default class EngineData extends EventEmitter{
         }
     }
 
-    CheckAlarmOff_AuxEngine(){
+    CheckAlarmOff_AE(){
         //engine decrease
         if(this.alarmManager.checkAlarmStatus('AE_FuelOilPressureLow', AlarmStatus.Acknowledged) && !(this.engineRev < this.minRPM && !this.alarmManager.pumpFuelOilFlow[1] && this.alarmManager.fuelOilPressureFlow[1])){
             this.alarmManager.alarm_OFF(this.source, 'AE_FuelOilPressureLow', 'AE Fuel Oil Pressure Low')

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 function getBoxWidth(boxWidth){
     if(boxWidth == null) return 100
@@ -10,12 +10,22 @@ function getBoxHeight(boxHeight){
     return boxHeight
 }
 
-function RevolutionMeterIndicator({lifeHour, boxWidth, boxHeight}) {
+function RevolutionMeterIndicator({engine, boxWidth, boxHeight}) {
+
+    const[rawValue, setRawValue] = useState(engine.engineRev);
+
+    useEffect(() => {
+        engine.on('Engine Rev', (value) => {
+            console.log("yep aux rev emit is here");
+            setRawValue(value);
+        });
+    }, []);
+
     return (
         <div className='tealBox' style={{width: getBoxWidth(boxWidth), height: getBoxHeight(boxHeight), display: 'flex', alignItems: 'center', justifyContent: 'center'}} >
             <div style={{'display': 'flex', fontWeight: 'bold', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}> 
-                Revolution
-                <div className='battreyText-value'> {lifeHour + ' RPM'} </div> 
+                REV
+                <div className='battreyText-value'> {rawValue.toFixed(0) + ' RPM'} </div> 
             </div>
             
         </div>
