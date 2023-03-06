@@ -35,39 +35,20 @@ function IndicatorCoolingWaterTemperature({engine, size, alarmManager}) {
     let alarmCount = 0;
 
     useEffect(() => {
-        engine.on('Cooling Water Temp', (value) => {
+        const updateWaterCooling = (value) => {
             setRawValue(value);
             if(value < engine.lowTempCW || value > engine.highTempCW){
                 setAlarm(true)
             }else{
                 setAlarm(false)
             }
-        });
+        }
+        engine.on('Cooling Water Temp', updateWaterCooling);
+        return () =>{
+            engine.off('Cooling Water Temp', updateWaterCooling);
+        }
 
-        // engine.alarmManager.on('Alarm', (value) => {
-        //     // console.log(value)
-        //     if(value.status == AlarmStatus.Inactive) return;
-        //     if(engine.alarmManager.checkActive(value.command)){
-        //         if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
-        //             if(value.status == AlarmStatus.Active){
-        //                 // alarmCount++;
-        //                 setAlarm(true);
-        //             }else{
-        //                 // alarmCount--;
-        //                 setAlarm(false);
-        //             }
-        //         }
-        //     }else{
-        //         // alarmCount = 0
-        //         setAlarm(false);
-        //     }
-        //     // if(alarmCount == 0){
-        //     //     setAlarm(false);
-        //     // }else{
-        //     //     setAlarm(true);
-        //     // }
-        // });
-    }, []);
+    }, [engine]);
 
     return (
         <Indicator 

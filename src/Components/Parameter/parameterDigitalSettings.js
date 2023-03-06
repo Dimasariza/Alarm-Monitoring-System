@@ -24,9 +24,7 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
     const [coolingWaterTemperatureHigh, setcoolingWaterTemperatureHigh] = useState(alarmManager.coolingWaterTemperatureHigh[1]);
 
     useEffect(() =>{
-        console.log('Value changed make new one AE');
         setStartCommandActive(activeEngine == CurrentActiveEngine.AuxEngine);
-        // engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.AuxEngine);
         const listener = (data) => {
             if(activeEngine != CurrentActiveEngine.AuxEngine) return;
             // console.log('AE', engineValue);
@@ -54,7 +52,6 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
         }
         addEventListener('arduino-data-AE-Settings', listener);
         return () => {
-            console.log('SAYONARA AE');
             removeEventListener('arduino-data-AE-Settings', listener);
         };
     }, [activeEngine])

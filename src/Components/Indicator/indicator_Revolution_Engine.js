@@ -30,15 +30,19 @@ function IndicatorRevolutionEngine({engine, size}) {
     const[warningLight, setWarningLight] = useState(false);
 
     useEffect(() => {
-        engine.on('Engine Rev', (value) => {
+        const updateEngineRevValue = (value) => {
             setRawValue(value);
             if(value > engine.restartRPM){
                 setWarningLight(true)
             }else{
                 setWarningLight(false)
             }
-        });
-    }, []);
+        }
+        engine.on('Engine Rev', updateEngineRevValue);
+        return () => {
+            engine.off('Engine Rev', updateEngineRevValue);
+        }
+    }, [engine]);
 
     return (
         <Indicator 

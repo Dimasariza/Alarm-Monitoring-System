@@ -30,7 +30,7 @@ function Alarm({alarmManager}) {
     const[AE_FuelOilLeakage, setAE_FuelOilLeakage ] = useState(AlarmStatus.Inactive);
 
     useEffect(() => {
-        alarmManager.on('Alarm', (value)=>{
+        const changeAlarmStatus = (value)=>{
             // console.log(value.command, value.source, value.status)
             if(value.status == AlarmStatus.Active || value.status == AlarmStatus.Inactive){
                 switch(value.command){
@@ -64,8 +64,6 @@ function Alarm({alarmManager}) {
                         return setVoltageFuseFail(value.status);
                     case 'ME_FuelPumpFail':
                         return setME_FuelPumpFail(value.status);
-                    // case 'ME_CoolingWaterTemperatureHigh':
-                    //     return setME_CoolingWaterTemperatureHigh(value.status);
                     case 'ME_CoolingWaterPressureLow':
                         return setME_CoolingWaterPressureLow(value.status);    
                     case 'ME_FuelOilInjectPressureLow':
@@ -88,10 +86,16 @@ function Alarm({alarmManager}) {
                         break;
                 }
             }
-        });
-    }, []);
+        }
+        alarmManager.on('Alarm', changeAlarmStatus);
+
+        return () =>{
+            alarmManager.off('Alarm', changeAlarmStatus);
+        }
+    }, [alarmManager]);
 
     useEffect(() =>{
+        console.log('ME TRY ACKNNWLEDGE');
         if(ME_OverspeedShutdown == AlarmStatus.Acknowledged){
             alarmManager.acknowledgeAlarm('ME_OverspeedShutdown', 'Main Engine');
         }
@@ -224,6 +228,7 @@ function Alarm({alarmManager}) {
     }, [AE_FuelOilPressureLow])
 
     useEffect(() =>{
+        console.log('AE TRY ACKNNWLEDGE');
         if(AE_Overspeed == AlarmStatus.Acknowledged){
             alarmManager.acknowledgeAlarm('AE_Overspeed', 'Aux Engine');
         }

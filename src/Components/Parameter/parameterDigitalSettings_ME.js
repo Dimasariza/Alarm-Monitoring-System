@@ -24,10 +24,7 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEng
     const [coolingWaterTemperatureHigh, setcoolingWaterTemperatureHigh] = useState(alarmManager.coolingWaterTemperatureHigh[0]);
 
     useEffect(() =>{
-        console.log("Value changed make new one ME");
         setStartCommandActive(activeEngine == CurrentActiveEngine.MainEngine);
-        // engineValue.activeParemeter = (activeEngine == CurrentActiveEngine.MainEngine);
-        // console.log("ME IS", activeEngine == CurrentActiveEngine.MainEngine);
         const listener = (data) => {
             if(activeEngine != CurrentActiveEngine.MainEngine) return;
             // console.log('ME', engineValue);
@@ -55,7 +52,6 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEng
         }
         addEventListener('arduino-data-ME-Settings', listener);
         return () => {
-            console.log("Sayonara ME");
             removeEventListener('arduino-data-ME-Settings', listener);
         };
     }, [activeEngine])

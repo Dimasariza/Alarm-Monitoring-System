@@ -32,20 +32,29 @@ function Header({state, stateIndicator, loginManager, alarmManager}) {
     const[newestAlarm, setHeaderWarning] = useState("placeholder")
 
     useEffect(() => {
-        alarmManager.on('Alarm', (value)=>{
+        const activateHeader = (value)=>{
             if(value.status == AlarmStatus.Active){
                 setHeaderWarning(value.desc);;
             }
-        });
+        }
 
-        alarmManager.on('Deactivate Header', (value) =>{
+        const deactivateHeader = (value) =>{
             // console.log("Acknowlede Desc is " +  value, alarmManager.lastMassage)
             if(value == alarmManager.lastMassage){
                 alarmManager.lastMassage=''
                 setHeaderWarning('');
             }
-        });
-      }, []);
+        }
+
+        alarmManager.on('Alarm', activateHeader);
+
+        alarmManager.on('Deactivate Header', deactivateHeader);
+        return () => {
+            alarmManager.off('Alarm', activateHeader);
+
+            alarmManager.off('Deactivate Header', deactivateHeader);
+        }
+      }, [alarmManager]);
 
     return (
         <div className='headerContainer-inner'>

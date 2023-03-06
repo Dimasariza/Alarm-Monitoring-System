@@ -5,7 +5,7 @@ import GPSDataControl from './Components/DataComponents/GPSControls/gpsDataContr
 import FrameLogin from './Components/Frame/frameLogin';
 import LoginManager from './Components/DataComponents/LoginControls/LoginManager';
 import AlarmManager from './Components/DataComponents/AlarmControls/AlarmManager';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import io from 'socket.io-client';
 import KeyboardComponent from './Components/Frame/keyboardComponent';
 import VirtualKeyboardManager from './Components/DataComponents/VirtualKeyboardControls/VirtualKeyboardManager';
@@ -24,12 +24,12 @@ export const CurrentActiveEngine = {
 
 function App() {
   const socket = io('http://localhost:3000');
-  const alarmManager = new AlarmManager();
-  const mainEngine = new EngineDataManager(alarmManager, "Main Engine", sendCode, socket);
-  const auxEngine = new EngineDataManager(alarmManager, "Aux Engine", sendCode, socket);
-  const GPSData = new GPSDataControl();
-  const loginManager = new LoginManager();
-  const vkbm = new VirtualKeyboardManager();
+  const alarmManager = useMemo(() => new AlarmManager(), []);
+  const mainEngine = useMemo(() => new EngineDataManager(alarmManager, "Main Engine", sendCode, socket), []);
+  const auxEngine = useMemo(() => new EngineDataManager(alarmManager, "Aux Engine", sendCode, socket), []);
+  const GPSData = useMemo(() => new GPSDataControl(), []);
+  const loginManager = useMemo(() => new LoginManager(), []);
+  const vkbm = useMemo(() => new VirtualKeyboardManager(), []);
   
   const [globalVariable, setArduinoData] = useState("UWU MATEY");
   const [refresh, setRefresh] = useState(false);
@@ -45,18 +45,19 @@ function App() {
 
   useEffect(() =>{
     const listener = (data) => {
+      // console.log("Before, ME Overspeed " + alarmManager.ME_OverspeedShutdown)
       var splitArray = data.split(',');
-      console.log(data)
+      // console.log(data)
       switch(splitArray[0]){
         case "digital":
           alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
         case "analog": 
             if(activeEngine == CurrentActiveEngine.MainEngine){
-              console.log('Update main engine');
+              // console.log('Update main engine');
               mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
             }else{
-              console.log('Update aux engine');
+              // console.log('Update aux engine');
               auxEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
             }
           break;
@@ -69,6 +70,7 @@ function App() {
       }else{
         auxEngine.stbd.CheckAlarmsConditions_AE();
       }
+      // console.log("After, ME Overspeed " + alarmManager.ME_OverspeedShutdown)
     };
 
     addEventListener('arduino-data-mainAppUpdater', listener);

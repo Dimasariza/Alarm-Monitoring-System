@@ -35,41 +35,19 @@ function IndicatorLubOil({engine, size, alarmManager}) {
     let alarmCount = 0;
 
     useEffect(() => {
-        engine.on('Lub Oil Pressure', (value) => {
+        const updateLubOilValue = (value) => {
             setRawValue(value);
             if(value < engine.lowPressLubOil || value > engine.highPressLubOil){
                 setAlarm(true)
             }else{
                 setAlarm(false)
             }
-        });
-
-        // engine.alarmManager.on('Alarm', (value) => {
-        //     if(engine.alarmManager.checkActive(value.command)){
-        //         if((value.command == respondCommand || value.command == altCommand) && value.source == engine.source){
-        //             // console.log(titleValue, engine.source, value.command, value.source)
-        //             if(value.status == AlarmStatus.Active){
-        //                 // alarmCount++;
-        //                 // console.log('plus', value.source, alarmCount)
-        //                 setAlarm(true);
-        //             }else{
-        //                 // alarmCount--;
-        //                 // console.log('min', value.source, alarmCount)
-        //                 setAlarm(false);
-        //             }
-        //         }
-        //     }else{
-        //         alarmCount = 0;
-        //         setAlarm(false);
-        //     }
-        //     // if(alarmCount == 0){
-        //     //     setAlarm(false);
-        //     // }else{
-        //     //     setAlarm(true);
-        //     // }
-        // });
-
-    }, []);
+        }
+        engine.on('Lub Oil Pressure', updateLubOilValue);
+        return () =>{
+            engine.off('Lub Oil Pressure', updateLubOilValue);
+        }
+    }, [engine]);
 
     return (
         <Indicator 

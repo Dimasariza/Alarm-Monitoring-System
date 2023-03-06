@@ -14,10 +14,15 @@ function getRotation(value){
 function IndicatorHalfCircle({engine, size}) {
     const[rawValue, setRawValue] = useState(engine.workload);
     useEffect(() => {
-        engine.on('Workload', (value) => {
+        const workloadUpdate =(value) => {
             setRawValue(value);
-        });
-    }, []);
+        }
+
+        engine.on('Workload', workloadUpdate);
+        return () =>{
+            engine.off('Workload', workloadUpdate);
+        }
+    }, [engine]);
     return (
         <div className='indicator-container' style={{width : size * 2, height : size}}>
             <img className='indicator' src={BG} alt="Indicator Background" />

@@ -115,7 +115,8 @@ export default class EngineData extends EventEmitter{
     }
         
     updateEngineData(engineRPM, coolantTemp, OilPressure, workload){
-        if(!this.activeParemeter) return;
+        // console.log("Emit at ", this.source);
+        // if(!this.activeParemeter) return;
         this.engineStandby = (Math.abs((engineRPM / 1023) * this.maxEngineRev - this.engineRev) < this.standbyTreshold)
         this.engineRev = Math.min((engineRPM / 1023) * this.maxEngineRev, this.stopRPM);
         this.shaftRev = this.engineRev * this.shaftGearBox;
@@ -123,9 +124,7 @@ export default class EngineData extends EventEmitter{
         this.lubOilPressure = (OilPressure / 1023) * this.maxLubOilPressure;
         if(this.source == "Aux Engine"){
             this.workload = (workload / 1023) * this.maxWorkload;
-            console.log("Its aux allright")
         }
-        // this.boostPressure = (HydraulicPressure / 1023) * this.maxBoostPressure;
 
         this.emit('Engine Rev', this.engineRev);
         this.emit('Shaft Rev', this.shaftRev);
@@ -134,12 +133,13 @@ export default class EngineData extends EventEmitter{
         this.emit('Lub Oil Pressure', this.lubOilPressure);
         this.emit('Boost Pressure', this.boostPressure);
         if(this.source == "Aux Engine"){
-            console.log("Its aux workload emit");
+            // console.log("Its aux workload emit");
             this.emit('Workload', this.workload);
         }
     }
 
     CheckAlarmsConditions_ME(){
+        // console.log("Checking in ME");
         // if(!this.activeParemeter) return;
         this.CheckAlarmOff_ME();
         //engine decrease
@@ -176,6 +176,7 @@ export default class EngineData extends EventEmitter{
         if(this.engineRev > this.restartRPM){
             this.alarmManager.ME_InterimCondition = true
             if(this.alarmManager.pumpFuelOilFlow[0] && this.alarmManager.engineOverspeed[0] && this.alarmManager.checkAlarmStatus('ME_OverspeedShutdown', AlarmStatus.Inactive) ){
+                // console.log("ON AE Overspeed")
                 this.alarmManager.alarm_ON(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown');
                 return;
             }
@@ -260,6 +261,7 @@ export default class EngineData extends EventEmitter{
     }
 
     CheckAlarmsConditions_AE(){
+        // console.log("Checking in AE");
         this.CheckAlarmOff_AE();
         //engine decrease
         if(this.engineRev < this.minRPM){
@@ -272,6 +274,7 @@ export default class EngineData extends EventEmitter{
         //Increase engine
         if(this.engineRev > this.restartRPM){
             if(this.alarmManager.engineOverspeed[1] && this.alarmManager.checkAlarmStatus('AE_Overspeed', AlarmStatus.Inactive) ){
+                // console.log("ON AE Overspeed")
                 this.alarmManager.alarm_ON(this.source, 'AE_Overspeed', 'AE Overspeed');
                 return;
             }
@@ -332,6 +335,7 @@ export default class EngineData extends EventEmitter{
 
         //Increase engine
         if(this.alarmManager.checkAlarmStatus('ME_OverspeedShutdown', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.pumpFuelOilFlow[0] && this.alarmManager.engineOverspeed[0])){
+            // console.log("OFF ME Overspeed")
             this.alarmManager.alarm_OFF(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
         }
         if(this.alarmManager.checkAlarmStatus('LubOilGearTempHigh', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.pumpRawWaterFlowEngine[0] && !this.alarmManager.lubricatingOilPressureLow[0])){
@@ -355,6 +359,7 @@ export default class EngineData extends EventEmitter{
         }
 
         if(this.alarmManager.checkAlarmStatus('ME_FuelOilInjectPressureLow', AlarmStatus.Acknowledged)  && !(this.engineRev > this.restartRPM && this.alarmManager.ME_InterimCondition[0] && this.alarmManager.engineOverspeed[0])){
+            // console.log("OFF ME Overspeed")
             this.alarmManager.alarm_OFF(this.source, 'ME_FuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
         }
 
@@ -388,6 +393,7 @@ export default class EngineData extends EventEmitter{
 
         //Increase engine
         if(this.alarmManager.checkAlarmStatus('AE_Overspeed', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.engineOverspeed[1])){
+            console.log("OFF AE Overspeed")
             this.alarmManager.alarm_OFF(this.source, 'AE_Overspeed', 'AE Overspeed')
         }
 

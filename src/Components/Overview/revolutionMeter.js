@@ -15,11 +15,14 @@ function RevolutionMeterIndicator({engine, boxWidth, boxHeight}) {
     const[rawValue, setRawValue] = useState(engine.engineRev);
 
     useEffect(() => {
-        engine.on('Engine Rev', (value) => {
-            console.log("yep aux rev emit is here");
+        const updateEngineRev = (value) => {
             setRawValue(value);
-        });
-    }, []);
+        }
+        engine.on('Engine Rev', updateEngineRev);
+        return () =>{
+            engine.off('Engine Rev', updateEngineRev);
+        }
+    }, [engine]);
 
     return (
         <div className='tealBox' style={{width: getBoxWidth(boxWidth), height: getBoxHeight(boxHeight), display: 'flex', alignItems: 'center', justifyContent: 'center'}} >

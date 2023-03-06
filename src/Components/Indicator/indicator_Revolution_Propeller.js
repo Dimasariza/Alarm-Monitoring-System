@@ -29,10 +29,15 @@ function IndicatorRevolutionPropeller({engine, size}) {
     const[rawValue, setRawValue] = useState(engine.shaftRev);
 
     useEffect(() => {
-        engine.on('Shaft Rev', (value) => {
+        const updateShaftRev = (value) => {
             setRawValue(value);
-        });
-    }, []);
+        }
+        
+        engine.on('Shaft Rev', updateShaftRev);
+        return () => {
+            engine.off('Shaft Rev', updateShaftRev);
+        }
+    }, [engine]);
 
     return (
         <Indicator 

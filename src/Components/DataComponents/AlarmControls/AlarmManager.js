@@ -68,11 +68,11 @@ export default class AlarmManager extends EventEmitter{
 
     updateDigitalCommand(pumpRawWaterFlowEngine, pumpFuelOilFlow, pumpLubOilFlow, pumpBilgeEngineRoom, loadPanelSwitch, lightingPanel, battreyFault, activeEngine ){
         if(this.battreyFault[0] == true && (battreyFault == 1) && this.ME_InterimCondition && this.engineOverspeed[0]){
-            console.log("Yes interim VoltageFuseFail")
+            // console.log("Yes interim VoltageFuseFail")
             this.alarm_ON('Main Engine', 'VoltageFuseFail', 'Voltage / Fuse Fail');
         }
         if(this.pumpFuelOilFlow[0] == true && (pumpFuelOilFlow == 1) && this.ME_InterimCondition && this.engineOverspeed[0]){
-            console.log("Yes interim ME_FuelOilInjectPressureLow")
+            // console.log("Yes interim ME_FuelOilInjectPressureLow")
             this.alarm_ON('Main Engine', 'ME_FuelOilInjectPressureLow', 'ME Fuel Oil Inject Pressure Low')
         }
         var index = 0;
@@ -100,7 +100,6 @@ export default class AlarmManager extends EventEmitter{
 
     acknowledgeAlarm(command, source) {
         var targets = this.redAlarm.filter(alarm => (alarm.command == command && alarm.source == source));
-        console.log(targets)
         if(targets == 0) return;
         this.redAlarm = this.redAlarm.filter(alarm => !(alarm.command == command && alarm.source == source));
         targets.forEach((newAlarm) => {
@@ -393,6 +392,7 @@ export default class AlarmManager extends EventEmitter{
     }
 
     alarm_ON(source, command, desc) {
+        // console.log("Checking", source, desc)
         if(this.checkAlarmStatus(command, AlarmStatus.Inactive)){
             // console.log("Emit ", desc);
             let newAlarm = new AlarmDetail(command, desc, source, AlarmStatus.Active)
