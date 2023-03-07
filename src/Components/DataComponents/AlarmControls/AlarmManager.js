@@ -65,6 +65,7 @@ export default class AlarmManager extends EventEmitter{
         this.ME_InterimCondition = false;
         this.lastMassage = ''
         this.socket = socket;
+        this.alarmSoundCond = [0, 0, 0, 0]
 
         this.setMaxListeners(40);
     }
@@ -113,7 +114,7 @@ export default class AlarmManager extends EventEmitter{
             this.emit('Deactivate Header', newAlarm.desc)
         })
         this.emit('Alarm', new AlarmDetail(command, targets[0].desc, source, AlarmStatus.Acknowledged));
-        this.deactivateAlarm();
+        // this.deactivateAlarm();
     }
 
     changeAlarmStatus(command, target, source){
@@ -408,7 +409,7 @@ export default class AlarmManager extends EventEmitter{
             this.lastMassage = desc
             this.emit('Alarm', newAlarm);
         }
-        this.activateAlarm();
+        // this.activateAlarm();
     }
 
     alarm_OFF(source, command, desc) {
@@ -420,19 +421,32 @@ export default class AlarmManager extends EventEmitter{
                 this.greyAlarm = this.greyAlarm.filter(alarm => !(alarm.command == command && alarm.source == source));
             });
             this.emit('Alarm', new AlarmDetail(command, desc, source, AlarmStatus.Inactive));
-            this.deactivateAlarm();
+            // this.deactivateAlarm();
         }
     }
 
-    activateAlarm(){
-        if(this.checkAnyAlarmActive() && this.alarmSound == AlarmStatus.Inactive){
+    checkAlarmSoundCondForDeactivate(){
+        return (this.alarmSoundCond[0] == 0 && 
+                this.alarmSoundCond[1] == 0 && 
+                this.alarmSoundCond[2] == 0 &&
+                this.alarmSoundCond[3] == 0);
+    }
+
+    //0 Lub oil pressure
+    //1 CW temp high
+    //2 ME Overspeed
+    //3 AE Overspeed
+    activateAlarm(target){
+        this.alarmSoundCond[target] = 1;
+        if(this.alarmSound == AlarmStatus.Inactive){
             this.socket.emit('activateAlarm')
             this.alarmSound = AlarmStatus.Active;
         }
     }
 
-    deactivateAlarm(){
-        if(!this.checkAnyAlarmActive() && this.alarmSound == AlarmStatus.Active){
+    deactivateAlarm(target){
+        this.alarmSoundCond[target] = 0;
+        if(this.alarmSound == AlarmStatus.Active && checkAlarmSoundCondForDeactivate()){
             this.socket.emit('deactivateAlarm');
             this.alarmSound = AlarmStatus.Inactive
         }
