@@ -13,10 +13,10 @@ const port = new SerialPort({
 
 const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
 
-const sendCode = async () => {
+const sendCode = async (code) => {
     try {
 
-        port.write(`\nactivateAlarm\n`, (err, res) => {
+        port.write(`\n${code}\n`, (err, res) => {
             console.log([err, res])
         })
     } catch (e) {
@@ -29,7 +29,11 @@ io.on('connection', socket => {
 
     // listening changes code here
     socket.on('activateAlarm', () => {
-        sendCode();
+        sendCode('activateAlarm');
+    })
+
+    socket.on('deactivateAlarm', () => {
+        sendCode('deactivateAlarm');
     })
 
     socket.on('shutdown', () => {

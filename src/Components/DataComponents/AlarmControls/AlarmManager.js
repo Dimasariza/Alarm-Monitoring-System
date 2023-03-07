@@ -10,7 +10,7 @@ export const AlarmStatus = {
 
 export default class AlarmManager extends EventEmitter{
 
-    constructor() {
+    constructor(socket) {
         super()
         this.redAlarm = [];
         this.greyAlarm = [];
@@ -60,8 +60,11 @@ export default class AlarmManager extends EventEmitter{
 
         this.fullLeakageInspPipe = AlarmStatus.Inactive;
 
+        this.alarmSound = AlarmStatus.Inactive;
+
         this.ME_InterimCondition = false;
         this.lastMassage = ''
+        this.socket = socket;
 
         this.setMaxListeners(40);
     }
@@ -110,7 +113,7 @@ export default class AlarmManager extends EventEmitter{
             this.emit('Deactivate Header', newAlarm.desc)
         })
         this.emit('Alarm', new AlarmDetail(command, targets[0].desc, source, AlarmStatus.Acknowledged));
-
+        this.deactivateAlarm();
     }
 
     changeAlarmStatus(command, target, source){
@@ -405,6 +408,7 @@ export default class AlarmManager extends EventEmitter{
             this.lastMassage = desc
             this.emit('Alarm', newAlarm);
         }
+        this.activateAlarm();
     }
 
     alarm_OFF(source, command, desc) {
@@ -416,6 +420,21 @@ export default class AlarmManager extends EventEmitter{
                 this.greyAlarm = this.greyAlarm.filter(alarm => !(alarm.command == command && alarm.source == source));
             });
             this.emit('Alarm', new AlarmDetail(command, desc, source, AlarmStatus.Inactive));
+            this.deactivateAlarm();
+        }
+    }
+
+    activateAlarm(){
+        if(this.checkAnyAlarmActive() && this.alarmSound == AlarmStatus.Inactive){
+            this.socket.emit('activateAlarm')
+            this.alarmSound = AlarmStatus.Active;
+        }
+    }
+
+    deactivateAlarm(){
+        if(!this.checkAnyAlarmActive() && this.alarmSound == AlarmStatus.Active){
+            this.socket.emit('deactivateAlarm');
+            this.alarmSound = AlarmStatus.Inactive
         }
     }
 

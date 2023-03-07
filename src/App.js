@@ -24,7 +24,7 @@ export const CurrentActiveEngine = {
 
 function App() {
   const socket = useMemo(() => io('http://localhost:3000'), []);
-  const alarmManager = useMemo(() => new AlarmManager(), []);
+  const alarmManager = useMemo(() => new AlarmManager(socket), []);
   const mainEngine = useMemo(() => new EngineDataManager(alarmManager, "Main Engine", sendCode, socket), []);
   const auxEngine = useMemo(() => new EngineDataManager(alarmManager, "Aux Engine", sendCode, socket), []);
   const GPSData = useMemo(() => new GPSDataControl(), []);
@@ -36,7 +36,8 @@ function App() {
   const [activeEngine, setActiveEngine] = useState(CurrentActiveEngine.MainEngine);
   
   useEffect(() =>{
-    socket.emit('Please Activate Alarm')
+    // socket.emit('activateAlarm');
+    // socket.emit('deactivateAlarm');
     vkbm.on('hide', () => {
         setRefresh(prev => !prev)
         // console.log('refresh go! ', mainEngine)
@@ -47,8 +48,9 @@ function App() {
     const listener = (data) => {
       // console.log("Before, ME Overspeed " + alarmManager.ME_OverspeedShutdown)
       var splitArray = data.split(',');
-      console.log(data)
-      socket.emit('Please Activate Alarm')
+      // console.log(data)
+      // socket.emit('activateAlarm');
+      // socket.emit('deactivateAlarm');
       switch(splitArray[0]){
         case "digital":
           alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
