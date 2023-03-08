@@ -45,7 +45,7 @@ function AuxEngine({auxEngineValue, state, setState, alarmManager}) {
                     <VoltMeterIndicator lifeHour={auxEngineValue.stbd.voltMeter} boxWidth={94} />
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 67, '--leftPos' : 63 }}> 
-                    <PowerMeterIndicator lifeHour={auxEngineValue.stbd.power} boxWidth={120} boxHeight={50}/>
+                    <PowerMeterIndicator engine={auxEngineValue.stbd} boxWidth={120} boxHeight={50}/>
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 67, '--leftPos' : 43 }}> 
                     <RevolutionMeterIndicator engine={auxEngineValue.stbd} boxWidth={120} boxHeight={50}/>

@@ -113,6 +113,12 @@ export default class AlarmManager extends EventEmitter{
             this.changeAlarmStatus(command, AlarmStatus.Acknowledged, source)
             this.emit('Deactivate Header', newAlarm.desc)
         })
+        if(command == 'ME_OverspeedShutdown'){
+            this.deactivateAlarm(2);
+        }
+        if(command == 'AE_Overspeed'){
+            this.deactivateAlarm(3);
+        }
         this.emit('Alarm', new AlarmDetail(command, targets[0].desc, source, AlarmStatus.Acknowledged));
         // this.deactivateAlarm();
     }
@@ -446,7 +452,7 @@ export default class AlarmManager extends EventEmitter{
 
     deactivateAlarm(target){
         this.alarmSoundCond[target] = 0;
-        if(this.alarmSound == AlarmStatus.Active && checkAlarmSoundCondForDeactivate()){
+        if(this.alarmSound == AlarmStatus.Active && this.checkAlarmSoundCondForDeactivate()){
             this.socket.emit('deactivateAlarm');
             this.alarmSound = AlarmStatus.Inactive
         }

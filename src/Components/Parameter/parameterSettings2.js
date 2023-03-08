@@ -16,6 +16,11 @@ function ParameterSettings2({side, engineValue, virtualKeyboardManager}) {
     const [workloadMax, setWorkloadMax] = useState(engineValue.workloadMax);
     const [workloadMin, setWorkloadMin] = useState(engineValue.workloadMin);
     const [highTempExhGas, setHighTempExhGas] = useState(engineValue.highTempExhGas);
+    const [worloadPowerMax, setWorkloadPowerMax] = useState(engineValue.worloadPowerMax);
+
+    useEffect(() =>{
+        engineValue.worloadPowerMax = worloadPowerMax
+    }, [worloadPowerMax, engineValue])
 
     useEffect(() =>{
         engineValue.highTempExhGas = highTempExhGas
@@ -57,6 +62,9 @@ function ParameterSettings2({side, engineValue, virtualKeyboardManager}) {
                     }}/>
                     <ParameterSettingsNumber name={"Low Working Load Set Point"} value={workloadMin.toFixed(0) + ' %'} onClick={() => {
                         virtualKeyboardManager.showKeyboard(setWorkloadMin, "Low Working Load Set Point:", false)
+                    }}/>
+                    <ParameterSettingsNumber name={"Maximum Workload Power"} value={worloadPowerMax.toFixed(1) + ' KW'} onClick={() => {
+                        virtualKeyboardManager.showKeyboard(setWorkloadPowerMax, "Set Maximum Workload Power:", false)
                     }}/>
                 </div>
             </div>

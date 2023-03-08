@@ -48,7 +48,7 @@ export default class EngineData extends EventEmitter{
         this.voltMeter = 383
         this.amp = 61;
         this.pf = 0.85;
-        this.power = 19157;
+        this.power = 0;
 
         this.startCommandActive = true;
         this.valveOpenActive = false;
@@ -66,6 +66,7 @@ export default class EngineData extends EventEmitter{
         this.lowPressLubOil = 0.15;
         this.workloadMax = 80;
         this.workloadMin = 35;
+        this.worloadPowerMax = 40;
 
         this.maxEngineRev = 3500;
         this.maxCoolingWaterTemp = 120;
@@ -124,6 +125,7 @@ export default class EngineData extends EventEmitter{
         this.lubOilPressure = (OilPressure / 1023) * this.maxLubOilPressure;
         if(this.source == "Aux Engine"){
             this.workload = (workload / 1023) * this.maxWorkload;
+            this.power = (workload / 1023) * this.worloadPowerMax; 
         }
 
         this.emit('Engine Rev', this.engineRev);
@@ -135,6 +137,7 @@ export default class EngineData extends EventEmitter{
         if(this.source == "Aux Engine"){
             // console.log("Its aux workload emit");
             this.emit('Workload', this.workload);
+            this.emit('Workload Power', this.power)
         }
     }
 

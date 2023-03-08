@@ -70,14 +70,14 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                 <div className='indicator-customLoc' style={{'--topPos' : 1100, '--leftPos' : 44 }}> 
                                     <VoltMeterIndicator lifeHour={80} boxWidth={94} />
                                 </div>
-                                <div className='indicator-customLoc' style={{'--topPos' : 650, '--leftPos' : 0 }}> 
-                                    <PowerMeterIndicator lifeHour={80} boxWidth={125} boxHeight={60} />
-                                </div>
+                                {/* <div className='indicator-customLoc' style={{'--topPos' : 650, '--leftPos' : 0 }}> 
+                                    <PowerMeterIndicator engine={auxEngineValue.stbd} boxWidth={125} boxHeight={60} />
+                                </div> */}
                                 <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 2 }}> 
                                     <img src={Electricity} style={{width: 50}}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 190, '--leftPos' : 44 }}> 
-                                    <IndicatorHalfCircle rawValue={auxEngineValue.stbd.workload} size={90}/>
+                                    <IndicatorHalfCircle rawValue={auxEngineValue.stbd} size={90}/>
                                 </div>
                             </div>
                         </div>
@@ -95,14 +95,14 @@ function DetailedOverview({mainEngineValue, auxEngineValue, GPSData}) {
                                 <div className='indicator-customLoc' style={{'--topPos' : 1100, '--leftPos' : 22 }}> 
                                     <VoltMeterIndicator lifeHour={80} boxWidth={94} />
                                 </div>
-                                <div className='indicator-customLoc' style={{'--topPos' : 650, '--leftPos' : 56 }}> 
-                                    <PowerMeterIndicator lifeHour={80} boxWidth={130} boxHeight={60} />
-                                </div>
+                                {/* <div className='indicator-customLoc' style={{'--topPos' : 650, '--leftPos' : 56 }}> 
+                                    <PowerMeterIndicator engine={auxEngineValue.port} boxWidth={130} boxHeight={60} />
+                                </div> */}
                                 <div className='indicator-customLoc' style={{'--topPos' : 10, '--leftPos' : 82 }}> 
                                     <img src={Electricity} style={{width: 50}}/>
                                 </div>
                                 <div className='indicator-customLoc' style={{'--topPos' : 190, '--leftPos' : 0 }}> 
-                                    <IndicatorHalfCircle rawValue={auxEngineValue.port.workload} size={90}/>
+                                    <IndicatorHalfCircle rawValue={auxEngineValue.port} size={90}/>
                                 </div>
                             </div>
                         </div>
