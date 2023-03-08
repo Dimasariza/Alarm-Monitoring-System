@@ -42,6 +42,9 @@ function App() {
         setRefresh(prev => !prev)
         // console.log('refresh go! ', mainEngine)
     })
+    // alarmManager.activateAlarm(0);
+    // alarmManager.deactivateAlarm(0);
+    // socket.emit('activateAlarm')
   }, []);
 
   useEffect(() =>{

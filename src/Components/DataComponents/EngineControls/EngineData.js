@@ -180,6 +180,7 @@ export default class EngineData extends EventEmitter{
             this.alarmManager.ME_InterimCondition = true
             if(this.alarmManager.pumpFuelOilFlow[0] && this.alarmManager.engineOverspeed[0] && this.alarmManager.checkAlarmStatus('ME_OverspeedShutdown', AlarmStatus.Inactive) ){
                 this.alarmManager.alarm_ON(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown');
+                console.log('Activate alarm is here');
                 this.alarmManager.activateAlarm(2);
                 return;
             }
@@ -345,7 +346,7 @@ export default class EngineData extends EventEmitter{
         //Increase engine
         if(this.alarmManager.checkAlarmStatus('ME_OverspeedShutdown', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.pumpFuelOilFlow[0] && this.alarmManager.engineOverspeed[0])){
             this.alarmManager.alarm_OFF(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
-            this.alarmManager.deactivateAlarm(2);
+            // this.alarmManager.deactivateAlarm(2);
         }
         if(this.alarmManager.checkAlarmStatus('LubOilGearTempHigh', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.pumpRawWaterFlowEngine[0] && !this.alarmManager.lubricatingOilPressureLow[0])){
             this.alarmManager.alarm_OFF(this.source, 'LubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
@@ -403,7 +404,7 @@ export default class EngineData extends EventEmitter{
         //Increase engine
         if(this.alarmManager.checkAlarmStatus('AE_Overspeed', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.engineOverspeed[1])){
             this.alarmManager.alarm_OFF(this.source, 'AE_Overspeed', 'AE Overspeed')
-            this.alarmManager.deactivateAlarm(3);
+            // this.alarmManager.deactivateAlarm(3);
         }
 
         //workload increase
