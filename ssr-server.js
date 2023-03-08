@@ -29,10 +29,12 @@ io.on('connection', socket => {
 
     // listening changes code here
     socket.on('activateAlarm', () => {
+        console.log('Sending activate alarm');
         sendCode('activateAlarm');
     })
 
     socket.on('deactivateAlarm', () => {
+        console.log('Sending deactivate alarm');
         sendCode('deactivateAlarm');
     })
 

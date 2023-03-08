@@ -445,6 +445,7 @@ export default class AlarmManager extends EventEmitter{
     activateAlarm(target){
         this.alarmSoundCond[target] = 1;
         if(this.alarmSound == AlarmStatus.Inactive){
+            console.log("Alarm from ", target)
             this.socket.emit('activateAlarm')
             this.alarmSound = AlarmStatus.Active;
         }
