@@ -10,8 +10,8 @@ import BattreyIndicator from '../../Overview/battreyIndicator';
 
 function MEIndicatorGroup({setState, stateName, inputValue, alarmManager, currentState}) {
     return (
-            <div className='whiteBox-splitComp-indicator' style={{width: '70%'}}>
-                <div className='indicator-customLoc' style={{'--topPos' : 31, '--leftPos' : 11 }}>
+            <div className='whiteBox-splitComp-indicator' style={{width: '90%'}}>
+                <div className='indicator-customLoc' style={{'--topPos' : 31, '--leftPos' : 14 }}>
                     <IndicatorRevolutionEngine engine={inputValue} size={250} alarmManager={alarmManager}/>
                 </div>
                 <div className='indicator-customLoc' style={{'--topPos' : 52, '--leftPos' : 70  }}>
@@ -26,7 +26,7 @@ function MEIndicatorGroup({setState, stateName, inputValue, alarmManager, curren
                 <div className='indicator-customLoc' style={{'--topPos' : 18, '--leftPos' : 63 }}>
                     <IndicatorExhaustTemperature rawValue={inputValue.exhaustTemp} size={160} alarmManager={alarmManager}/>
                 </div>
-                <div className='indicator-customLoc' style={{'--topPos' : 81, '--leftPos' : 86 }}> 
+                <div className='indicator-customLoc' style={{'--topPos' : 81, '--leftPos' : 88 }}> 
                     <BattreyIndicator voltage={inputValue.battreyVolt} battreyLife={inputValue.battreyLife} boxWidth={77} />
                 </div>
                 {/* <div className={'indicator-customLoc'} style={{background: 'rgba(0, 0, 0, 0.5)', width: '100%', height: '100%'}}></div> */}
