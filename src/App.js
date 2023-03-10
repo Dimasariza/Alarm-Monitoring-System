@@ -4,7 +4,7 @@ import EngineDataManager from './Components/DataComponents/EngineControls/Engine
 import GPSDataControl from './Components/DataComponents/GPSControls/gpsDataControl';
 import FrameLogin from './Components/Frame/frameLogin';
 import LoginManager from './Components/DataComponents/LoginControls/LoginManager';
-import AlarmManager from './Components/DataComponents/AlarmControls/AlarmManager';
+import AlarmManager, { AlarmStatus } from './Components/DataComponents/AlarmControls/AlarmManager';
 import React, { useEffect, useState, useMemo } from 'react';
 import io from 'socket.io-client';
 import KeyboardComponent from './Components/Frame/keyboardComponent';
@@ -75,6 +75,11 @@ function App() {
         mainEngine.stbd.CheckAlarmsConditions_ME();
       }else{
         auxEngine.stbd.CheckAlarmsConditions_AE();
+      }
+      if(alarmManager.alarmSound == AlarmStatus.Active){
+        socket.emit('activateAlarm')
+      }else if(alarmManager.alarmSound == AlarmStatus.Inactive){
+        socket.emit('deactivateAlarm')
       }
       // console.log("After, ME Overspeed " + alarmManager.ME_OverspeedShutdown)
     };

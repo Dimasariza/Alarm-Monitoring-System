@@ -446,24 +446,24 @@ export default class AlarmManager extends EventEmitter{
     //3 AE Overspeed
     activateAlarm(target){
         this.alarmSoundCond[target] = true;
-        console.log("Try Alarm from ", target)
-        console.log(this.alarmSoundCond[0])
+        // console.log("Try Alarm from ", target)
+        // console.log(this.alarmSoundCond[0])
         if(this.alarmSound == AlarmStatus.Inactive){
-            console.log("Alarm from ", target)
-            console.log(this.socket)
-            this.socket.emit('activateAlarm')
+            // console.log("Alarm from ", target)
+            // console.log(this.socket)
+            // this.socket.emit('activateAlarm')
             this.alarmSound = AlarmStatus.Active;
         }
     }
 
     deactivateAlarm(target){
         this.alarmSoundCond[target] = false;
-        console.log("Try deactivate Alarm from ", target)
-        console.log(this.alarmSoundCond[0])
+        // console.log("Try deactivate Alarm from ", target)
+        // console.log(this.alarmSoundCond[0])
         if(this.alarmSound == AlarmStatus.Active && this.checkAlarmSoundCondForDeactivate()){
-            console.log("Deactivate Alarm from ", target)
-            console.log(this.socket)
-            this.socket.emit('deactivateAlarm');
+            // console.log("Deactivate Alarm from ", target)
+            // console.log(this.socket)
+            // this.socket.emit('deactivateAlarm');
             this.alarmSound = AlarmStatus.Inactive
         }
     }
