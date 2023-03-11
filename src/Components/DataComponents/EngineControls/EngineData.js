@@ -181,7 +181,7 @@ export default class EngineData extends EventEmitter{
             if(this.alarmManager.pumpFuelOilFlow[0] && this.alarmManager.engineOverspeed[0] && this.alarmManager.checkAlarmStatus('ME_OverspeedShutdown', AlarmStatus.Inactive) ){
                 this.alarmManager.alarm_ON(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown');
                 console.log('Activate alarm is here');
-                this.alarmManager.activateAlarm(2);
+                this.alarmManager.activateAlarm(3);
                 return;
             }
 
@@ -209,6 +209,13 @@ export default class EngineData extends EventEmitter{
             this.alarmManager.ME_InterimCondition = false
         }
 
+        // Engine Rev Alarm Sound Settings
+        if(this.engineRev < this.minRPM || this.engineRev > this.restartRPM){
+            this.alarmManager.activateAlarm(0);
+        }else{
+            this.alarmManager.deactivateAlarm(0);
+        }
+
         if(this.boostPressure < this.lowPressureFO){
             this.setEngineTrip()
         }else{
@@ -229,18 +236,22 @@ export default class EngineData extends EventEmitter{
                 return;
             }
             this.setEngineTrip()
-            this.alarmManager.activateAlarm(0);
-        }else{
-            this.alarmManager.deactivateAlarm(0);
         }
         
         //lub oil increase
-        if(this.lubOilPressure > this.highPressLubOil){
-            // console.log("Higher");
-            // this.alarmManager.alarm_ON(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+        // if(this.lubOilPressure > this.highPressLubOil){
+        //     // console.log("Higher");
+        //     // this.alarmManager.alarm_ON(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+        // }else{
+        //     // console.log("Neither");
+        //     // this.alarmManager.alarm_OFF(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+        // }
+
+        // Lub Oil Alarm Sound Settings
+        if(this.lubOilPressure > this.highPressLubOil || this.lubOilPressure < this.lowPressLubOil){
+            this.alarmManager.activateAlarm(1);
         }else{
-            // console.log("Neither");
-            // this.alarmManager.alarm_OFF(this.source, 'highPressureLubOil', 'High Lub. Oil Pressure')
+            this.alarmManager.deactivateAlarm(1);
         }
 
         //Decrease cooling water temp
@@ -264,9 +275,13 @@ export default class EngineData extends EventEmitter{
                 return;
             }
             this.setEngineTrip()
-            this.alarmManager.activateAlarm(1);
+        }
+
+        //cooling water temp Alarm Sound Settings
+        if(this.coolingWaterTemp > this.highTempCW || this.coolingWaterTemp < this.lowTempCW){
+            this.alarmManager.activateAlarm(2);
         }else{
-            this.alarmManager.deactivateAlarm(1);
+            this.alarmManager.deactivateAlarm(2);
         }
     }
 
@@ -285,10 +300,31 @@ export default class EngineData extends EventEmitter{
         if(this.engineRev > this.restartRPM){
             if(this.alarmManager.engineOverspeed[1] && this.alarmManager.checkAlarmStatus('AE_Overspeed', AlarmStatus.Inactive) ){
                 this.alarmManager.alarm_ON(this.source, 'AE_Overspeed', 'AE Overspeed');
-                this.alarmManager.activateAlarm(3);
+                this.alarmManager.activateAlarm(8);
                 return;
             }
             this.setEngineTrip();
+        }
+
+        // Engine Rev Alarm Sound Settings
+        if(this.engineRev < this.minRPM || this.engineRev > this.restartRPM){
+            this.alarmManager.activateAlarm(4);
+        }else{
+            this.alarmManager.deactivateAlarm(4);
+        }
+
+        // Lub Oil Alarm Sound Settings
+        if(this.lubOilPressure > this.highPressLubOil || this.lubOilPressure < this.lowPressLubOil){
+            this.alarmManager.activateAlarm(5);
+        }else{
+            this.alarmManager.deactivateAlarm(5);
+        }
+
+        //cooling water temp Alarm Sound Settings
+        if(this.coolingWaterTemp > this.highTempCW || this.coolingWaterTemp < this.lowTempCW){
+            this.alarmManager.activateAlarm(6);
+        }else{
+            this.alarmManager.deactivateAlarm(6);
         }
 
         if(this.workload > this.workloadMax){
@@ -318,6 +354,13 @@ export default class EngineData extends EventEmitter{
                 return;
             }
         }
+
+        //cooling water temp Alarm Sound Settings
+        if(this.workload > this.workloadMax|| this.workload < this.workloadMin){
+            this.alarmManager.activateAlarm(7);
+        }else{
+            this.alarmManager.deactivateAlarm(7);
+        }
     }
     
     CheckAlarmOff_ME(){
@@ -346,7 +389,7 @@ export default class EngineData extends EventEmitter{
         //Increase engine
         if(this.alarmManager.checkAlarmStatus('ME_OverspeedShutdown', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.pumpFuelOilFlow[0] && this.alarmManager.engineOverspeed[0])){
             this.alarmManager.alarm_OFF(this.source, 'ME_OverspeedShutdown', 'ME Overspeed Shutdown')
-            this.alarmManager.deactivateAlarm(2);
+            this.alarmManager.deactivateAlarm(3);
         }
         if(this.alarmManager.checkAlarmStatus('LubOilGearTempHigh', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.pumpRawWaterFlowEngine[0] && !this.alarmManager.lubricatingOilPressureLow[0])){
             this.alarmManager.alarm_OFF(this.source, 'LubOilGearTempHigh', 'ME Lub Oil Gear Temp High')
@@ -404,7 +447,7 @@ export default class EngineData extends EventEmitter{
         //Increase engine
         if(this.alarmManager.checkAlarmStatus('AE_Overspeed', AlarmStatus.Acknowledged) && !(this.engineRev > this.restartRPM && this.alarmManager.engineOverspeed[1])){
             this.alarmManager.alarm_OFF(this.source, 'AE_Overspeed', 'AE Overspeed')
-            this.alarmManager.deactivateAlarm(3);
+            this.alarmManager.deactivateAlarm(8);
         }
 
         //workload increase

@@ -65,7 +65,7 @@ export default class AlarmManager extends EventEmitter{
         this.ME_InterimCondition = false;
         this.lastMassage = ''
         this.socket = socket;
-        this.alarmSoundCond = [false, false, false, false]
+        this.alarmSoundCond = [false, false, false, false, false, false, false, false, false]
 
         this.setMaxListeners(40);
     }
@@ -437,13 +437,23 @@ export default class AlarmManager extends EventEmitter{
         return (!this.alarmSoundCond[0] && 
                 !this.alarmSoundCond[1] && 
                 !this.alarmSoundCond[2] &&
-                !this.alarmSoundCond[3] );
+                !this.alarmSoundCond[3] &&
+                !this.alarmSoundCond[4] &&
+                !this.alarmSoundCond[5] &&
+                !this.alarmSoundCond[6] &&
+                !this.alarmSoundCond[7] &&
+                !this.alarmSoundCond[8] );
     }
 
-    //0 Lub oil pressure
-    //1 CW temp high
-    //2 ME Overspeed
-    //3 AE Overspeed
+    //0 Rev ME
+    //1 Lub oil pressure ME
+    //2 CW temp ME
+    //3 ME Overspeed
+    //4 Rev AE
+    //5 Lub oil pressure AE
+    //6 CW temp AE
+    //7 Workload AE
+    //8 AE Overspeed
     activateAlarm(target){
         this.alarmSoundCond[target] = true;
         // console.log("Try Alarm from ", target)

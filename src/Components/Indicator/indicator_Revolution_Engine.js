@@ -32,7 +32,7 @@ function IndicatorRevolutionEngine({engine, size}) {
     useEffect(() => {
         const updateEngineRevValue = (value) => {
             setRawValue(value);
-            if(value > engine.restartRPM){
+            if(value > engine.restartRPM && value < engine.minRPM){
                 setWarningLight(true)
             }else{
                 setWarningLight(false)
