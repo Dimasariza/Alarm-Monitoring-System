@@ -68,9 +68,9 @@ function ParameterDigitalSettings_ME({side, engineValue, alarmManager, activeEng
                 <ParameterSettingsStatus name1={"Pump Fuel Oil Flow "} name2={"Lubricating Oil Pressure Flow"}  selected1={pumpFuelOilFlow} selected2={lubricatingOilPressureLow} />
                 <ParameterSettingsStatus name1={"Pump Lub Oil Flow"} name2={"Lubricating Oil Temperature High"}  selected1={pumpLubOilFlow} selected2={lubricatingOilTemperatureHigh}/>
                 <ParameterSettingsStatus name1={"Pump Bilge Engine Room"} name2={"Fuel Oil Pressure Flow"}  selected1={pumpBilgeEngineRoom} selected2={fuelOilPressureFlow}/>
-                <ParameterSettingsStatus name1={""} name2={"Cooling Water Pressure Low"}  selected1={loadPanelSwitch} selected2={coolingWaterPressureLow}/>
-                <ParameterSettingsStatus name1={""} name2={"Cooling Water Temperature High"}  selected1={lightingPanel} selected2={coolingWaterTemperatureHigh}/>
-                <ParameterSettingsStatus name1={""} name2={"Fuel Oil Leakage From High Pressure Pipes"}  selected1={battreyFault} selected2={fuelOilLeakageFromHighPressurePipes} />
+                <ParameterSettingsStatus name1={"Load Panel Switch"} name2={"Cooling Water Pressure Low"}  selected1={loadPanelSwitch} selected2={coolingWaterPressureLow}/>
+                <ParameterSettingsStatus name1={"Lighting Panel"} name2={"Cooling Water Temperature High"}  selected1={lightingPanel} selected2={coolingWaterTemperatureHigh}/>
+                <ParameterSettingsStatus name1={"Battrey Fault"} name2={"Fuel Oil Leakage From High Pressure Pipes"}  selected1={battreyFault} selected2={fuelOilLeakageFromHighPressurePipes} />
             </div>
         </div>
     );
