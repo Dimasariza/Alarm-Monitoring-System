@@ -44,9 +44,9 @@ function ParameterDigitalSettings({side, engineValue, alarmManager, activeEngine
                 setlubricatingOilPressureLow(splitArray[2] == 1);
                 setlubricatingOilTemperatureHigh(splitArray[3] == 1);
                 setfuelOilPressureFlow(splitArray[4] == 1);
-                setfuelOilLeakageFromHighPressurePipes(splitArray[5] == 1);
-                setcoolingWaterPressureLow(splitArray[6] == 1);
-                setcoolingWaterTemperatureHigh(splitArray[7] == 1);
+                setcoolingWaterPressureLow(splitArray[5] == 1);
+                setcoolingWaterTemperatureHigh(splitArray[6] == 1);
+                setfuelOilLeakageFromHighPressurePipes(splitArray[7] == 1);
                 break;
             }
         }
