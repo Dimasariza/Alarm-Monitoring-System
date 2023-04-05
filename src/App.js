@@ -11,12 +11,6 @@ import KeyboardComponent from './Components/Frame/keyboardComponent';
 import VirtualKeyboardManager from './Components/DataComponents/VirtualKeyboardControls/VirtualKeyboardManager';
 import { addEventListener, removeEventListener } from './Components/DataComponents/SocketManager/socketManager';
 
-function sendCode(socket, code){
-  // send code to throttle or steer wheel
-  console.log(code)
-  socket.emit('change', code.toString().toUpperCase())
-}
-
 export const CurrentActiveEngine = {
   MainEngine: 'MainEngine',
   AuxEngine: 'AuxEngine'
@@ -36,34 +30,23 @@ function App() {
   const [activeEngine, setActiveEngine] = useState(CurrentActiveEngine.MainEngine);
   
   useEffect(() =>{
-    // socket.emit('activateAlarm');
-    // socket.emit('deactivateAlarm');
     vkbm.on('hide', () => {
         setRefresh(prev => !prev)
-        // console.log('refresh go! ', mainEngine)
     })
-    // alarmManager.activateAlarm(0);
-    // alarmManager.deactivateAlarm(0);
-    // socket.emit('activateAlarm')
   }, []);
 
   useEffect(() =>{
     const listener = (data) => {
-      // console.log("Before, ME Overspeed " + alarmManager.ME_OverspeedShutdown)
       var splitArray = data.split(',');
       // console.log(data)
-      // socket.emit('activateAlarm');
-      // socket.emit('deactivateAlarm');
       switch(splitArray[0]){
         case "digital":
           alarmManager.updateDigitalCommand(splitArray[1], splitArray[2], splitArray[3], splitArray[4], splitArray[5], splitArray[6], splitArray[7], activeEngine)
           break;
         case "analog": 
             if(activeEngine == CurrentActiveEngine.MainEngine){
-              // console.log('Update main engine');
               mainEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
             }else{
-              // console.log('Update aux engine');
               auxEngine.updateEngineData(splitArray[1], splitArray[2], splitArray[3], splitArray[4]);
             }
           break;
@@ -81,7 +64,6 @@ function App() {
       }else if(alarmManager.alarmSound == AlarmStatus.Inactive){
         socket.emit('deactivateAlarm')
       }
-      // console.log("After, ME Overspeed " + alarmManager.ME_OverspeedShutdown)
     };
 
     addEventListener('arduino-data-mainAppUpdater', listener);
@@ -92,13 +74,26 @@ function App() {
   
   return (
     <div style={{position: 'absolute'}}>
-      <KeyboardComponent virtualKeyboardManager={vkbm} keyboardDisplayState={vkbm.keyboardStatus}/>
-      <FrameLogin loginManager={loginManager} showLogin={loginManager.showDisplay} virtualKeyboardManager={vkbm} socket={socket}/>
-      <Frame mainEngine={mainEngine} auxEngine={auxEngine} 
-             GPSData={GPSData} loginManager={loginManager} 
-             virtualKeyboardManager={vkbm} alarmManager={alarmManager}
-             activeEngine={activeEngine}
-             setActiveEngine={setActiveEngine}/>
+      <KeyboardComponent 
+      virtualKeyboardManager={vkbm} 
+      keyboardDisplayState={vkbm.keyboardStatus}
+      />
+      <FrameLogin 
+      loginManager={loginManager} 
+      showLogin={loginManager.showDisplay} 
+      virtualKeyboardManager={vkbm} 
+      socket={socket}
+      />
+      <Frame  
+      mainEngine={mainEngine} 
+      auxEngine={auxEngine} 
+      GPSData={GPSData} 
+      loginManager={loginManager} 
+      virtualKeyboardManager={vkbm} 
+      alarmManager={alarmManager}
+      activeEngine={activeEngine}
+      setActiveEngine={setActiveEngine}
+      />
     </div>
   );
 }
