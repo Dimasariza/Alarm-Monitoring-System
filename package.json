@@ -44,7 +44,7 @@
     "electron-rebuild": "^3.2.9"
   },
   "main": "public/main.js",
-  "homepage": "./",
+  "homepage": "https://github.com/BateraGames/pmsol",
   "scripts": {
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
